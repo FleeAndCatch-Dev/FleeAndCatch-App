@@ -98,9 +98,17 @@ namespace Communication
                 try
                 {
                     _client.ReadStream.Read(size, 0, size.Length);
-                    var data = new byte[BitConverter.ToInt32(size, 0)];
+
+                    var length = 0;
+                    for (var i = 0; i < size.Length; i++)
+                    {
+                        length += (int) (size[size.Length - (i + 1)] * Math.Pow(256, i));
+                    }
+
+                    var data = new byte[length];
                     _client.ReadStream.Read(data, 0, data.Length);
 
+                    var test = Encoding.UTF8.GetString(data, 0, data.Length);
                     //New Data
                 }
                 catch (Exception ex)
