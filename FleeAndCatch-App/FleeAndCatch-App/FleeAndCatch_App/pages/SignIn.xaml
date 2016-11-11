@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FleeAndCatch_App.pages.SignIn"
+             Title="FleeAndCatch">
+    <ContentPage.Content>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <Image Grid.Column="1" Source="FleeAndCatch_Logo.png"/>
+            </Grid>
+            
+            <Button x:Name="BConnect" Grid.Row="3" Text="Connect" TextColor="White" BackgroundColor="#00BFFF" FontAttributes="Bold" FontSize="18"/>
+            <Button x:Name="BOptions" Grid.Row="4" Text="Options" TextColor="White" BackgroundColor="#00BFFF" FontAttributes="Bold" FontSize="18"/>
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

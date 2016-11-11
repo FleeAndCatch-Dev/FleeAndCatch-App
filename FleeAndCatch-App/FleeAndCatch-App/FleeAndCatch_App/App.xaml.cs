@@ -13,12 +13,12 @@ namespace FleeAndCatch_App
         {
             InitializeComponent();
 
-            /*var page = new NavigationPage(new SignIn())
+            var page = new NavigationPage(new SignIn())
             {
-                BarBackgroundColor = Color.FromHex("#6495ED"),
+                BarBackgroundColor = Color.FromHex("#00BFFF"),
                 BarTextColor = Color.White
             };
-            MainPage = page;*/
+            MainPage = page;
         }
 
         protected override void OnStart()
