@@ -78,6 +78,13 @@ namespace FleeAndCatch_App.UWP
             }
             // Ensure the current window is active
             Window.Current.Activate();
+
+            if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.Phone.UI.Input.HardwareButtons"))
+            {
+                var statusBar = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
+                statusBar.BackgroundColor = Windows.UI.Colors.CornflowerBlue;
+                statusBar.BackgroundOpacity = 1;
+            }
         }
 
         /// <summary>
