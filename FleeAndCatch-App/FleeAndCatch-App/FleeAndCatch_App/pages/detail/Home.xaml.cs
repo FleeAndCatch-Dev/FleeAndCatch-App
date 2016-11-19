@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 
-namespace FleeAndCatch_App.pages
+namespace FleeAndCatch_App.pages.detail
 {
     public partial class Home : ContentPage
     {

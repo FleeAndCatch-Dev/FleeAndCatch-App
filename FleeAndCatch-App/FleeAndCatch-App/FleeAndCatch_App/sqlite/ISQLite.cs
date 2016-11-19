@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SQLite;
 
-namespace Communication
+namespace FleeAndCatch_App.sqlite
 {
-    public class Default
+    public interface ISQLite
     {
-        public static int Port = 5000;
+        SQLiteConnection GetConnection();
     }
 }
