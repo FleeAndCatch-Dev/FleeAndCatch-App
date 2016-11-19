@@ -35,6 +35,10 @@ namespace FleeAndCatch_App.sqlite.database
         {
             return _connection.Table<Connection>().FirstOrDefault(t => t.Id == pId);
         }
+        public Connection GetConnection(string pAddress)
+        {
+            return _connection.Table<Connection>().FirstOrDefault(t => t.Address == pAddress);
+        }
 
         public void DeleteConnection(int pId)
         {

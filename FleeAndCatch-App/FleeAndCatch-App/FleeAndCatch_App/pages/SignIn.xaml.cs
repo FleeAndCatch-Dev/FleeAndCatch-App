@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Communication;
 using FleeAndCatch_App.pages.detail;
-using FleeAndCatch_App.pages.master;
-using Newtonsoft.Json.Linq;
+using FleeAndCatch_App.sqlite;
+using FleeAndCatch_App.sqlite.database;
 using Xamarin.Forms;
 
 namespace FleeAndCatch_App.pages
@@ -27,6 +24,15 @@ namespace FleeAndCatch_App.pages
 
             AiConnect.IsRunning = false;
             AiConnect.IsVisible = false;
+
+            var connections = SQLiteDB.Connection.GetConnections();
+            foreach (var t in connections)
+            {
+                if (t.Save != true) continue;
+                EAddress.Text = t.Address;
+                SSave.IsToggled = true;
+                break;
+            }
         }
 
         protected override void OnDisappearing()
@@ -70,6 +76,29 @@ namespace FleeAndCatch_App.pages
             while (!_client.Connected)
             {
                 //Wait for connection
+            }
+
+            if (SSave.IsToggled)
+            {
+                var connections = SQLiteDB.Connection.GetConnections();
+                foreach (var t in connections)
+                {
+                    t.Save = false;
+                    SQLiteDB.Connection.UpdateConnection(t);
+                }
+                if (SQLiteDB.Connection.GetConnection(EAddress.Text) != null)
+                {
+                    SQLiteDB.Connection.GetConnection(EAddress.Text).Save = true;
+                    SQLiteDB.Connection.UpdateConnection(SQLiteDB.Connection.GetConnection(EAddress.Text));
+                }
+                else
+                {
+                    SQLiteDB.Connection.AddConnection(EAddress.Text, true);
+                }
+            }
+            else
+            {
+                SQLiteDB.Connection.AddConnection(EAddress.Text, false);
             }
 
             Application.Current.MainPage = new Home();
