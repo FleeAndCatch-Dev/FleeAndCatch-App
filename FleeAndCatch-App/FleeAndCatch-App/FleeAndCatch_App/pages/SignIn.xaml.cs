@@ -43,6 +43,9 @@ namespace FleeAndCatch_App.pages
             base.OnDisappearing();
         }
 
+        /// <summary>
+        /// Connect application to the server and returns an error if the connection fails.
+        /// </summary>
         private async void Connect()
         {
             try

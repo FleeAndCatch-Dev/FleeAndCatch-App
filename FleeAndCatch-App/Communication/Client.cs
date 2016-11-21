@@ -16,6 +16,10 @@ namespace Communication
         private bool _connected;
         private Interpreter _interpreter;
 
+        /// <summary>
+        /// Create an object of the class client and a new socket for the communication.
+        /// </summary>
+        /// <param name="pAddress">Connection address to the server.</param>
         public Client(string pAddress)
         {
             ParseAddress(pAddress);
@@ -26,6 +30,9 @@ namespace Communication
             this._connected = false;
         }
 
+        /// <summary>
+        /// Create a new task with a new communication.
+        /// </summary>
         public void Connect()
         {
             if (_connected) throw new Exception("Connection to the server is already exist");
@@ -34,6 +41,9 @@ namespace Communication
             return;
         }
 
+        /// <summary>
+        /// Listen at the current socket and interpret the received commands.
+        /// </summary>
         private async void Listen()
         {
             await _tcpSocketClient.ConnectAsync(_address, _port);
@@ -50,19 +60,27 @@ namespace Communication
             }
         }
 
+        /// <summary>
+        /// Receive a command from the current socket.
+        /// </summary>
+        /// <returns>String: Json command</returns>
         private string ReceiveCmd()
         {
             var size = new byte[4];
 
             _tcpSocketClient.ReadStream.Read(size, 0, size.Length);
 
-            var length = size.Select((t, i) => (int) (t*Math.Pow(256, i))).Sum();
+            var length = size.Select((t, i) => (int) (t*Math.Pow(128, i))).Sum();
             var data = new byte[length];
             _tcpSocketClient.ReadStream.Read(data, 0, data.Length);
 
             return Encoding.UTF8.GetString(data, 0, data.Length);
         }
 
+        /// <summary>
+        /// Send command to the current socket.
+        /// </summary>
+        /// <param name="pCommand">Json command</param>
         public async void SendCmd(string pCommand)
         {
             if (_connected)
@@ -70,9 +88,15 @@ namespace Communication
                 checkCmd(pCommand);
 
                 var command = Encoding.UTF8.GetBytes(pCommand);
-                var sizebytes = BitConverter.GetBytes(command.Length);
-
-                _tcpSocketClient.WriteStream.Write(sizebytes, 0, sizebytes.Length);
+                var size = new byte[4];
+                var rest = pCommand.Length;
+                for (var i = 0; i < size.Length; i++)
+                {
+                    size[size.Length - (i + 1)] = (byte) (rest/Math.Pow(128, size.Length - (i + 1)));
+                    rest = (int) (rest%Math.Pow(128, size.Length - (i + 1)));
+                }
+                
+                _tcpSocketClient.WriteStream.Write(size, 0, size.Length);
                 await _tcpSocketClient.WriteStream.FlushAsync();
 
                 _tcpSocketClient.WriteStream.Write(command, 0, command.Length);
@@ -82,6 +106,9 @@ namespace Communication
             throw new Exception("There is no connection to the server");
         }
 
+        /// <summary>
+        /// Close the current connection.
+        /// </summary>
         public async void Close()
         {
             if (!_connected)
@@ -93,6 +120,10 @@ namespace Communication
             throw new Exception("There is no connection to the server");
         }
 
+        /// <summary>
+        /// Parse the current address of an ip address.
+        /// </summary>
+        /// <param name="pAddress">Connection address to the server.</param>
         private void ParseAddress(string pAddress)
         {
             var adressPart = pAddress.Split(new string[] {"."}, StringSplitOptions.None);
@@ -111,6 +142,10 @@ namespace Communication
             throw new Exception("The Address could not parse into an ip adress");
         }
 
+        /// <summary>
+        /// Check the current command of a json command.
+        /// </summary>
+        /// <param name="pCommand">Json command</param>
         private void checkCmd(string pCommand)
         {
             try

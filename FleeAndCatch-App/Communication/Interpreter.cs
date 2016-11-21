@@ -11,11 +11,20 @@ namespace Communication
     {
         private Client _client;
 
+        /// <summary>
+        /// Create an object of the class interpreter.
+        /// </summary>
+        /// <param name="pClient"></param>
         public Interpreter(Client pClient)
         {
             this._client = pClient;
         }
 
+        /// <summary>
+        /// Interpret a command and returns a result as string.
+        /// </summary>
+        /// <param name="pCommand">Json command</param>
+        /// <returns></returns>
         public string Interpret(string pCommand)
         {
            var jsonObject = JObject.Parse(pCommand);
