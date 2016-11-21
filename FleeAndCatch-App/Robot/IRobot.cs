@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Communication
+namespace Robot
 {
-    public class Default
+    public interface IRobot
     {
-        public static int Port = 5000;
     }
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using FleeAndCatch_App.pages;
+using FleeAndCatch_App.sqlite;
+using FleeAndCatch_App.sqlite.database;
 using Xamarin.Forms;
 
 namespace FleeAndCatch_App
@@ -13,17 +15,19 @@ namespace FleeAndCatch_App
         {
             InitializeComponent();
 
-            /*var page = new NavigationPage(new SignIn())
+            var page = new NavigationPage(new SignIn())
             {
-                BarBackgroundColor = Color.FromHex("#6495ED"),
+                BarBackgroundColor = Color.FromHex("#008B8B"),
                 BarTextColor = Color.White
             };
-            MainPage = page;*/
+            MainPage = page;
         }
 
         protected override void OnStart()
         {
-            // Handle when your app starts
+            // Handle when your app starts1
+
+            SQLiteDB.Connection = new ConnectionDB();
         }
 
         protected override void OnSleep()
