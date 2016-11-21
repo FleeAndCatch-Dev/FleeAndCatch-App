@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Communication;
 using FleeAndCatch_App.pages.detail;
+using FleeAndCatch_App.pages.master;
 using FleeAndCatch_App.sqlite;
 using FleeAndCatch_App.sqlite.database;
 using Xamarin.Forms;
@@ -106,7 +107,7 @@ namespace FleeAndCatch_App.pages
                     SQLiteDB.Connection.AddConnection(EAddress.Text, false);
                 }
 
-                Application.Current.MainPage = new Home();
+                Application.Current.MainPage = new Menu(_client);
             }
             else
             {

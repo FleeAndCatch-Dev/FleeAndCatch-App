@@ -54,6 +54,11 @@ namespace Communication
                     var result = Convert.ToString(jsonObject.SelectToken(typeCmd));
                     return result;
                 }
+                else if(new string(type) == "Disconnect")
+                {
+                    _client.Disconnect();
+                    return null;
+                }
                 throw new Exception("Something is going wrong");
             }
             throw new Exception("Wrong apiid of the command");

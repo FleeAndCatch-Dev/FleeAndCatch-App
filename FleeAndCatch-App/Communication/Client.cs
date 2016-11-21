@@ -58,6 +58,9 @@ namespace Communication
                 var command = ReceiveCmd();
                 _interpreter.Interpret(command);
             }
+
+            //await  _tcpSocketClient.DisconnectAsync();
+            //_tcpSocketClient.Dispose();
         }
 
         /// <summary>
@@ -106,15 +109,21 @@ namespace Communication
             throw new Exception("There is no connection to the server");
         }
 
+        public async void Disconnect()
+        {
+            _connected = false;
+            await _tcpSocketClient.DisconnectAsync();
+            _tcpSocketClient.Dispose();
+        }
+
         /// <summary>
         /// Close the current connection.
         /// </summary>
-        public async void Close()
+        public void Close()
         {
-            if (!_connected)
+            if (_connected)
             {
-                _connected = false;
-                await _tcpSocketClient.DisconnectAsync();
+                SendCmd("{\"id\":\"Client\",\"type\":\"Disconnect\",\"apiid\":\"@@fleeandcatch@@\",\"errorhandling\":\"ignoreerrors\",\"client\":{\"id\":" + _id + ",\"type\":\"App\"}}");
                 return;
             }
             throw new Exception("There is no connection to the server");
