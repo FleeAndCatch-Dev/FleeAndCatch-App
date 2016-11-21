@@ -61,50 +61,57 @@ namespace FleeAndCatch_App.pages
 
         private async void BConnect_OnClicked(object sender, EventArgs e)
         {
-            try
+            if (!string.IsNullOrEmpty(EAddress.Text))
             {
-                _client = new Client(EAddress.Text);               
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Error", ex.Message, "OK");
-                return;
-            }
-            var connectionTask = new Task(Connect);
-            connectionTask.Start();
-
-            AiConnect.IsRunning = true;
-            AiConnect.IsVisible = true;
-
-            while (!_client.Connected)
-            {
-                //Wait for connection
-            }
-
-            if (SSave.IsToggled)
-            {
-                var connections = SQLiteDB.Connection.GetConnections();
-                foreach (var t in connections)
+                try
                 {
-                    t.Save = false;
-                    SQLiteDB.Connection.UpdateConnection(t);
+                    _client = new Client(EAddress.Text);
                 }
-                if (SQLiteDB.Connection.GetConnection(EAddress.Text) != null)
+                catch (Exception ex)
                 {
-                    SQLiteDB.Connection.GetConnection(EAddress.Text).Save = true;
-                    SQLiteDB.Connection.UpdateConnection(SQLiteDB.Connection.GetConnection(EAddress.Text));
+                    await DisplayAlert("Error", ex.Message, "OK");
+                    return;
+                }
+                var connectionTask = new Task(Connect);
+                connectionTask.Start();
+
+                AiConnect.IsRunning = true;
+                AiConnect.IsVisible = true;
+
+                while (!_client.Connected)
+                {
+                    //Wait for connection
+                }
+
+                if (SSave.IsToggled)
+                {
+                    var connections = SQLiteDB.Connection.GetConnections();
+                    foreach (var t in connections)
+                    {
+                        t.Save = false;
+                        SQLiteDB.Connection.UpdateConnection(t);
+                    }
+                    if (SQLiteDB.Connection.GetConnection(EAddress.Text) != null)
+                    {
+                        SQLiteDB.Connection.GetConnection(EAddress.Text).Save = true;
+                        SQLiteDB.Connection.UpdateConnection(SQLiteDB.Connection.GetConnection(EAddress.Text));
+                    }
+                    else
+                    {
+                        SQLiteDB.Connection.AddConnection(EAddress.Text, true);
+                    }
                 }
                 else
                 {
-                    SQLiteDB.Connection.AddConnection(EAddress.Text, true);
+                    SQLiteDB.Connection.AddConnection(EAddress.Text, false);
                 }
+
+                Application.Current.MainPage = new Home();
             }
             else
             {
-                SQLiteDB.Connection.AddConnection(EAddress.Text, false);
+                await DisplayAlert("Error", "The address for the communication is empty", "OK");
             }
-
-            Application.Current.MainPage = new Home();
         }
         private void BOptions_OnClicked(object sender, EventArgs e)
         {
