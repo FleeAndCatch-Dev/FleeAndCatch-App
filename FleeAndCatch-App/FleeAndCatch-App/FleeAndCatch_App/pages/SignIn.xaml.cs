@@ -89,6 +89,7 @@ namespace FleeAndCatch_App.pages
                     var connections = SQLiteDB.Connection.GetConnections();
                     foreach (var t in connections)
                     {
+                        if (t.Address == EAddress.Text) continue;
                         t.Save = false;
                         SQLiteDB.Connection.UpdateConnection(t);
                     }
