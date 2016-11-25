@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Robot
+namespace Robots
 {
-    public class ThreeWheelRobot
+    public class ThreeWheelDrive : Robot
     {
+        public ThreeWheelDrive(int pId) : base(pId)
+        {
+        }
     }
 }

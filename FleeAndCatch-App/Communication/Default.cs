@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Communication
 {
-    public class Default
+    public static class Default
     {
         public static int Port = 5000;
     }

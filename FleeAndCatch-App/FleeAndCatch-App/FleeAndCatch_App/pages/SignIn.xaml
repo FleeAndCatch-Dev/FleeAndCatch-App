@@ -56,7 +56,7 @@
             </Grid>
 
             <!--ActivitiIndicator-->
-            <ActivityIndicator x:Name="AiConnect" Grid.Row="5" Color="#008B8B" IsRunning="False" IsVisible="False"/>
+            <ActivityIndicator x:Name="AIConnect" Grid.Row="5" Color="#008B8B" IsRunning="False" IsVisible="False"/>
             
             <!--Button-->
             <Button x:Name="BConnect" Grid.Row="7" Text="Connect" TextColor="White" BackgroundColor="#008B8B" Margin="-2,-2" FontAttributes="Bold" FontSize="18" Clicked="BConnect_OnClicked"/>

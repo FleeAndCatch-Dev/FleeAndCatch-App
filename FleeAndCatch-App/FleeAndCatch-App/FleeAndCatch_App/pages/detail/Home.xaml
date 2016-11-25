@@ -3,5 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FleeAndCatch_App.pages.detail.Home"
              Title="FleeAndCatch">
-	<Label Text="{Binding MainText}" VerticalOptions="Center" HorizontalOptions="Center" />
+    <ContentPage.Content>
+        
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+
+            <ListView x:Name="LRobots" Grid.Row="0"/>
+            <Button x:Name="BSynchronise" Grid.Row="1" Text="Synchronise" TextColor="White" BackgroundColor="#008B8B" Margin="-2,-2" FontAttributes="Bold" FontSize="18" Clicked="BSynchronise_OnClicked"/>
+        </Grid>
+        
+    </ContentPage.Content>
 </ContentPage>

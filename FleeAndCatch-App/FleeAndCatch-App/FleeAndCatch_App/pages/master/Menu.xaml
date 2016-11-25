@@ -29,11 +29,6 @@
         </ContentPage>
     </MasterDetailPage.Master>
     <MasterDetailPage.Detail>
-        <NavigationPage BarBackgroundColor="#008B8B">
-            <x:Arguments>
-                <detail:Home/>
-            </x:Arguments>
-        </NavigationPage>
     </MasterDetailPage.Detail>
     
 </MasterDetailPage>

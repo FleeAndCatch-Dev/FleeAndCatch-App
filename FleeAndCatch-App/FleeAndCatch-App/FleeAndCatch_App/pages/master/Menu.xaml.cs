@@ -1,23 +1,27 @@
 ﻿using System;
 using Communication;
+using FleeAndCatch_App.pages.detail;
 using Xamarin.Forms;
 
 namespace FleeAndCatch_App.pages.master
 {
     public partial class Menu : MasterDetailPage
     {
-        private Client _client;
-
-        public Menu(Client pClient)
+        public Menu()
         {
             InitializeComponent();
 
-            this._client = pClient;
+            var page = new NavigationPage(new Home())
+            {
+                BarBackgroundColor = Color.FromHex("#008B8B"),
+                BarTextColor = Color.White
+            };
+            Detail = page;
         }
 
         private void BLogOut_OnClicked(object sender, EventArgs e)
         {
-            _client.Close();
+            Client.Close();
             var page = new NavigationPage(new SignIn())
             {
                 BarBackgroundColor = Color.FromHex("#008B8B"),
