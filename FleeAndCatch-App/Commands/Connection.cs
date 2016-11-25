@@ -12,15 +12,11 @@ namespace Commands
 {
     public class Connection : Command
     {
-        [JsonProperty(PropertyName = "type")]
-        private string type;
-        [JsonProperty(PropertyName = "client")]
+        [JsonProperty("client")]
         private Client client;
 
-        public Connection(string pId, string pType, Client pClient) : base()
+        public Connection(string pId, string pType, Client pClient) : base(pId, pType)
         {
-            this.id = pId;
-            this.type = pType;
             this.client = pClient;
         }
 
@@ -38,7 +34,6 @@ namespace Commands
             return JsonConvert.SerializeObject(command);
         }
 
-        public string Type => type;
         public Client Client => client;
     }
 
@@ -46,7 +41,7 @@ namespace Commands
     {
         public new enum Type
         {
-            SetId, GetType, SetType, Disconnect
+            GetId, SetId, GetType, SetType, Disconnect
         }
 
         public ConnectionType(Type pType) : base((CommandType.Type) pType)
@@ -56,11 +51,8 @@ namespace Commands
 
     public class Client
     {
-        [JsonProperty(PropertyName = "id")]
         private int id;
-        [JsonProperty(PropertyName = "type")]
         private string type;
-        [JsonProperty(PropertyName = "subtype")]
         private string subtype;
 
         public Client(int pId)
@@ -75,8 +67,8 @@ namespace Commands
             var jsonclient = new JObject
             {
                 {"id", id},
-                { "type", type.ToString()},
-                { "subtype", subtype.ToString()}               
+                { "type", type},
+                { "subtype", subtype}               
             };
             return jsonclient;
         }

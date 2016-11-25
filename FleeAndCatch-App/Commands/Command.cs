@@ -10,15 +10,19 @@ namespace Commands
 {
     public abstract class Command
     {
-        [JsonProperty(PropertyName = "id")]
+        [JsonProperty("id")]
         protected string id;
-        [JsonProperty(PropertyName = "apiid")]
+        [JsonProperty("type")]
+        protected string type;
+        [JsonProperty("apiid")]
         protected string apiid;
-        [JsonProperty(PropertyName = "errorhandling")]
+        [JsonProperty("errorhandling")]
         public string errorhandling;
 
-        protected Command()
+        protected Command(string pId, string pType)
         {
+            this.id = pId;
+            this.type = pType;
             this.errorhandling = "ignoreerrors";
             this.apiid = "@@fleeandcatch@@";
         }
@@ -26,14 +30,15 @@ namespace Commands
         public abstract string GetCommand();
 
         public string Id => id;
+        public string Type => type;
         public string ApiId => apiid;
         public string ErrorHandling => errorhandling;
     }
 
     public class CommandType
     {
-        protected string Name;
-        protected Type CmdType;
+        protected string name;
+        protected Type type;
 
         public enum Type
         {
@@ -42,8 +47,8 @@ namespace Commands
 
         public CommandType(Type pType)
         {
-            this.Name = pType.ToString();
-            this.CmdType = pType;
+            this.name = pType.ToString();
+            this.type = pType;
         }
     }
 }
