@@ -12,7 +12,7 @@ namespace Communication
     public static class Interpreter
     {
         /// <summary>
-        /// Interpret a command and returns a result as string.
+        /// Parse a json command and runs it an the system, if the parsing is correct.
         /// </summary>
         /// <param name="pCommand">Json command</param>
         public static void Parse(string pCommand)
@@ -26,11 +26,18 @@ namespace Communication
                 case CommandType.Type.Connection:
                     Connection(jsonCommand);
                     return;
+                case CommandType.Type.Synchronisation:
+                    Synchronisation(jsonCommand);
+                    return;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
         }
 
+        /// <summary>
+        /// Parse a connection command.
+        /// </summary>
+        /// <param name="pCommand"></param>
         private static void Connection(JObject pCommand)
         {
             if (pCommand == null) throw new ArgumentNullException(nameof(pCommand));
@@ -53,60 +60,27 @@ namespace Communication
             }
         }
 
-        private static void Home(JObject pCommand)
+        /// <summary>
+        /// Parse a synchronisation command.
+        /// </summary>
+        /// <param name="pCommand"></param>
+        private static void Synchronisation(JObject pCommand)
         {
-            /*var type = Convert.ToString(pCommand.SelectToken("type")).ToLower();
-            if (type == "setrobots")
+            if (pCommand == null) throw new ArgumentNullException(nameof(pCommand));
+            var type = (SynchronisationType.Type) Enum.Parse(typeof(SynchronisationType.Type), Convert.ToString(pCommand.SelectToken("type")));
+            var command = JsonConvert.DeserializeObject<Synchronisation>(JsonConvert.SerializeObject(pCommand));
+            switch (type)
             {
-                var jsonrobots = pCommand.SelectToken("robots") as JArray;
-                if (jsonrobots == null) return;
-
-                //Delete not exist robots
-                for (var i = 0; i < RobotController.Robots.Count; i++)
-                {
-                    var exist = false;
-                    for (var j = 0; j < jsonrobots.Count; j++)
-                    {
-                        var id = Convert.ToInt32(Convert.ToString(jsonrobots[j].SelectToken("id")));
-                        if (id == RobotController.Robots[i].Id)
-                        {
-                            exist = true;
-                            break;
-                        }
-                    }
-                    if (!exist)
-                        RobotController.Robots.Remove(RobotController.Robots[i]);
-                }
-
-                //Add new robots
-                for (var j = 0; j < jsonrobots.Count; j++)
-                {
-                    var id = Convert.ToInt32(Convert.ToString(jsonrobots[j].SelectToken("id")));
-                    var exist = false;
-                    for (var i = 0; i < RobotController.Robots.Count; i++)
-                    {
-                        if (id == RobotController.Robots[i].Id)
-                        {
-                            exist = true;
-                            break;
-                        }
-                    }
-                    if (!exist)
-                    {
-                        type = Convert.ToString(jsonrobots[j].SelectToken("type"));
-                        switch (type)
-                        {
-                            case "ThreeWheelRobot":
-                                RobotController.Robots.Add(new ThreeWheelDrive(id));
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }
-                return;
+                case SynchronisationType.Type.SetRobots:
+                    RobotController.UpdateRobots(command.Robots);
+                    return;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
-            throw new Exception("Receiving of robots going wrong");*/
+
+
+
+           
         }
     }
 }

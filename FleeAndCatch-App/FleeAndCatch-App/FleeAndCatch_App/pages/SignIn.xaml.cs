@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Communication;
-using FleeAndCatch_App.pages.detail;
-using FleeAndCatch_App.pages.master;
+using FleeAndCatch_App.pages.content;
 using FleeAndCatch_App.sqlite;
 using FleeAndCatch_App.sqlite.database;
 using Xamarin.Forms;
@@ -82,7 +81,16 @@ namespace FleeAndCatch_App.pages
 
                 Device.BeginInvokeOnMainThread(() =>
                 {
-                    Application.Current.MainPage = new Menu();
+                    var page = new NavigationPage(new CarouselPage
+                    {
+                        Title = "FleeAndCatch",
+                        Children = { new Home(), new Spectator(), new Control(), new Szenario()}
+                    })
+                    {
+                        BarBackgroundColor = Color.FromHex("#008B8B"),
+                        BarTextColor = Color.White
+                    };
+                    Application.Current.MainPage = page;
                 });
             }
             catch (Exception ex)

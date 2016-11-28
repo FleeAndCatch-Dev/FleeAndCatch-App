@@ -13,6 +13,8 @@ namespace Communication
         private static TcpSocketClient TcpSocketClient;
         private static string Address;
         private static int Port;
+        private static string type = ComponentType.ClientType.Type.App.ToString();
+        private static string subtype = "null";
 
         public static int Id { get; set; }
         public static bool Connected { get; set; }
@@ -95,6 +97,9 @@ namespace Communication
             throw new Exception("There is no connection to the server");
         }
 
+        /// <summary>
+        /// Disconnect the current device an dispose all ressources
+        /// </summary>
         public static async void Disconnect()
         {
             Connected = false;
@@ -103,7 +108,7 @@ namespace Communication
         }
 
         /// <summary>
-        /// Close the current connection.
+        /// Close the current connection, for start of the closing.
         /// </summary>
         public static void Close()
         {
@@ -148,5 +153,7 @@ namespace Communication
                 throw new Exception("The command could not parse into json");
             }
         }
+
+        public static string Type => type;
     }
 }

@@ -18,5 +18,6 @@ namespace Robots
         }
 
         public int Id => id;
+        public RobotType Type => type;
     }
 }

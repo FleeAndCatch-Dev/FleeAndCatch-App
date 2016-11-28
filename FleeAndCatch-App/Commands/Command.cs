@@ -19,6 +19,11 @@ namespace Commands
         [JsonProperty("errorhandling")]
         public string errorhandling;
 
+        /// <summary>
+        /// Create an object of the command.
+        /// </summary>
+        /// <param name="pId">Id of command, as command type.</param>
+        /// <param name="pType">Type of command, as different command subtype.</param>
         protected Command(string pId, string pType)
         {
             this.id = pId;
@@ -27,6 +32,10 @@ namespace Commands
             this.apiid = "@@fleeandcatch@@";
         }
 
+        /// <summary>
+        /// Get the command as json string.
+        /// </summary>
+        /// <returns>Json string.</returns>
         public abstract string GetCommand();
 
         public string Id => id;
@@ -40,11 +49,18 @@ namespace Commands
         protected string name;
         protected Type type;
 
+        /// <summary>
+        /// Enumeration of the command types.
+        /// </summary>
         public enum Type
         {
-            Connection
+            Connection, Synchronisation
         }
 
+        /// <summary>
+        /// Create an object of the command type.
+        /// </summary>
+        /// <param name="pType">Type of the command.</param>
         public CommandType(Type pType)
         {
             this.name = pType.ToString();

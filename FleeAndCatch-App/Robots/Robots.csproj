@@ -40,6 +40,10 @@
     <Compile Include="ThreeWheelDrive.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Commands\Commands.csproj">
+      <Project>{f67ed5a4-0d5f-4855-9bb9-20e3fb2529f9}</Project>
+      <Name>Commands</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ComponentType\ComponentType.csproj">
       <Project>{8bc0a34b-0700-404d-9b75-48d9de60f135}</Project>
       <Name>ComponentType</Name>
