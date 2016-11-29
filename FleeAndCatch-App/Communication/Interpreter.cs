@@ -46,10 +46,10 @@ namespace Communication
             switch (type)
             {
                 case ConnectionType.Type.SetId:
-                    Client.Id = command.Client.Id;
+                    Client.Id = command.Identification.Id;
                     return;
                 case ConnectionType.Type.GetType:
-                    var cmd = new Commands.Connection(CommandType.Type.Connection.ToString(), ConnectionType.Type.SetType.ToString(), new Commands.Client(Client.Id));
+                    var cmd = new Connection(CommandType.Type.Connection.ToString(), ConnectionType.Type.SetType.ToString(), new Identification(Client.Id, Client.Address, Client.Port, Client.Type, Client.Subtype));
                     Client.SendCmd(cmd.GetCommand());
                     return;
                 case ConnectionType.Type.Disconnect:
@@ -72,15 +72,11 @@ namespace Communication
             switch (type)
             {
                 case SynchronisationType.Type.SetRobots:
-                    RobotController.UpdateRobots(command.Robots);
+                    RobotController.Robots = command.Robots;
                     return;
                 default:
                     throw new ArgumentOutOfRangeException();
-            }
-
-
-
-           
+            }          
         }
     }
 }

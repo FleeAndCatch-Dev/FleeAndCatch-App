@@ -6,10 +6,10 @@ namespace Commands
 {
     public class Synchronisation : Command
     {
-        [JsonProperty("client")]
-        private Commands.Client client;
+        [JsonProperty("identification")]
+        private Identification identification;
         [JsonProperty("robots")]
-        private List<Commands.Robot> robots;
+        private List<Robot> robots;
 
         /// <summary>
         /// Create an object of the synchronisation command.
@@ -17,10 +17,10 @@ namespace Commands
         /// <param name="pId">Id as command type.</param>
         /// <param name="pType">Type as synchronisation type.</param>
         /// <param name="pClient">Client of represeenting the device.</param>
-        public Synchronisation(string pId, string pType, Commands.Client pClient) : base(pId, pType)
+        public Synchronisation(string pId, string pType, Identification pIdentification, List<Robot> pRobots) : base(pId, pType)
         {
-            this.client = pClient;
-            this.robots = new List<Robot>();
+            identification = pIdentification;
+            robots = pRobots;
         }
 
         /// <summary>
@@ -30,15 +30,8 @@ namespace Commands
         public override string GetCommand()
         {
             var array = new JArray();
-            for (var i = 0; i < robots.Count; i++)
-            {
-                var robot = new JObject()
-                {
-                    {"id", id},
-                    {"type", type}
-                };
-                array.Add(robot);
-            }
+            foreach (var t in robots)
+                array.Add(t.GetJObject());
 
             var command = new JObject
             {
@@ -46,14 +39,14 @@ namespace Commands
                 {"type", type},
                 {"apiid", apiid},
                 {"errorhandling", errorhandling},
-                {"client", client.GetClient()},
+                {"identification", identification.GetJObject()},
                 {"robots", array}
             };
 
             return JsonConvert.SerializeObject(command);
         }
 
-        public Client Client => client;
+        public Identification Identification => identification;
         public List<Robot> Robots => robots;
     }
 

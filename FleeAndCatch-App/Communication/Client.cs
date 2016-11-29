@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Commands;
+using ComponentType;
 using Newtonsoft.Json.Linq;
 using Sockets.Plugin;
 
@@ -10,14 +11,13 @@ namespace Communication
 {
     public static class Client
     {
-        private static TcpSocketClient TcpSocketClient;
-        private static string Address;
-        private static int Port;
-        private static string type = ComponentType.ClientType.Type.App.ToString();
-        private static string subtype = "null";
-
-        public static int Id { get; set; }
-        public static bool Connected { get; set; }
+        private static TcpSocketClient tcpSocketClient;
+        private static bool connected;
+        private static int id;
+        private static string address;
+        private static int port;
+        private static string type = IdentificationType.Type.App.ToString();
+        private static string subtype = AppType.Type.App.ToString();
 
         /// <summary>
         /// Create a new task with a new communication.
@@ -26,15 +26,14 @@ namespace Communication
         {
             ParseAddress(pAddress);
 
-            TcpSocketClient = new TcpSocketClient();
-            Address = pAddress;
-            Port = Default.Port;
-            Connected = false;
+            tcpSocketClient = new TcpSocketClient();
+            address = pAddress;
+            port = Default.Port;
+            connected = false;
 
-            if (Connected) throw new Exception("Connection to the server is already exist");
+            if (connected) throw new Exception("Connection to the server is already exist");
             var listenTask = new Task(Listen);
             listenTask.Start();
-            return;
         }
 
         /// <summary>
@@ -42,10 +41,10 @@ namespace Communication
         /// </summary>
         private static async void Listen()
         {
-            await TcpSocketClient.ConnectAsync(Address, Port);
+            await tcpSocketClient.ConnectAsync(address, port);
 
-            Connected = true;
-            while (Connected)
+            connected = true;
+            while (connected)
             {
                 Interpreter.Parse(ReceiveCmd());
             }
@@ -59,11 +58,11 @@ namespace Communication
         {
             var size = new byte[4];
 
-            TcpSocketClient.ReadStream.Read(size, 0, size.Length);
+            tcpSocketClient.ReadStream.Read(size, 0, size.Length);
 
             var length = size.Select((t, i) => (int) (t*Math.Pow(128, i))).Sum();
             var data = new byte[length];
-            TcpSocketClient.ReadStream.Read(data, 0, data.Length);
+            tcpSocketClient.ReadStream.Read(data, 0, data.Length);
 
             return Encoding.UTF8.GetString(data, 0, data.Length);
         }
@@ -74,27 +73,23 @@ namespace Communication
         /// <param name="pCommand">Json command</param>
         public static async void SendCmd(string pCommand)
         {
-            if (Connected)
+            if (!connected) throw new Exception("There is no connection to the server");
+            checkCmd(pCommand);
+
+            var command = Encoding.UTF8.GetBytes(pCommand);
+            var size = new byte[4];
+            var rest = pCommand.Length;
+            for (var i = 0; i < size.Length; i++)
             {
-                checkCmd(pCommand);
-
-                var command = Encoding.UTF8.GetBytes(pCommand);
-                var size = new byte[4];
-                var rest = pCommand.Length;
-                for (var i = 0; i < size.Length; i++)
-                {
-                    size[size.Length - (i + 1)] = (byte) (rest/Math.Pow(128, size.Length - (i + 1)));
-                    rest = (int) (rest%Math.Pow(128, size.Length - (i + 1)));
-                }
-                
-                TcpSocketClient.WriteStream.Write(size, 0, size.Length);
-                await TcpSocketClient.WriteStream.FlushAsync();
-
-                TcpSocketClient.WriteStream.Write(command, 0, command.Length);
-                await TcpSocketClient.WriteStream.FlushAsync();
-                return;
+                size[size.Length - (i + 1)] = (byte) (rest/Math.Pow(128, size.Length - (i + 1)));
+                rest = (int) (rest%Math.Pow(128, size.Length - (i + 1)));
             }
-            throw new Exception("There is no connection to the server");
+                
+            tcpSocketClient.WriteStream.Write(size, 0, size.Length);
+            await tcpSocketClient.WriteStream.FlushAsync();
+
+            tcpSocketClient.WriteStream.Write(command, 0, command.Length);
+            await tcpSocketClient.WriteStream.FlushAsync();
         }
 
         /// <summary>
@@ -102,9 +97,9 @@ namespace Communication
         /// </summary>
         public static async void Disconnect()
         {
-            Connected = false;
-            await TcpSocketClient.DisconnectAsync();
-            TcpSocketClient.Dispose();
+            connected = false;
+            await tcpSocketClient.DisconnectAsync();
+            tcpSocketClient.Dispose();
         }
 
         /// <summary>
@@ -113,9 +108,8 @@ namespace Communication
         public static void Close()
         {
             if (!Connected) throw new Exception("There is no connection to the server");
-            var command = new Commands.Connection(CommandType.Type.Connection.ToString(), ConnectionType.Type.Disconnect.ToString(), new Commands.Client(Id));
+            var command = new Commands.Connection(CommandType.Type.Connection.ToString(), ConnectionType.Type.Disconnect.ToString(), new Identification(id, address, port, type, subtype));
             SendCmd(command.GetCommand());
-            return;
         }
 
         /// <summary>
@@ -130,7 +124,7 @@ namespace Communication
             foreach (var t in adressPart)
             {
                 int value;
-                if (!int.TryParse(t, out value))
+                if (!int.TryParse(t, out value) && value >= 0 && value <= 255)
                     result = false;
             }
             if (result)
@@ -154,6 +148,16 @@ namespace Communication
             }
         }
 
+        public static bool Connected => connected;
+        public static string Address => address;
+        public static int Port => port;
         public static string Type => type;
+        public static string Subtype => subtype;
+
+        public static int Id
+        {
+            get { return id; }
+            set { id = value; }
+        }
     }
 }

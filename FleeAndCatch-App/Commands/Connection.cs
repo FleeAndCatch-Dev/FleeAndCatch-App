@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using ComponentType;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -12,8 +11,8 @@ namespace Commands
 {
     public class Connection : Command
     {
-        [JsonProperty("client")]
-        private Client client;
+        [JsonProperty("identification")]
+        private Identification identification;
 
         /// <summary>
         /// Create an object of a connection command.
@@ -21,9 +20,9 @@ namespace Commands
         /// <param name="pId">Id as command type.</param>
         /// <param name="pType">Type as connaction type.</param>
         /// <param name="pClient">Client for representation of the device.</param>
-        public Connection(string pId, string pType, Client pClient) : base(pId, pType)
+        public Connection(string pId, string pType, Identification pIdentification) : base(pId, pType)
         {
-            this.client = pClient;
+            identification = pIdentification;
         }
 
         /// <summary>
@@ -38,13 +37,13 @@ namespace Commands
                 {"type", type},
                 {"apiid", apiid},
                 {"errorhandling", errorhandling},
-                {"client", client.GetClient()}
+                {"identification", identification.GetJObject()}
             };
 
             return JsonConvert.SerializeObject(command);
         }
 
-        public Client Client => client;
+        public Identification Identification => identification;
     }
 
     public class ConnectionType : CommandType

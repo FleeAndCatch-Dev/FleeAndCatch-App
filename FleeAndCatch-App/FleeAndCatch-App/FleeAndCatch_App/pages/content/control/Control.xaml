@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FleeAndCatch_App.pages.content.control.Control"
+             Title="Control">
+    <ContentPage.Content>
+        
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+
+            <Button x:Name="BStart" Grid.Row="1" Text="Start" TextColor="White" BackgroundColor="#008B8B" Margin="-2,-2" FontAttributes="Bold" FontSize="18"/>
+        </Grid>
+        
+    </ContentPage.Content>
+</ContentPage>
