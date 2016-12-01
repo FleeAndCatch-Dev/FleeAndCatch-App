@@ -73,6 +73,7 @@ namespace Communication
             {
                 case SynchronisationType.Type.SetRobots:
                     RobotController.Robots = command.Robots;
+                    RobotController.Updated = true;
                     return;
                 default:
                     throw new ArgumentOutOfRangeException();

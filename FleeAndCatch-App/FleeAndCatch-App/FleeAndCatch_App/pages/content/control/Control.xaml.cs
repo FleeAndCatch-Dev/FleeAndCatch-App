@@ -11,7 +11,7 @@ namespace FleeAndCatch_App.pages.content.control
 {
     public partial class Control : ContentPage
     {
-        public Control(Robot pRobot)
+        public Control()
         {
             InitializeComponent();
         }
