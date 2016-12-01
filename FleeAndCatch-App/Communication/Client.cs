@@ -2,80 +2,67 @@
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Windows.Data.Json;
+using Commands;
+using ComponentType;
+using Newtonsoft.Json.Linq;
 using Sockets.Plugin;
 
 namespace Communication
 {
-    public class Client
+    public static class Client
     {
-        private TcpSocketClient _tcpSocketClient;
-        private string _address;
-        private int _port;
-        private int _id;
-        private bool _connected;
-        private Interpreter _interpreter;
-
-        /// <summary>
-        /// Create an object of the class client and a new socket for the communication.
-        /// </summary>
-        /// <param name="pAddress">Connection address to the server.</param>
-        public Client(string pAddress)
-        {
-            ParseAddress(pAddress);
-
-            this._tcpSocketClient = new TcpSocketClient();
-            this._address = pAddress;
-            this._port = Default.Port;
-            this._connected = false;
-        }
+        private static TcpSocketClient tcpSocketClient;
+        private static bool connected;
+        private static int id;
+        private static string address;
+        private static int port;
+        private static string type = IdentificationType.Type.App.ToString();
+        private static string subtype = AppType.Type.App.ToString();
 
         /// <summary>
         /// Create a new task with a new communication.
         /// </summary>
-        public void Connect()
+        public static void Connect(string pAddress)
         {
-            if (_connected) throw new Exception("Connection to the server is already exist");
-            var _listenTask = new Task(Listen);
-            _listenTask.Start();
-            return;
+            ParseAddress(pAddress);
+
+            tcpSocketClient = new TcpSocketClient();
+            address = pAddress;
+            port = Default.Port;
+            connected = false;
+
+            if (connected) throw new Exception("Connection to the server is already exist");
+            var listenTask = new Task(Listen);
+            listenTask.Start();
         }
 
         /// <summary>
         /// Listen at the current socket and interpret the received commands.
         /// </summary>
-        private async void Listen()
+        private static async void Listen()
         {
-            await _tcpSocketClient.ConnectAsync(_address, _port);
+            await tcpSocketClient.ConnectAsync(address, port);
 
-            _interpreter = new Interpreter(this);
-            _id = Convert.ToInt32(_interpreter.Interpret(ReceiveCmd()));
-
-            _connected = true;
-
-            while (_connected)
+            connected = true;
+            while (connected)
             {
-                var command = ReceiveCmd();
-                _interpreter.Interpret(command);
+                Interpreter.Parse(ReceiveCmd());
             }
-
-            //await  _tcpSocketClient.DisconnectAsync();
-            //_tcpSocketClient.Dispose();
         }
 
         /// <summary>
         /// Receive a command from the current socket.
         /// </summary>
         /// <returns>String: Json command</returns>
-        private string ReceiveCmd()
+        private static string ReceiveCmd()
         {
             var size = new byte[4];
 
-            _tcpSocketClient.ReadStream.Read(size, 0, size.Length);
+            tcpSocketClient.ReadStream.Read(size, 0, size.Length);
 
             var length = size.Select((t, i) => (int) (t*Math.Pow(128, i))).Sum();
             var data = new byte[length];
-            _tcpSocketClient.ReadStream.Read(data, 0, data.Length);
+            tcpSocketClient.ReadStream.Read(data, 0, data.Length);
 
             return Encoding.UTF8.GetString(data, 0, data.Length);
         }
@@ -84,70 +71,64 @@ namespace Communication
         /// Send command to the current socket.
         /// </summary>
         /// <param name="pCommand">Json command</param>
-        public async void SendCmd(string pCommand)
+        public static async void SendCmd(string pCommand)
         {
-            if (_connected)
+            if (!connected) throw new Exception("There is no connection to the server");
+            checkCmd(pCommand);
+
+            var command = Encoding.UTF8.GetBytes(pCommand);
+            var size = new byte[4];
+            var rest = pCommand.Length;
+            for (var i = 0; i < size.Length; i++)
             {
-                checkCmd(pCommand);
-
-                var command = Encoding.UTF8.GetBytes(pCommand);
-                var size = new byte[4];
-                var rest = pCommand.Length;
-                for (var i = 0; i < size.Length; i++)
-                {
-                    size[size.Length - (i + 1)] = (byte) (rest/Math.Pow(128, size.Length - (i + 1)));
-                    rest = (int) (rest%Math.Pow(128, size.Length - (i + 1)));
-                }
-                
-                _tcpSocketClient.WriteStream.Write(size, 0, size.Length);
-                await _tcpSocketClient.WriteStream.FlushAsync();
-
-                _tcpSocketClient.WriteStream.Write(command, 0, command.Length);
-                await _tcpSocketClient.WriteStream.FlushAsync();
-                return;
+                size[size.Length - (i + 1)] = (byte) (rest/Math.Pow(128, size.Length - (i + 1)));
+                rest = (int) (rest%Math.Pow(128, size.Length - (i + 1)));
             }
-            throw new Exception("There is no connection to the server");
-        }
+                
+            tcpSocketClient.WriteStream.Write(size, 0, size.Length);
+            await tcpSocketClient.WriteStream.FlushAsync();
 
-        public async void Disconnect()
-        {
-            _connected = false;
-            await _tcpSocketClient.DisconnectAsync();
-            _tcpSocketClient.Dispose();
+            tcpSocketClient.WriteStream.Write(command, 0, command.Length);
+            await tcpSocketClient.WriteStream.FlushAsync();
         }
 
         /// <summary>
-        /// Close the current connection.
+        /// Disconnect the current device an dispose all ressources
         /// </summary>
-        public void Close()
+        public static async void Disconnect()
         {
-            if (_connected)
-            {
-                SendCmd("{\"id\":\"Client\",\"type\":\"Disconnect\",\"apiid\":\"@@fleeandcatch@@\",\"errorhandling\":\"ignoreerrors\",\"client\":{\"id\":" + _id + ",\"type\":\"App\"}}");
-                return;
-            }
-            throw new Exception("There is no connection to the server");
+            connected = false;
+            await tcpSocketClient.DisconnectAsync();
+            tcpSocketClient.Dispose();
+        }
+
+        /// <summary>
+        /// Close the current connection, for start of the closing.
+        /// </summary>
+        public static void Close()
+        {
+            if (!Connected) throw new Exception("There is no connection to the server");
+            var command = new Commands.Connection(CommandType.Type.Connection.ToString(), ConnectionType.Type.Disconnect.ToString(), new Identification(id, address, port, type, subtype));
+            SendCmd(command.GetCommand());
         }
 
         /// <summary>
         /// Parse the current address of an ip address.
         /// </summary>
         /// <param name="pAddress">Connection address to the server.</param>
-        private void ParseAddress(string pAddress)
+        private static void ParseAddress(string pAddress)
         {
             var adressPart = pAddress.Split(new string[] {"."}, StringSplitOptions.None);
-            if (adressPart.Length == 4)
+            if (adressPart.Length != 4) throw new Exception("The Address could not parse into an ip adress");
+            var result = true;
+            foreach (var t in adressPart)
             {
-                var result = true;
-                foreach (var t in adressPart)
-                {
-                    int value;
-                    if (!int.TryParse(t, out value))
-                        result = false;
-                }
-                if (result)
-                    return;
+                int value;
+                if (!int.TryParse(t, out value) && value >= 0 && value <= 255)
+                    result = false;
             }
+            if (result)
+                return;
             throw new Exception("The Address could not parse into an ip adress");
         }
 
@@ -155,13 +136,11 @@ namespace Communication
         /// Check the current command of a json command.
         /// </summary>
         /// <param name="pCommand">Json command</param>
-        private void checkCmd(string pCommand)
+        private static void checkCmd(string pCommand)
         {
             try
             {
-                var jsonObject = new JsonObject();
-                jsonObject = JsonObject.Parse(pCommand);
-                return;
+                JObject.Parse(pCommand);
             }
             catch (Exception)
             {
@@ -169,7 +148,16 @@ namespace Communication
             }
         }
 
-        public bool Connected => _connected;
-        public int Id => _id;
+        public static bool Connected => connected;
+        public static string Address => address;
+        public static int Port => port;
+        public static string Type => type;
+        public static string Subtype => subtype;
+
+        public static int Id
+        {
+            get { return id; }
+            set { id = value; }
+        }
     }
 }

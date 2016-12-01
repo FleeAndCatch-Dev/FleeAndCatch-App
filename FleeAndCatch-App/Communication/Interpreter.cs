@@ -2,66 +2,83 @@
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Windows.Data.Json;
+using Commands;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Robots;
 
 namespace Communication
 {
-    public class Interpreter
+    public static class Interpreter
     {
-        private Client _client;
-
         /// <summary>
-        /// Create an object of the class interpreter.
+        /// Parse a json command and runs it an the system, if the parsing is correct.
         /// </summary>
-        /// <param name="pClient"></param>
-        public Interpreter(Client pClient)
+        /// <param name="pCommand">Json command</param>
+        public static void Parse(string pCommand)
         {
-            this._client = pClient;
+            var jsonCommand = JObject.Parse(pCommand);
+            if (Convert.ToString(jsonCommand.SelectToken("apiid")) != "@@fleeandcatch@@")
+                throw new Exception("Wrong apiid in json command");
+            var id = (CommandType.Type) Enum.Parse(typeof(CommandType.Type), Convert.ToString(jsonCommand.SelectToken("id")));
+            switch (id)
+            {
+                case CommandType.Type.Connection:
+                    Connection(jsonCommand);
+                    return;
+                case CommandType.Type.Synchronisation:
+                    Synchronisation(jsonCommand);
+                    return;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         /// <summary>
-        /// Interpret a command and returns a result as string.
+        /// Parse a connection command.
         /// </summary>
-        /// <param name="pCommand">Json command</param>
-        /// <returns></returns>
-        public string Interpret(string pCommand)
+        /// <param name="pCommand"></param>
+        private static void Connection(JObject pCommand)
         {
-           var jsonObject = JObject.Parse(pCommand);
-            var apiid = Convert.ToString(jsonObject.SelectToken("apiid"));
-            if (apiid == "@@fleeandcatch@@")
+            if (pCommand == null) throw new ArgumentNullException(nameof(pCommand));
+            var type = (ConnectionType.Type)Enum.Parse(typeof(ConnectionType.Type), Convert.ToString(pCommand.SelectToken("type")));
+            var command = JsonConvert.DeserializeObject<Connection>(JsonConvert.SerializeObject(pCommand));
+            switch (type)
             {
-                var id = Convert.ToString(jsonObject.SelectToken("id")).ToLower();
-                var type = Convert.ToString(jsonObject.SelectToken("type")).ToCharArray();
-                var typeCmd = new string(type, 0, 3);
-
-                if (typeCmd == "Get")
-                {
-                    if (id == "client")
-                    {
-                        typeCmd = new string(type.Skip(3).Take(type.Length - 3).ToArray()).ToLower();
-                        if (typeCmd == "type")
-                        {
-                            _client.SendCmd("{\"id\":\"Client\",\"type\":\"SetType\",\"apiid\":\"@@fleeandcatch@@\",\"errorhandling\":\"ignoreerrors\",\"client\":{\"id\":" + _client.Id + ",\"type\":\"App\"}}");
-                            return null;
-                        }
-                    }
-                }
-                else if (typeCmd == "Set")
-                {
-                    jsonObject = jsonObject.SelectToken(id) as JObject;
-                    typeCmd = new string(type.Skip(3).Take(type.Length - 3).ToArray()).ToLower();
-                    var result = Convert.ToString(jsonObject.SelectToken(typeCmd));
-                    return result;
-                }
-                else if(new string(type) == "Disconnect")
-                {
-                    _client.Disconnect();
-                    return null;
-                }
-                throw new Exception("Something is going wrong");
+                case ConnectionType.Type.SetId:
+                    Client.Id = command.Identification.Id;
+                    return;
+                case ConnectionType.Type.GetType:
+                    var cmd = new Connection(CommandType.Type.Connection.ToString(), ConnectionType.Type.SetType.ToString(), new Identification(Client.Id, Client.Address, Client.Port, Client.Type, Client.Subtype));
+                    Client.SendCmd(cmd.GetCommand());
+                    return;
+                case ConnectionType.Type.Disconnect:
+                    Client.Disconnect();
+                    return;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
-            throw new Exception("Wrong apiid of the command");
+        }
+
+        /// <summary>
+        /// Parse a synchronisation command.
+        /// </summary>
+        /// <param name="pCommand"></param>
+        private static void Synchronisation(JObject pCommand)
+        {
+            if (pCommand == null) throw new ArgumentNullException(nameof(pCommand));
+            var type = (SynchronisationType.Type) Enum.Parse(typeof(SynchronisationType.Type), Convert.ToString(pCommand.SelectToken("type")));
+            var command = JsonConvert.DeserializeObject<Synchronisation>(JsonConvert.SerializeObject(pCommand));
+            switch (type)
+            {
+                case SynchronisationType.Type.SetRobots:
+                    RobotController.Robots = command.Robots;
+                    RobotController.Updated = true;
+                    return;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }          
         }
     }
 }
+

@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
+using Robots;
 
-namespace FleeAndCatch_App.pages.detail
+namespace FleeAndCatch_App.pages.content.control
 {
-    public partial class Home : ContentPage
+    public partial class Control : ContentPage
     {
-        public Home()
+        public Control()
         {
             InitializeComponent();
         }

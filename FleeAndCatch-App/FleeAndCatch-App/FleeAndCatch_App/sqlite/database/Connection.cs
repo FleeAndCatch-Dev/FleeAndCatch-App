@@ -18,31 +18,31 @@ namespace FleeAndCatch_App.sqlite.database
 
     public class ConnectionDB
     {
-        private SQLiteConnection _connection;
+        private SQLiteConnection connection;
 
         public ConnectionDB()
         {
-            _connection = DependencyService.Get<ISQLite>().GetConnection();
-            _connection.CreateTable<Connection>();
+            connection = DependencyService.Get<ISQLite>().GetConnection();
+            connection.CreateTable<Connection>();
         }
 
         public List<Connection> GetConnections()
         {
-            return (from t in _connection.Table<Connection>() select t).ToList();
+            return (from t in connection.Table<Connection>() select t).ToList();
         }
 
         public Connection GetConnection(int pId)
         {
-            return _connection.Table<Connection>().FirstOrDefault(t => t.Id == pId);
+            return connection.Table<Connection>().FirstOrDefault(t => t.Id == pId);
         }
         public Connection GetConnection(string pAddress)
         {
-            return _connection.Table<Connection>().FirstOrDefault(t => t.Address == pAddress);
+            return connection.Table<Connection>().FirstOrDefault(t => t.Address == pAddress);
         }
 
         public void DeleteConnection(int pId)
         {
-            _connection.Delete<Connection>(pId);
+            connection.Delete<Connection>(pId);
         }
 
         public void AddConnection(string pAddress, bool pSave)
@@ -52,12 +52,12 @@ namespace FleeAndCatch_App.sqlite.database
                 Address = pAddress,
                 Save = pSave
             };
-            _connection.Insert(connection);
+            this.connection.Insert(connection);
         }
 
         public void UpdateConnection(Connection pConnection)
         {
-            _connection.Update(pConnection);
+            connection.Update(pConnection);
         }
     }
 }

@@ -38,11 +38,26 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="pages\detail\Home.xaml.cs">
+    <Compile Include="pages\content\control\Control.xaml.cs">
+      <DependentUpon>Control.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="pages\content\control\Robot.xaml.cs">
+      <DependentUpon>Robot.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="pages\content\Help.xaml.cs">
+      <DependentUpon>Help.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="pages\content\Home.xaml.cs">
       <DependentUpon>Home.xaml</DependentUpon>
     </Compile>
-    <Compile Include="pages\master\Menu.xaml.cs">
-      <DependentUpon>Menu.xaml</DependentUpon>
+    <Compile Include="pages\content\Control.xaml.cs">
+      <DependentUpon>Control.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="pages\content\Szenario.xaml.cs">
+      <DependentUpon>Szenario.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="pages\content\Spectator.xaml.cs">
+      <DependentUpon>Spectator.xaml</DependentUpon>
     </Compile>
     <Compile Include="pages\SignIn.xaml.cs">
       <DependentUpon>SignIn.xaml</DependentUpon>
@@ -105,9 +120,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Commands\Commands.csproj">
+      <Project>{F67ED5A4-0D5F-4855-9BB9-20E3FB2529F9}</Project>
+      <Name>Commands</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Communication\Communication.csproj">
       <Project>{fc900c31-f85d-443b-8e2e-42df41dcbc80}</Project>
       <Name>Communication</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ComponentType\ComponentType.csproj">
+      <Project>{8bc0a34b-0700-404d-9b75-48d9de60f135}</Project>
+      <Name>ComponentType</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Robots\Robots.csproj">
+      <Project>{5f3719b4-c89d-42b2-a1f0-ee041560049f}</Project>
+      <Name>Robots</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -117,16 +144,46 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="pages\master\Menu.xaml">
+    <Folder Include="classes\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="pages\content\Home.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="classes\" />
+    <EmbeddedResource Include="pages\content\Spectator.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="pages\detail\Home.xaml">
+    <EmbeddedResource Include="pages\content\Help.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="pages\content\Control.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="pages\content\Szenario.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="pages\content\control\Robot.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="pages\content\control\Control.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
