@@ -37,8 +37,8 @@
                 <Label Grid.Column="1" Text="Swipe to switch" FontAttributes="Bold" FontSize="20" TextColor="#000080"/>
             </Grid>
 
-            <Button x:Name="BHelp" Grid.Row="5" Text="Help" Margin="-2,-2" TextColor="White" BackgroundColor="#008B8B" FontAttributes="Bold" FontSize="18" Clicked="BHelp_OnClicked"/>
-            <Button x:Name="BLogOut" Grid.Row="6" Text="Log out" TextColor="White" BackgroundColor="#008B8B" Margin="-2,-2" FontAttributes="Bold" FontSize="18" Clicked="BLogOut_OnClicked"/>
+            <Button x:Name="BHelp" Grid.Row="5" Text="Help" Margin="-2,-2" TextColor="White" BackgroundColor="#008B8B" FontAttributes="Bold" FontSize="16" Clicked="BHelp_OnClicked"/>
+            <Button x:Name="BLogOut" Grid.Row="6" Text="Log out" TextColor="White" BackgroundColor="#008B8B" Margin="-2,-2" FontAttributes="Bold" FontSize="16" Clicked="BLogOut_OnClicked"/>
         </Grid>
         
     </ContentPage.Content>
