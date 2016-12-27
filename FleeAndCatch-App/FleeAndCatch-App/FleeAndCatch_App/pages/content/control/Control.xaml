@@ -7,11 +7,32 @@
         
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="50"/>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
-
-            <Button x:Name="BStart" Grid.Row="1" Text="Start" TextColor="White" BackgroundColor="#008B8B" Margin="-2,-2" FontAttributes="Bold" FontSize="18"/>
+            
+            <Grid Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <Label Grid.Row="0" Grid.Column="1" Text="X:"/>
+                <Label x:Name="LX" Grid.Row="0" Grid.Column="2"/>
+                <Label Grid.Row="1" Grid.Column="1" Text="Y:"/>
+                <Label x:Name="LY" Grid.Row="1" Grid.Column="2"/>
+                <Label Grid.Row="2" Grid.Column="1" Text="Z:"/>
+                <Label x:Name="LZ" Grid.Row="2" Grid.Column="2"/>
+            </Grid>
+            <Label x:Name="LResult" Grid.Row="1"/>
         </Grid>
         
     </ContentPage.Content>
