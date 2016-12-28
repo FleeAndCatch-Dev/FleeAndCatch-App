@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Commands;
 using Communication;
-using ComponentType;
+using Component;
 using FleeAndCatch_App.pages.content.control;
 using Robots;
 using Xamarin.Forms;
@@ -33,7 +33,7 @@ namespace FleeAndCatch_App.pages.content
             if (Client.Connected)
             {
                 RobotController.Updated = false;
-                var command = new Synchronisation(CommandType.Type.Synchronisation.ToString(), SynchronisationType.Type.GetRobots.ToString(), new Identification(Client.Id, Client.Address, Client.Port, Client.Type, Client.Subtype), RobotController.Robots);
+                var command = new Synchronisation(CommandType.Synchronisation.ToString(), SynchronisationType.GetRobots.ToString(), new Identification(Client.Id, Client.Address, Client.Port, Client.Type, Client.Subtype), RobotController.Robots);
                 Client.SendCmd(command.GetCommand());
 
                 while (!RobotController.Updated)
@@ -42,12 +42,12 @@ namespace FleeAndCatch_App.pages.content
                 }       
 
                 var groupedRobots = new ObservableCollection<Group>();
-                for (var i = 0; i < Enum.GetNames(typeof(RobotType.Type)).Length; i++)
+                for (var i = 0; i < Enum.GetNames(typeof(ComponentType.RobotType)).Length; i++)
                 {
-                    var groupedRobot = new Group(Enum.GetNames(typeof(RobotType.Type))[i]);
+                    var groupedRobot = new Group(Enum.GetNames(typeof(ComponentType.RobotType))[i]);
                     foreach (var t in RobotController.Robots)
                     {
-                        if(t.Identification.Subtype == Enum.GetNames(typeof(RobotType.Type))[i])
+                        if(t.Identification.Subtype == Enum.GetNames(typeof(ComponentType.RobotType))[i])
                             groupedRobot.Add(new Item(t.Identification.Id.ToString()));
                     }
                     groupedRobots.Insert(groupedRobots.Count, groupedRobot);

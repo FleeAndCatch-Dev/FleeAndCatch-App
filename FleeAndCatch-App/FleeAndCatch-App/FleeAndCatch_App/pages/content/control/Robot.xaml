@@ -6,15 +6,126 @@
 
     <ContentPage.Content>
         
-        <Grid>
+        <Grid x:Name="grid">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="4*"/>
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
 
+            <!--Image-->
+            <Grid Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <Image Grid.Row="1" Grid.Column="1" Source="FleeAndCatch_Logo.png"/>
+            </Grid>
+
+            <!--Main-->
+            <StackLayout Grid.Row="1" Orientation="Vertical" Padding="10, 0">
+                <Label Text="Identification:"/>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10">
+                    <Label x:Name="LId"/>
+                    <Label x:Name="LType"/>
+                    <Label x:Name="LSubtype"/>
+                    <Label x:Name="LAddress"/>
+                    <Label x:Name="LPort"/>
+                </StackLayout>
+                <Label Text="Position:"/>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10">
+                    <Label x:Name="LX"/>
+                    <Label x:Name="LY"/>
+                    <Label x:Name="LOrientation"/>
+                </StackLayout>
+                <Label Text="Speed:"/>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10">
+                    <Label x:Name="LSpeed"/>
+                </StackLayout>
+            </StackLayout>
+            
             <!--Button-->
-            <Button x:Name="BStart" Grid.Row="1" Text="Start" TextColor="White" BackgroundColor="#008B8B" Margin="-2,-2" FontAttributes="Bold" FontSize="18"/>
+            <Button x:Name="BStart" Grid.Row="2" Text="Start" TextColor="White" BackgroundColor="#008B8B" Margin="-2,-2" FontAttributes="Bold" FontSize="16" Clicked="BStart_OnClicked"/>
         </Grid>
         
     </ContentPage.Content>
 </ContentPage>
+    
+    
+    <!--
+    
+    var grid = new Grid
+            {
+                RowDefinitions =
+                {
+                    new RowDefinition { Height = new GridLength(2, GridUnitType.Star) },
+                    new RowDefinition { Height = new GridLength(4, GridUnitType.Star) },
+                    new RowDefinition { Height = 50 }
+                }
+            };
+            var image = new Image {};
+            var layout = new StackLayout
+            {
+                Orientation = StackOrientation.Vertical, Padding = new Thickness(5, 0),
+                Children =
+                {                
+                    new Label { Text = "Identification:"},
+                    new StackLayout
+                    {
+                        Orientation = StackOrientation.Horizontal,
+                        HorizontalOptions = LayoutOptions.Center,
+                        Children =
+                        {
+                            new Label { Text = Convert.ToString(robot.Identification.Id) },
+                            new Label { Text = robot.Identification.Type },
+                            new Label { Text = robot.Identification.Subtype}
+                        }
+                    },
+                    new StackLayout
+                    {
+                        Orientation = StackOrientation.Horizontal,
+                        HorizontalOptions = LayoutOptions.Center,
+                        Children =
+                        {
+                            new Label { Text = robot.Identification.Address },
+                            new Label { Text = Convert.ToString(robot.Identification.Port) }
+                        }
+                    },
+                    new Label { Text = "Position:"},
+                    new StackLayout
+                    {
+                        Orientation = StackOrientation.Horizontal,
+                        HorizontalOptions = LayoutOptions.Center,
+                        Children =
+                        {
+                            new Label { Text = Convert.ToString(robot.Position.X) },
+                            new Label { Text = Convert.ToString(robot.Position.Y) },
+                            new Label { Text = Convert.ToString(robot.Position.Orientation) }
+                        }
+                    },
+                    new Label { Text = "Speed:"},
+                    new StackLayout
+                    {
+                        Orientation = StackOrientation.Horizontal,
+                        HorizontalOptions = LayoutOptions.Center,
+                        Children =
+                        {
+                            new Label { Text = Convert.ToString(robot.Speed) }
+                        }
+                    }
+                }
+            };
+            var BStart = new Button { Text = "Start", TextColor = Color.White, FontSize = 16, FontAttributes = FontAttributes.Bold, BackgroundColor = Color.FromHex("#008B8B"), Margin = new Thickness(-2, -2) };
+            BStart.Clicked += BStartOnClicked;
+            grid.Children.Add(image, 0, 0);
+            grid.Children.Add(layout, 0, 1);
+            grid.Children.Add(BStart, 0, 2);
+            //this.Content = grid;
+    -->

@@ -20,13 +20,13 @@ namespace Communication
             var jsonCommand = JObject.Parse(pCommand);
             if (Convert.ToString(jsonCommand.SelectToken("apiid")) != "@@fleeandcatch@@")
                 throw new Exception("Wrong apiid in json command");
-            var id = (CommandType.Type) Enum.Parse(typeof(CommandType.Type), Convert.ToString(jsonCommand.SelectToken("id")));
+            var id = (CommandType) Enum.Parse(typeof(CommandType), Convert.ToString(jsonCommand.SelectToken("id")));
             switch (id)
             {
-                case CommandType.Type.Connection:
+                case CommandType.Connection:
                     Connection(jsonCommand);
                     return;
-                case CommandType.Type.Synchronisation:
+                case CommandType.Synchronisation:
                     Synchronisation(jsonCommand);
                     return;
                 default:
@@ -41,18 +41,18 @@ namespace Communication
         private static void Connection(JObject pCommand)
         {
             if (pCommand == null) throw new ArgumentNullException(nameof(pCommand));
-            var type = (ConnectionType.Type)Enum.Parse(typeof(ConnectionType.Type), Convert.ToString(pCommand.SelectToken("type")));
+            var type = (ConnectionType)Enum.Parse(typeof(ConnectionType), Convert.ToString(pCommand.SelectToken("type")));
             var command = JsonConvert.DeserializeObject<Connection>(JsonConvert.SerializeObject(pCommand));
             switch (type)
             {
-                case ConnectionType.Type.SetId:
+                case ConnectionType.SetId:
                     Client.Id = command.Identification.Id;
                     return;
-                case ConnectionType.Type.GetType:
-                    var cmd = new Connection(CommandType.Type.Connection.ToString(), ConnectionType.Type.SetType.ToString(), new Identification(Client.Id, Client.Address, Client.Port, Client.Type, Client.Subtype));
+                case ConnectionType.GetType:
+                    var cmd = new Connection(CommandType.Connection.ToString(), ConnectionType.SetType.ToString(), new Identification(Client.Id, Client.Address, Client.Port, Client.Type, Client.Subtype));
                     Client.SendCmd(cmd.GetCommand());
                     return;
-                case ConnectionType.Type.Disconnect:
+                case ConnectionType.Disconnect:
                     Client.Disconnect();
                     return;
                 default:
@@ -67,11 +67,11 @@ namespace Communication
         private static void Synchronisation(JObject pCommand)
         {
             if (pCommand == null) throw new ArgumentNullException(nameof(pCommand));
-            var type = (SynchronisationType.Type) Enum.Parse(typeof(SynchronisationType.Type), Convert.ToString(pCommand.SelectToken("type")));
+            var type = (SynchronisationType) Enum.Parse(typeof(SynchronisationType), Convert.ToString(pCommand.SelectToken("type")));
             var command = JsonConvert.DeserializeObject<Synchronisation>(JsonConvert.SerializeObject(pCommand));
             switch (type)
             {
-                case SynchronisationType.Type.SetRobots:
+                case SynchronisationType.SetRobots:
                     RobotController.Robots = command.Robots;
                     RobotController.Updated = true;
                     return;

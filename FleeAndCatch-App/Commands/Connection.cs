@@ -11,18 +11,14 @@ namespace Commands
 {
     public class Connection : Command
     {
-        [JsonProperty("identification")]
-        private Identification identification;
-
         /// <summary>
         /// Create an object of a connection command.
         /// </summary>
         /// <param name="pId">Id as command type.</param>
         /// <param name="pType">Type as connaction type.</param>
         /// <param name="pClient">Client for representation of the device.</param>
-        public Connection(string pId, string pType, Identification pIdentification) : base(pId, pType)
+        public Connection(string pId, string pType, Identification pIdentification) : base(pId, pType, pIdentification)
         {
-            identification = pIdentification;
         }
 
         /// <summary>
@@ -42,26 +38,10 @@ namespace Commands
 
             return JsonConvert.SerializeObject(command);
         }
-
-        public Identification Identification => identification;
     }
 
-    public class ConnectionType : CommandType
+    public enum ConnectionType
     {
-        /// <summary>
-        /// Enumeration of connection type.
-        /// </summary>
-        public new enum Type
-        {
-            GetId, SetId, GetType, SetType, Disconnect
-        }
-
-        /// <summary>
-        /// Create an object of the conection type.
-        /// </summary>
-        /// <param name="pType">Type as connection type.</param>
-        public ConnectionType(Type pType) : base((CommandType.Type) pType)
-        {
-        }
+        GetId, SetId, GetType, SetType, Disconnect
     }
 }

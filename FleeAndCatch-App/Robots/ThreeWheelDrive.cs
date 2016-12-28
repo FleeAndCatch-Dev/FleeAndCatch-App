@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Commands;
-using ComponentType;
+using Component;
 
 namespace Robots
 {
     public class ThreeWheelDrive : Robot
     {
-        public ThreeWheelDrive(int pId, string pAddress, int pPort, Position pPosition, double pSpeed) : base(new Identification(pId, pAddress, pPort, IdentificationType.Type.Robot.ToString(), RobotType.Type.ThreeWheelDrive.ToString()), pPosition, pSpeed)
+        public ThreeWheelDrive(int pId, string pAddress, int pPort, Position pPosition, double pSpeed) : base(new Identification(pId, pAddress, pPort, ComponentType.IdentificationType.Robot.ToString(), ComponentType.RobotType.ThreeWheelDrive.ToString()), pPosition, pSpeed)
         {
         }
     }

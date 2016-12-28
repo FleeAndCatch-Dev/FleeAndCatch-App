@@ -6,8 +6,6 @@ namespace Commands
 {
     public class Synchronisation : Command
     {
-        [JsonProperty("identification")]
-        private Identification identification;
         [JsonProperty("robots")]
         private List<Robot> robots;
 
@@ -17,9 +15,8 @@ namespace Commands
         /// <param name="pId">Id as command type.</param>
         /// <param name="pType">Type as synchronisation type.</param>
         /// <param name="pClient">Client of represeenting the device.</param>
-        public Synchronisation(string pId, string pType, Identification pIdentification, List<Robot> pRobots) : base(pId, pType)
+        public Synchronisation(string pId, string pType, Identification pIdentification, List<Robot> pRobots) : base(pId, pType, pIdentification)
         {
-            identification = pIdentification;
             robots = pRobots;
         }
 
@@ -46,26 +43,11 @@ namespace Commands
             return JsonConvert.SerializeObject(command);
         }
 
-        public Identification Identification => identification;
         public List<Robot> Robots => robots;
     }
 
-    public class SynchronisationType : CommandType
+    public enum SynchronisationType
     {
-        /// <summary>
-        /// Enumeration of synchronisation type.
-        /// </summary>
-        public new enum Type
-        {
-            GetRobots, SetRobots
-        }
-
-        /// <summary>
-        /// Create an object of the synchronisation command.
-        /// </summary>
-        /// <param name="pType">Type as synchronisation type.</param>
-        public SynchronisationType(Type pType) : base((CommandType.Type) pType)
-        {
-        }
+        GetRobots, SetRobots
     }
 }
