@@ -64,9 +64,9 @@
       <Project>{f67ed5a4-0d5f-4855-9bb9-20e3fb2529f9}</Project>
       <Name>Commands</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ComponentType\ComponentType.csproj">
+    <ProjectReference Include="..\ComponentType\Components.csproj">
       <Project>{8bc0a34b-0700-404d-9b75-48d9de60f135}</Project>
-      <Name>ComponentType</Name>
+      <Name>Components</Name>
     </ProjectReference>
     <ProjectReference Include="..\Robots\Robots.csproj">
       <Project>{5f3719b4-c89d-42b2-a1f0-ee041560049f}</Project>

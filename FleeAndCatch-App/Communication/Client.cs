@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Commands;
-using ComponentType;
+using Component;
 using Newtonsoft.Json.Linq;
 using Sockets.Plugin;
 
@@ -16,8 +16,8 @@ namespace Communication
         private static int id;
         private static string address;
         private static int port;
-        private static string type = IdentificationType.Type.App.ToString();
-        private static string subtype = AppType.Type.App.ToString();
+        private static string type = ComponentType.IdentificationType.App.ToString();
+        private static string subtype = ComponentType.AppType.App.ToString();
 
         /// <summary>
         /// Create a new task with a new communication.
@@ -108,7 +108,7 @@ namespace Communication
         public static void Close()
         {
             if (!Connected) throw new Exception("There is no connection to the server");
-            var command = new Commands.Connection(CommandType.Type.Connection.ToString(), ConnectionType.Type.Disconnect.ToString(), new Identification(id, address, port, type, subtype));
+            var command = new Commands.Connection(CommandType.Connection.ToString(), ConnectionType.Disconnect.ToString(), new Identification(id, address, port, type, subtype));
             SendCmd(command.GetCommand());
         }
 

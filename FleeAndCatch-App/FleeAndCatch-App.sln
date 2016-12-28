@@ -25,7 +25,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Robots", "Robots\Robots.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands", "Commands\Commands.csproj", "{F67ED5A4-0D5F-4855-9BB9-20E3FB2529F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComponentType", "ComponentType\ComponentType.csproj", "{8BC0A34B-0700-404D-9B75-48D9DE60F135}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Components", "ComponentType\Components.csproj", "{8BC0A34B-0700-404D-9B75-48D9DE60F135}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

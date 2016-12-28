@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Commands;
-using ComponentType;
 using Xamarin.Forms;
 
 namespace FleeAndCatch_App.pages.content.control
