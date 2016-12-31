@@ -10,6 +10,7 @@ using FleeAndCatch_App.pages.content.control;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Robot = Commands.Devices.Robots.Robot;
+using Controller;
 
 namespace FleeAndCatch_App.pages.content
 {
@@ -34,7 +35,7 @@ namespace FleeAndCatch_App.pages.content
             if (Client.Connected)
             {
                 RobotController.Updated = false;
-                var command = new Synchronisation(CommandType.Synchronisation.ToString(), SynchronisationType.GetRobots.ToString(), new Identification(Client.Id, Client.Address, Client.Port, Client.Type, Client.Subtype), RobotController.Robots);
+                var command = new Synchronisation(CommandType.Synchronisation.ToString(), SynchronisationType.GetRobots.ToString(), Client.Identification, RobotController.Robots);
                 Client.SendCmd(command.GetCommand());
 
                 while (!RobotController.Updated)

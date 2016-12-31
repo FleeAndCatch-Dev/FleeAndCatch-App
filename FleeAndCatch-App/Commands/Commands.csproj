@@ -41,7 +41,6 @@
     <Compile Include="Devices\Apps\App.cs" />
     <Compile Include="Devices\Device.cs" />
     <Compile Include="Devices\Robots\Robot.cs" />
-    <Compile Include="Devices\Robots\Steering.cs" />
     <Compile Include="Devices\Robots\ThreeWheelDrive.cs" />
     <Compile Include="Identifications\Identification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

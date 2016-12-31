@@ -41,9 +41,9 @@ namespace Commands.Identifications
             var jsonIdentification = new JObject
             {
                 {"id", id},
+                {"type", type},
                 {"address", address},
-                {"port", port},
-                {"type", type}
+                {"port", port}
             };
             return jsonIdentification;
         }

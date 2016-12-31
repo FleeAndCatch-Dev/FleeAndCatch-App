@@ -7,6 +7,7 @@ using Commands.Devices.Robots;
 using Commands.Identifications;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using static Commands.Devices.Robots.Position;
 
 namespace Commands
 {
@@ -25,6 +26,12 @@ namespace Commands
 
         public override string GetCommand()
         {
+            var control = new JObject
+            {
+                {"robot", robot.GetJObject()},
+                {"control",  steering.GetJObject()}
+            };
+
             var command = new JObject
             {
                 {"id", id},
@@ -32,8 +39,7 @@ namespace Commands
                 {"apiid", apiid},
                 {"errorhandling", errorhandling},
                 {"identification", identification.GetJObject()},
-                {"robot", robot.GetJObject()},
-                {"control",  steering.GetJObject()}
+                {"control", control}
             };
 
             return JsonConvert.SerializeObject(command);

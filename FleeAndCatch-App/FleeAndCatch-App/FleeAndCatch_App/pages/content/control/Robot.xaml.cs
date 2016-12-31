@@ -27,10 +27,10 @@ namespace FleeAndCatch_App.pages.content.control
             Title = robot.Identification.Subtype;
 
             LId.Text = Convert.ToString(robot.Identification.Id);
-            LType.Text = robot.Identification.Type;
+            //LType.Text = robot.Identification.Type;
             LSubtype.Text = robot.Identification.Subtype;
-            LAddress.Text = robot.Identification.Address;
-            LPort.Text = Convert.ToString(robot.Identification.Port);
+            //LAddress.Text = robot.Identification.Address;
+            //LPort.Text = Convert.ToString(robot.Identification.Port);
 
             LX.Text = Convert.ToString(robot.Position.X);
             LY.Text = Convert.ToString(robot.Position.Y);

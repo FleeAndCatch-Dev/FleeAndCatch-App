@@ -139,6 +139,10 @@
       <Project>{fc900c31-f85d-443b-8e2e-42df41dcbc80}</Project>
       <Name>Communication</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Controller\Controller.csproj">
+      <Project>{51378A4E-920B-4614-8DFB-A3556A6E2506}</Project>
+      <Name>Controller</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="pages\SignIn.xaml">

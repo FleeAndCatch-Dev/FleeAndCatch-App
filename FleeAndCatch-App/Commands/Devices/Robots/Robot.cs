@@ -1,4 +1,5 @@
-﻿using Commands.Identifications;
+﻿using System;
+using Commands.Identifications;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -79,5 +80,42 @@ namespace Commands.Devices.Robots
         public double X => x;
         public double Y => y;
         public double Orientation => orientation;
+
+        public class Steering
+        {
+            [JsonProperty("direction")]
+            private string direction;
+            [JsonProperty("speed")]
+            private string speed;
+
+            public Steering(int pDirection, int pSpeed)
+            {
+                this.direction = ((DirectionType)pDirection).ToString();
+                this.speed = ((SpeedType)pSpeed).ToString();
+            }
+
+            public JObject GetJObject()
+            {
+                var jsonIdentification = new JObject
+            {
+                {"direction", direction},
+                {"speed", speed}
+            };
+                return jsonIdentification;
+            }
+
+            public string Directiond => direction;
+            public string Speed => speed;
+        }
+
+        public enum SpeedType
+        {
+            Slower = -1, Equal = 0, Faster = 1
+        }
+
+        public enum DirectionType
+        {
+            Left = -1, Equal = 0, Right = 1
+        }
     }
 }
