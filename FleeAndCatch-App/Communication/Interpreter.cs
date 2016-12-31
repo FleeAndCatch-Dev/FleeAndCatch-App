@@ -3,9 +3,11 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using Windows.Data.Json;
 using Commands;
+using Commands.Devices.Robots;
+using Commands.Identifications;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Robots;
+using Controller;
 
 namespace Communication
 {
@@ -46,10 +48,10 @@ namespace Communication
             switch (type)
             {
                 case ConnectionType.SetId:
-                    Client.Id = command.Identification.Id;
+                    Client.Identification.Id = command.Identification.Id;
                     return;
                 case ConnectionType.GetType:
-                    var cmd = new Connection(CommandType.Connection.ToString(), ConnectionType.SetType.ToString(), new Identification(Client.Id, Client.Address, Client.Port, Client.Type, Client.Subtype));
+                    var cmd = new Connection(CommandType.Connection.ToString(), ConnectionType.SetType.ToString(), Client.Identification, Client.App);
                     Client.SendCmd(cmd.GetCommand());
                     return;
                 case ConnectionType.Disconnect:

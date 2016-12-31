@@ -2,13 +2,14 @@
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Commands;
+using Commands.Components;
+using Commands.Devices.Robots;
+using Commands.Identifications;
 using Communication;
-using Component;
 using FleeAndCatch_App.pages.content.control;
-using Robots;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using Robot = Commands.Robot;
+using Robot = Commands.Devices.Robots.Robot;
 
 namespace FleeAndCatch_App.pages.content
 {
@@ -47,7 +48,7 @@ namespace FleeAndCatch_App.pages.content
                     var groupedRobot = new Group(Enum.GetNames(typeof(ComponentType.RobotType))[i]);
                     foreach (var t in RobotController.Robots)
                     {
-                        if(t.Identification.Subtype == Enum.GetNames(typeof(ComponentType.RobotType))[i])
+                        if(t.Identification.Subtype == Enum.GetNames(typeof(ComponentType.RobotType))[i] && !t.Active)
                             groupedRobot.Add(new Item(t.Identification.Id.ToString()));
                     }
                     groupedRobots.Insert(groupedRobots.Count, groupedRobot);

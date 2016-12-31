@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Commands.Identifications;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -19,14 +20,14 @@ namespace Commands
         [JsonProperty("errorhandling")]
         protected string errorhandling;
         [JsonProperty("identification")]
-        protected Identification identification;
+        protected ClientIdentification identification;
 
         /// <summary>
         /// Create an object of the command.
         /// </summary>
         /// <param name="pId">Id of command, as command type.</param>
         /// <param name="pType">Type of command, as different command subtype.</param>
-        protected Command(string pId, string pType, Identification pIdentification)
+        protected Command(string pId, string pType, ClientIdentification pIdentification)
         {
             this.id = pId;
             this.type = pType;
@@ -45,11 +46,11 @@ namespace Commands
         public string Type => type;
         public string ApiId => apiid;
         public string ErrorHandling => errorhandling;
-        public Identification Identification => identification;
+        public ClientIdentification Identification => identification;
     }
 
     public enum CommandType
     {
-        Connection, Synchronisation
+        Connection, Synchronisation, Control
     }
 }

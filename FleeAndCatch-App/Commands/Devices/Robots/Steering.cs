@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Commands
+namespace Commands.Devices.Robots
 {
     public class Steering
     {
@@ -13,6 +13,7 @@ namespace Commands
         public Steering(int pDirection, int pSpeed)
         {
             this.direction = (DirectionType) pDirection;
+            this.speed = (SpeedType) pSpeed;
         }
 
         public JObject GetJObject()

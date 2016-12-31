@@ -139,14 +139,6 @@
       <Project>{fc900c31-f85d-443b-8e2e-42df41dcbc80}</Project>
       <Name>Communication</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\ComponentType\Components.csproj">
-      <Project>{8bc0a34b-0700-404d-9b75-48d9de60f135}</Project>
-      <Name>Components</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Robots\Robots.csproj">
-      <Project>{5f3719b4-c89d-42b2-a1f0-ee041560049f}</Project>
-      <Name>Robots</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="pages\SignIn.xaml">

@@ -1,29 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Commands.Identifications;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Commands
+namespace Commands.Devices.Robots
 {
-    public class Robot
+    public class Robot : Device
     {
         [JsonProperty("identification")]
-        private Identification identification;
+        protected RobotIdentification identification;
+        [JsonProperty("active")]
+        protected bool active;
         [JsonProperty("position")]
-        private Position position;
+        protected Position position;
         [JsonProperty("speed")]
-        private double speed;
+        protected double speed;
 
         /// <summary>
         /// Create an object of an robot for a json command.
         /// </summary>
         /// <param name="pId">Id of the robot in communication.</param>
-        public Robot(Identification pIdentification, Position pPosition, double pSpeed)
+        public Robot(RobotIdentification pIdentification, bool pActive, Position pPosition, double pSpeed)
         {
             identification = pIdentification;
+            active = pActive;
             position = pPosition;
             speed = pSpeed;
         }
@@ -37,13 +36,15 @@ namespace Commands
             var jsonRobot = new JObject
             {
                 {"identification", identification.GetJObject()},
+                {"active", active},
                 { "position", position.GetJObject()},
                 {"speed", speed}
             };
             return jsonRobot;
         }
 
-        public Identification Identification => identification;
+        public RobotIdentification Identification => identification;
+        public bool Active => active;
         public Position Position => position;
         public double Speed => speed;
     }

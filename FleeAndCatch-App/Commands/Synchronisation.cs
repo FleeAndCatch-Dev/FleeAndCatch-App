@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using Commands.Devices.Robots;
+using Commands.Identifications;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -15,7 +17,7 @@ namespace Commands
         /// <param name="pId">Id as command type.</param>
         /// <param name="pType">Type as synchronisation type.</param>
         /// <param name="pClient">Client of represeenting the device.</param>
-        public Synchronisation(string pId, string pType, Identification pIdentification, List<Robot> pRobots) : base(pId, pType, pIdentification)
+        public Synchronisation(string pId, string pType, ClientIdentification pIdentification, List<Robot> pRobots) : base(pId, pType, pIdentification)
         {
             robots = pRobots;
         }

@@ -6,16 +6,18 @@ using System.Threading.Tasks;
 using DeviceMotion.Plugin;
 using DeviceMotion.Plugin.Abstractions;
 using System.Diagnostics;
+using Commands;
+using Communication;
 using Xamarin.Forms;
-using Robots;
 
 namespace FleeAndCatch_App.pages.content.control
 {
     public partial class Control : ContentPage
     {
-        private Commands.Robot robot;
+        private Commands.Devices.Robots.Robot robot;
+        private bool refresh;
 
-        public Control(Commands.Robot robot)
+        public Control(Commands.Devices.Robots.Robot robot)
         {
             InitializeComponent();
 
@@ -28,69 +30,86 @@ namespace FleeAndCatch_App.pages.content.control
             Title = Title + " " + Convert.ToString(robot.Identification.Id);
 
             CrossDeviceMotion.Current.Start(MotionSensorType.Accelerometer, MotionSensorDelay.Ui);
-            CrossDeviceMotion.Current.SensorValueChanged += (s, a) =>
-            {
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    switch (a.SensorType)
-                    {
-                        case MotionSensorType.Accelerometer:
+            CrossDeviceMotion.Current.SensorValueChanged += refreshView;
 
-                            LX.Text = ((MotionVector)a.Value).X.ToString("F");
-                            LY.Text = ((MotionVector)a.Value).Y.ToString("F");
-                            LZ.Text = ((MotionVector)a.Value).Z.ToString("F");
-                            break;
-                        case MotionSensorType.Gyroscope:
-                            break;
-                        case MotionSensorType.Magnetometer:
-                            break;
-                        case MotionSensorType.Compass:
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
-
-                    var x = Convert.ToDouble(((MotionVector)a.Value).X.ToString("F"));
-                    var y = Convert.ToDouble(((MotionVector)a.Value).Y.ToString("F"));
-                    var z = Convert.ToDouble(((MotionVector)a.Value).Z.ToString("F"));
-
-                    if (x <= 0.2 && x >= -0.2)
-                    {
-                        //Gerade aus
-                        if (y >= 0.1)
-                        {
-                            LResult.Text = "Langsamer";
-                        }
-                        else if (y <= -0.1)
-                        {
-                            LResult.Text = "Schneller";
-                        }
-                        else
-                        {
-                            LResult.Text = "Nichts";
-                        }
-                    }
-                    else
-                    {
-                        if (x >= 0.1)
-                        {
-                            LResult.Text = "Rechts";
-                        }
-                        else if (x <= -0.1)
-                        {
-                            LResult.Text = "Links";
-                        }
-                    }
-                });
-                    
-            };
+            refresh = true;
+            var refreshTask = new Task(Refresh);
+            refreshTask.Start();
         }
 
         protected override void OnDisappearing()
         {
+            refresh = false;
+            //var cmd = new Commands.Control(CommandType.Control.ToString(), ControlType.End.ToString(), new Identification(Client.Id, Client.Address, Client.Port, Client.Type, Client.Subtype), robot, new Steering(0, 0));
+            //Client.SendCmd(cmd.GetCommand());
             CrossDeviceMotion.Current.Stop(MotionSensorType.Accelerometer);
 
             base.OnDisappearing();
+        }
+
+        private void refreshView(object s, SensorValueChangedEventArgs a)
+        {
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                switch (a.SensorType)
+                {
+                    case MotionSensorType.Accelerometer:
+
+                        LX.Text = ((MotionVector)a.Value).X.ToString("F");
+                        LY.Text = ((MotionVector)a.Value).Y.ToString("F");
+                        LZ.Text = ((MotionVector)a.Value).Z.ToString("F");
+                        break;
+                    case MotionSensorType.Gyroscope:
+                        break;
+                    case MotionSensorType.Magnetometer:
+                        break;
+                    case MotionSensorType.Compass:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+
+                var x = Convert.ToDouble(((MotionVector)a.Value).X.ToString("F"));
+                var y = Convert.ToDouble(((MotionVector)a.Value).Y.ToString("F"));
+                var z = Convert.ToDouble(((MotionVector)a.Value).Z.ToString("F"));
+
+                if (x <= 0.2 && x >= -0.2)
+                {
+                    //Gerade aus
+                    if (y >= 0.1)
+                    {
+                        LResult.Text = "Langsamer";
+                    }
+                    else if (y <= -0.1)
+                    {
+                        LResult.Text = "Schneller";
+                    }
+                    else
+                    {
+                        LResult.Text = "Nichts";
+                    }
+                }
+                else
+                {
+                    if (x >= 0.1)
+                    {
+                        LResult.Text = "Rechts";
+                    }
+                    else if (x <= -0.1)
+                    {
+                        LResult.Text = "Links";
+                    }
+                }
+            });
+        }
+
+        private async void Refresh()
+        {
+            while (refresh)
+            {
+
+                await Task.Delay(TimeSpan.FromMilliseconds(5));
+            }
         }
     }
 }

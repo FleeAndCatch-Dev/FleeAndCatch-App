@@ -3,9 +3,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Commands;
-using Component;
+using Commands.Components;
+using Commands.Devices.Apps;
+using Commands.Identifications;
 using Newtonsoft.Json.Linq;
 using Sockets.Plugin;
+using static Commands.Components.ComponentType;
 
 namespace Communication
 {
@@ -13,11 +16,8 @@ namespace Communication
     {
         private static TcpSocketClient tcpSocketClient;
         private static bool connected;
-        private static int id;
-        private static string address;
-        private static int port;
-        private static string type = ComponentType.IdentificationType.App.ToString();
-        private static string subtype = ComponentType.AppType.App.ToString();
+        private static ClientIdentification identification;
+        private static App app;
 
         /// <summary>
         /// Create a new task with a new communication.
@@ -27,8 +27,8 @@ namespace Communication
             ParseAddress(pAddress);
 
             tcpSocketClient = new TcpSocketClient();
-            address = pAddress;
-            port = Default.Port;
+            identification = new ClientIdentification(0, IdentificationType.App.ToString(), pAddress, Default.Port);
+            app = new App(new AppIdentification(0, RoleType.Undefined.ToString()));
             connected = false;
 
             if (connected) throw new Exception("Connection to the server is already exist");
@@ -41,7 +41,7 @@ namespace Communication
         /// </summary>
         private static async void Listen()
         {
-            await tcpSocketClient.ConnectAsync(address, port);
+            await tcpSocketClient.ConnectAsync(identification.Address, identification.Port);
 
             connected = true;
             while (connected)
@@ -108,7 +108,7 @@ namespace Communication
         public static void Close()
         {
             if (!Connected) throw new Exception("There is no connection to the server");
-            var command = new Commands.Connection(CommandType.Connection.ToString(), ConnectionType.Disconnect.ToString(), new Identification(id, address, port, type, subtype));
+            var command = new Connection(CommandType.Connection.ToString(), ConnectionType.Disconnect.ToString(), identification, app);
             SendCmd(command.GetCommand());
         }
 
@@ -149,15 +149,7 @@ namespace Communication
         }
 
         public static bool Connected => connected;
-        public static string Address => address;
-        public static int Port => port;
-        public static string Type => type;
-        public static string Subtype => subtype;
-
-        public static int Id
-        {
-            get { return id; }
-            set { id = value; }
-        }
+        public static ClientIdentification Identification => identification;
+        public static App App => app;
     }
 }
