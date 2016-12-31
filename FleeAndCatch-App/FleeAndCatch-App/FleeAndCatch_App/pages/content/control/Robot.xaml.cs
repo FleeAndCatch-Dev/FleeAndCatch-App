@@ -43,7 +43,7 @@ namespace FleeAndCatch_App.pages.content.control
         {
             //var cmd = new Commands.Control(CommandType.Control.ToString(), ControlType.Begin.ToString(), new Identification(Client.Id, Client.Address, Client.Port, Client.Type, Client.Subtype), robot, new Steering(0, 0));
             //Client.SendCmd(cmd.GetCommand());
-
+            //
             await Navigation.PushAsync(new pages.content.control.Control(robot));
         }
     }
