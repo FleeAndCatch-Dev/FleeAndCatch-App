@@ -1,11 +1,14 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Commands;
+using Commands.Devices.Robots;
 using Communication;
 using Xamarin.Forms;
+using static Commands.Devices.Robots.Position;
 
 namespace FleeAndCatch_App.pages.content.control
 {
@@ -41,9 +44,9 @@ namespace FleeAndCatch_App.pages.content.control
 
         private async void BStart_OnClicked(object sender, EventArgs e)
         {
-            //var cmd = new Commands.Control(CommandType.Control.ToString(), ControlType.Begin.ToString(), new Identification(Client.Id, Client.Address, Client.Port, Client.Type, Client.Subtype), robot, new Steering(0, 0));
-            //Client.SendCmd(cmd.GetCommand());
-            //
+            var cmd = new Commands.Control(CommandType.Control.ToString(), ControlType.Begin.ToString(), Client.Identification, robot, new Steering(0, 0));
+            Client.SendCmd(cmd.GetCommand());
+            
             await Navigation.PushAsync(new pages.content.control.Control(robot));
         }
     }

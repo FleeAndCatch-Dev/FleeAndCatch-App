@@ -3,6 +3,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using Windows.Data.Json;
 using Commands;
+using Commands.Devices;
 using Commands.Devices.Robots;
 using Commands.Identifications;
 using Newtonsoft.Json;
@@ -44,15 +45,18 @@ namespace Communication
         {
             if (pCommand == null) throw new ArgumentNullException(nameof(pCommand));
             var type = (ConnectionType)Enum.Parse(typeof(ConnectionType), Convert.ToString(pCommand.SelectToken("type")));
+
+
             var command = JsonConvert.DeserializeObject<Connection>(JsonConvert.SerializeObject(pCommand));
+
+            //var command = JsonConvert.DeserializeObject<Connection>(JsonConvert.SerializeObject(pCommand), new IdentificationJsonConverter(typeof(Identification)));
+
+            //Employee newEmployee = JsonConvert.DeserializeObject<Employee>(json, new KeysJsonConverter(typeof(Employee)));
+
             switch (type)
             {
-                case ConnectionType.SetId:
+                case ConnectionType.Connect:
                     Client.Identification.Id = command.Identification.Id;
-                    return;
-                case ConnectionType.GetType:
-                    var cmd = new Connection(CommandType.Connection.ToString(), ConnectionType.SetType.ToString(), Client.Identification, Client.App);
-                    Client.SendCmd(cmd.GetCommand());
                     return;
                 case ConnectionType.Disconnect:
                     Client.Disconnect();

@@ -28,7 +28,7 @@ namespace Communication
 
             tcpSocketClient = new TcpSocketClient();
             identification = new ClientIdentification(0, IdentificationType.App.ToString(), pAddress, Default.Port);
-            app = new App(new AppIdentification(0, RoleType.Undefined.ToString()));
+            app = new App(new AppIdentification(0, IdentificationType.App.ToString(), RoleType.Undefined.ToString()));
             connected = false;
 
             if (connected) throw new Exception("Connection to the server is already exist");
@@ -42,8 +42,11 @@ namespace Communication
         private static async void Listen()
         {
             await tcpSocketClient.ConnectAsync(identification.Address, identification.Port);
-
             connected = true;
+
+            var command = new Connection(CommandType.Connection.ToString(), ConnectionType.Connect.ToString(), identification, app);
+            SendCmd(command.GetCommand());
+
             while (connected)
             {
                 Interpreter.Parse(ReceiveCmd());

@@ -14,6 +14,7 @@ namespace Commands
     public class Connection : Command
     {
         [JsonProperty("device")]
+        [JsonConverter(typeof(DeviceConverter))]
         private Device device;
 
         /// <summary>
@@ -49,6 +50,6 @@ namespace Commands
 
     public enum ConnectionType
     {
-        GetId, SetId, GetType, SetType, Disconnect
+        Connect, Disconnect
     }
 }

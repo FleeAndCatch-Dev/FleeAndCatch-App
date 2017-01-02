@@ -4,12 +4,12 @@
     {
         public enum IdentificationType
         {
-            App, Robot
+            Undefined, App, Robot
         }
 
         public enum RobotType
         {
-            ThreeWheelDrive, FourWheelDrive, ChainDrive
+            Undefined, ThreeWheelDrive, FourWheelDrive, ChainDrive
         }
 
         public enum RoleType

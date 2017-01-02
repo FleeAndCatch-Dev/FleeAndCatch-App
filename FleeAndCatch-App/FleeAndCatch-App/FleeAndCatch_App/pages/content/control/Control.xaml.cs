@@ -9,6 +9,7 @@ using System.Diagnostics;
 using Commands;
 using Communication;
 using Xamarin.Forms;
+using static Commands.Devices.Robots.Position;
 
 namespace FleeAndCatch_App.pages.content.control
 {
@@ -40,8 +41,8 @@ namespace FleeAndCatch_App.pages.content.control
         protected override void OnDisappearing()
         {
             refresh = false;
-            //var cmd = new Commands.Control(CommandType.Control.ToString(), ControlType.End.ToString(), new Identification(Client.Id, Client.Address, Client.Port, Client.Type, Client.Subtype), robot, new Steering(0, 0));
-            //Client.SendCmd(cmd.GetCommand());
+            var cmd = new Commands.Control(CommandType.Control.ToString(), ControlType.End.ToString(), Client.Identification, robot, new Steering(0, 0));
+            Client.SendCmd(cmd.GetCommand());
             CrossDeviceMotion.Current.Stop(MotionSensorType.Accelerometer);
 
             base.OnDisappearing();

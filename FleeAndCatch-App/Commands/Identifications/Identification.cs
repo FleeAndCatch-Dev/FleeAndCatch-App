@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Commands.Components;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Serialization;
 
 namespace Commands.Identifications
 {
@@ -9,6 +12,8 @@ namespace Commands.Identifications
     {
         [JsonProperty("id")]
         protected int id;
+        [JsonProperty("type")]
+        protected string type;
 
         public abstract JObject GetJObject();
 
@@ -17,16 +22,20 @@ namespace Commands.Identifications
             get { return id; }
             set { id = value; }
         }
+
+        public string Type => type;
     }
 
     public class ClientIdentification : Identification
     {
-        [JsonProperty("type")]
-        private string type;
         [JsonProperty("address")]
         private string address;
         [JsonProperty("port")]
         private int port;
+
+        public ClientIdentification()
+        {
+        }
 
         public ClientIdentification(int pId, string pType, string pAddress, int pPort)
         {
@@ -48,7 +57,6 @@ namespace Commands.Identifications
             return jsonIdentification;
         }
 
-        public string Type => type;
         public string Address => address;
         public int Port => port;
     }
@@ -60,9 +68,15 @@ namespace Commands.Identifications
         [JsonProperty("roletype")]
         private string roletype;
 
-        public RobotIdentification(int pId, string pSubType, string pRoleType)
+        public RobotIdentification()
+        {
+            
+        }
+
+        public RobotIdentification(int pId, string pType, string pSubType, string pRoleType)
         {
             id = pId;
+            type = Enum.GetName(typeof(ComponentType.IdentificationType), ((ComponentType.IdentificationType)Enum.Parse(typeof(ComponentType.IdentificationType), pType)));
             subtype = Enum.GetName(typeof(ComponentType.RobotType), ((ComponentType.RobotType)Enum.Parse(typeof(ComponentType.RobotType), pSubType)));
             roletype = Enum.GetName(typeof(ComponentType.RoleType), ((ComponentType.RoleType)Enum.Parse(typeof(ComponentType.RoleType), pRoleType)));
         }
@@ -72,6 +86,7 @@ namespace Commands.Identifications
             var jsonIdentification = new JObject
             {
                 {"id", id},
+                {"type", type},
                 {"subtype", subtype},
                 {"roletype", roletype}
             };
@@ -87,9 +102,15 @@ namespace Commands.Identifications
         [JsonProperty("roletype")]
         private string roletype;
 
-        public AppIdentification(int pId, string pRoleType)
+        public AppIdentification()
+        {
+            
+        }
+
+        public AppIdentification(int pId, string pType, string pRoleType)
         {
             id = pId;
+            type = Enum.GetName(typeof(ComponentType.IdentificationType), ((ComponentType.IdentificationType)Enum.Parse(typeof(ComponentType.IdentificationType), pType)));
             roletype = Enum.GetName(typeof(ComponentType.RoleType), ((ComponentType.RoleType)Enum.Parse(typeof(ComponentType.RoleType), pRoleType)));
         }
 
@@ -98,6 +119,7 @@ namespace Commands.Identifications
             var jsonIdentification = new JObject
             {
                 {"id", id},
+                {"type", type},
                 {"roletype", roletype}
             };
             return jsonIdentification;
