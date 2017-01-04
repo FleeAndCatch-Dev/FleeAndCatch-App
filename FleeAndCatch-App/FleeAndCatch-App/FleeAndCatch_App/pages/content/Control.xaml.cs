@@ -35,12 +35,12 @@ namespace FleeAndCatch_App.pages.content
             if (Client.Connected)
             {
                 RobotController.Updated = false;
-                var command = new Synchronisation(CommandType.Synchronisation.ToString(), SynchronisationType.GetRobots.ToString(), Client.Identification, RobotController.Robots);
+                var command = new Synchronization(CommandType.Synchronization.ToString(), SynchronizationType.Robots.ToString(), Client.Identification, RobotController.Robots);
                 Client.SendCmd(command.GetCommand());
 
                 while (!RobotController.Updated)
                 {
-                    await Task.Delay(TimeSpan.FromMilliseconds(5));
+                    await Task.Delay(TimeSpan.FromMilliseconds(10));
                 }       
 
                 var groupedRobots = new ObservableCollection<Group>();

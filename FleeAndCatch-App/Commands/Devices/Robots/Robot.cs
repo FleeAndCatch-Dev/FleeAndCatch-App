@@ -115,7 +115,7 @@ namespace Commands.Devices.Robots
 
         public enum DirectionType
         {
-            Left = -1, Equal = 0, Right = 1
+            Left = -1, StraightOn = 0, Right = 1
         }
     }
 }

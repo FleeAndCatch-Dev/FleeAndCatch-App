@@ -6,7 +6,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Commands
 {
-    public class Synchronisation : Command
+    public class Synchronization : Command
     {
         [JsonProperty("robots")]
         private List<Robot> robots;
@@ -17,7 +17,7 @@ namespace Commands
         /// <param name="pId">Id as command type.</param>
         /// <param name="pType">Type as synchronisation type.</param>
         /// <param name="pClient">Client of represeenting the device.</param>
-        public Synchronisation(string pId, string pType, ClientIdentification pIdentification, List<Robot> pRobots) : base(pId, pType, pIdentification)
+        public Synchronization(string pId, string pType, ClientIdentification pIdentification, List<Robot> pRobots) : base(pId, pType, pIdentification)
         {
             robots = pRobots;
         }
@@ -48,8 +48,8 @@ namespace Commands
         public List<Robot> Robots => robots;
     }
 
-    public enum SynchronisationType
+    public enum SynchronizationType
     {
-        GetRobots, SetRobots
+        Robots
     }
 }

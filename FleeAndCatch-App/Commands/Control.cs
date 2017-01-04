@@ -26,12 +26,6 @@ namespace Commands
 
         public override string GetCommand()
         {
-            var control = new JObject
-            {
-                {"robot", robot.GetJObject()},
-                {"control",  steering.GetJObject()}
-            };
-
             var command = new JObject
             {
                 {"id", id},
@@ -39,7 +33,8 @@ namespace Commands
                 {"apiid", apiid},
                 {"errorhandling", errorhandling},
                 {"identification", identification.GetJObject()},
-                {"control", control}
+                {"robot", robot.GetJObject()},
+                {"steering",  steering.GetJObject()}
             };
 
             return JsonConvert.SerializeObject(command);
@@ -48,6 +43,6 @@ namespace Commands
 
     public enum ControlType
     {
-        Begin, End, Start, Stop
+        Begin, End, Start, Stop, Control
     }
 }

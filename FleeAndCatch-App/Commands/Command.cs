@@ -51,6 +51,6 @@ namespace Commands
 
     public enum CommandType
     {
-        Connection, Synchronisation, Control
+        Connection, Synchronization, Control
     }
 }

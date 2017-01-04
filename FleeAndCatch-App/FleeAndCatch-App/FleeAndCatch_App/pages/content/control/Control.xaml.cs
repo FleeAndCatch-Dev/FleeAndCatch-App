@@ -6,16 +6,23 @@ using System.Threading.Tasks;
 using DeviceMotion.Plugin;
 using DeviceMotion.Plugin.Abstractions;
 using System.Diagnostics;
+using System.Threading;
 using Commands;
+using Commands.Components;
 using Communication;
 using Xamarin.Forms;
 using static Commands.Devices.Robots.Position;
+using UIKit;
 
 namespace FleeAndCatch_App.pages.content.control
 {
     public partial class Control : ContentPage
     {
         private Commands.Devices.Robots.Robot robot;
+        private SpeedType speed;
+        private DirectionType direction;
+        private CancellationToken token;
+        private Task refreshTask;
         private bool refresh;
 
         public Control(Commands.Devices.Robots.Robot robot)
@@ -34,8 +41,17 @@ namespace FleeAndCatch_App.pages.content.control
             CrossDeviceMotion.Current.SensorValueChanged += refreshView;
 
             refresh = true;
-            var refreshTask = new Task(Refresh);
-            refreshTask.Start();
+            //refreshTask = new Task(Refresh);
+            //refreshTask = new Task(Refresh);
+            //refreshTask.Start();
+
+            Device.StartTimer(TimeSpan.FromMilliseconds(100), () =>
+            {
+                Commands.Control cmd = new Commands.Control(CommandType.Control.ToString(), ControlType.Control.ToString(), Client.Identification, robot, new Steering((int)direction, (int)speed));
+                Client.SendCmd(cmd.GetCommand());
+                return true;
+            });
+
         }
 
         protected override void OnDisappearing()
@@ -79,15 +95,19 @@ namespace FleeAndCatch_App.pages.content.control
                     //Gerade aus
                     if (y >= 0.1)
                     {
-                        LResult.Text = "Langsamer";
+                        LResult.Text = "Schneller";
+                        speed = SpeedType.Faster;
                     }
                     else if (y <= -0.1)
                     {
-                        LResult.Text = "Schneller";
+                        LResult.Text = "Langsamer";
+                        speed = SpeedType.Slower;
                     }
                     else
                     {
                         LResult.Text = "Nichts";
+                        direction = DirectionType.StraightOn;
+                        speed = SpeedType.Equal;
                     }
                 }
                 else
@@ -95,22 +115,33 @@ namespace FleeAndCatch_App.pages.content.control
                     if (x >= 0.1)
                     {
                         LResult.Text = "Rechts";
+                        direction = DirectionType.Right;
                     }
                     else if (x <= -0.1)
                     {
                         LResult.Text = "Links";
+                        direction = DirectionType.Left;
                     }
                 }
             });
         }
 
-        private async void Refresh()
+        private void Refresh()
         {
-            while (refresh)
+            /*for (long i = 0; i < long.MaxValue; i++)
             {
+                Commands.Control cmd = new Commands.Control(CommandType.Control.ToString(), ControlType.Control.ToString(), Client.Identification, robot, new Steering((int)direction, (int)speed));
+                Client.SendCmd(cmd.GetCommand());
+                refreshTask.Wait(50);
+            }*/
 
-                await Task.Delay(TimeSpan.FromMilliseconds(5));
-            }
+
+            //while (refresh)
+            //{
+                
+            //    //await Task.Delay(TimeSpan.FromMilliseconds(50), token);
+            //}
+            
         }
     }
 }

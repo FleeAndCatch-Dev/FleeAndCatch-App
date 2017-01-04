@@ -29,9 +29,11 @@ namespace Communication
                 case CommandType.Connection:
                     Connection(jsonCommand);
                     return;
-                case CommandType.Synchronisation:
-                    Synchronisation(jsonCommand);
+                case CommandType.Synchronization:
+                    Synchronization(jsonCommand);
                     return;
+                case CommandType.Control:
+                    throw new ArgumentOutOfRangeException();
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -70,14 +72,14 @@ namespace Communication
         /// Parse a synchronisation command.
         /// </summary>
         /// <param name="pCommand"></param>
-        private static void Synchronisation(JObject pCommand)
+        private static void Synchronization(JObject pCommand)
         {
             if (pCommand == null) throw new ArgumentNullException(nameof(pCommand));
-            var type = (SynchronisationType) Enum.Parse(typeof(SynchronisationType), Convert.ToString(pCommand.SelectToken("type")));
-            var command = JsonConvert.DeserializeObject<Synchronisation>(JsonConvert.SerializeObject(pCommand));
+            var type = (SynchronizationType) Enum.Parse(typeof(SynchronizationType), Convert.ToString(pCommand.SelectToken("type")));
+            var command = JsonConvert.DeserializeObject<Synchronization>(JsonConvert.SerializeObject(pCommand));
             switch (type)
             {
-                case SynchronisationType.SetRobots:
+                case SynchronizationType.Robots:
                     RobotController.Robots = command.Robots;
                     RobotController.Updated = true;
                     return;

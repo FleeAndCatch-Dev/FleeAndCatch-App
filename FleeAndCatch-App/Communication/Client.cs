@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Commands;
 using Commands.Components;
+using Commands.Devices;
 using Commands.Devices.Apps;
 using Commands.Identifications;
 using Newtonsoft.Json.Linq;
@@ -17,7 +18,7 @@ namespace Communication
         private static TcpSocketClient tcpSocketClient;
         private static bool connected;
         private static ClientIdentification identification;
-        private static App app;
+        private static Device device;
 
         /// <summary>
         /// Create a new task with a new communication.
@@ -28,7 +29,7 @@ namespace Communication
 
             tcpSocketClient = new TcpSocketClient();
             identification = new ClientIdentification(0, IdentificationType.App.ToString(), pAddress, Default.Port);
-            app = new App(new AppIdentification(0, IdentificationType.App.ToString(), RoleType.Undefined.ToString()));
+            device = new App(new AppIdentification(0, IdentificationType.App.ToString(), RoleType.Undefined.ToString()));
             connected = false;
 
             if (connected) throw new Exception("Connection to the server is already exist");
@@ -44,7 +45,7 @@ namespace Communication
             await tcpSocketClient.ConnectAsync(identification.Address, identification.Port);
             connected = true;
 
-            var command = new Connection(CommandType.Connection.ToString(), ConnectionType.Connect.ToString(), identification, app);
+            var command = new Connection(CommandType.Connection.ToString(), ConnectionType.Connect.ToString(), identification, device);
             SendCmd(command.GetCommand());
 
             while (connected)
@@ -111,7 +112,7 @@ namespace Communication
         public static void Close()
         {
             if (!Connected) throw new Exception("There is no connection to the server");
-            var command = new Connection(CommandType.Connection.ToString(), ConnectionType.Disconnect.ToString(), identification, app);
+            var command = new Connection(CommandType.Connection.ToString(), ConnectionType.Disconnect.ToString(), identification, device);
             SendCmd(command.GetCommand());
         }
 
@@ -153,6 +154,6 @@ namespace Communication
 
         public static bool Connected => connected;
         public static ClientIdentification Identification => identification;
-        public static App App => app;
+        public static Device Device => Device;
     }
 }
