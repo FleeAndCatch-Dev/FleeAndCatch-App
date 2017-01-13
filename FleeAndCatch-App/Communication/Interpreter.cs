@@ -47,13 +47,7 @@ namespace Communication
         {
             if (pCommand == null) throw new ArgumentNullException(nameof(pCommand));
             var type = (ConnectionType)Enum.Parse(typeof(ConnectionType), Convert.ToString(pCommand.SelectToken("type")));
-
-
             var command = JsonConvert.DeserializeObject<Connection>(JsonConvert.SerializeObject(pCommand));
-
-            //var command = JsonConvert.DeserializeObject<Connection>(JsonConvert.SerializeObject(pCommand), new IdentificationJsonConverter(typeof(Identification)));
-
-            //Employee newEmployee = JsonConvert.DeserializeObject<Employee>(json, new KeysJsonConverter(typeof(Employee)));
 
             switch (type)
             {

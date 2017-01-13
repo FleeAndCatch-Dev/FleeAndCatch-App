@@ -81,10 +81,9 @@ namespace FleeAndCatch_App.pages
 
                 Device.BeginInvokeOnMainThread(() =>
                 {
-                    var page = new NavigationPage(new CarouselPage
+                    var page = new NavigationPage(new Home
                     {
-                        Title = "FleeAndCatch",
-                        Children = { new Home(), new Spectator(), new Control(), new Szenario()}
+                        Title = "FleeAndCatch"
                     })
                     {
                         BarBackgroundColor = Color.FromHex("#008B8B"),

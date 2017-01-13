@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FleeAndCatch_App.pages.content.home.szenario.selection.control.Control"
+             Title="Control">
+
+    <ContentPage.Content>
+
+        <Grid x:Name="grid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="4*"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+
+            <!--Image-->
+            <Grid Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Image Grid.Row="1" Grid.Column="1" Source="FleeAndCatch_Logo.png"/>
+            </Grid>
+
+            <!--Main-->
+            <StackLayout Grid.Row="1" Orientation="Vertical" Padding="10, 0">
+                <Label Text="Identification:"/>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10">
+                    <Label x:Name="LId"/>
+                    <Label x:Name="LType"/>
+                    <Label x:Name="LSubtype"/>
+                    <Label x:Name="LRoletype"/>
+                </StackLayout>
+                <Label Text="Position:"/>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10">
+                    <Label x:Name="LX"/>
+                    <Label x:Name="LY"/>
+                    <Label x:Name="LOrientation"/>
+                </StackLayout>
+                <Label Text="Speed:"/>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10">
+                    <Label x:Name="LSpeed"/>
+                </StackLayout>
+            </StackLayout>
+
+            <!--Button-->
+            <Button x:Name="BChange" Grid.Column="0" Text="Stop" TextColor="White" BackgroundColor="#8B0000" Margin="-2,-2" FontAttributes="Bold" FontSize="16" Clicked="BChange_OnClicked"/>
+        </Grid>
+        
+        <!--<Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Row="0" Grid.Column="1" Text="X:"/>
+                <Label x:Name="LX" Grid.Row="0" Grid.Column="2"/>
+                <Label Grid.Row="1" Grid.Column="1" Text="Y:"/>
+                <Label x:Name="LY" Grid.Row="1" Grid.Column="2"/>
+                <Label Grid.Row="2" Grid.Column="1" Text="Z:"/>
+                <Label x:Name="LZ" Grid.Row="2" Grid.Column="2"/>
+            </Grid>
+            <Label x:Name="LResult" Grid.Row="1"/>
+        </Grid>-->
+
+    </ContentPage.Content>
+</ContentPage>

@@ -1,17 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="FleeAndCatch_App.pages.content.Szenario"
-             Title="Szenario">
+             x:Class="FleeAndCatch_App.pages.content.home.szenario.NewSzenario"
+             Title="New Szenario">
+
     <ContentPage.Content>
 
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
+                <RowDefinition Height="2*"/>
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="1*"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
             <!--Image-->
@@ -32,9 +34,17 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Label Grid.Column="1" Text="Comming soon" FontAttributes="Bold" FontSize="20" TextColor="#000080"/>
+                <Label Grid.Column="1" Text="New Szenario" FontAttributes="Bold" FontSize="20" TextColor="#000080"/>
             </Grid>
-        </Grid>
 
+            <ScrollView Grid.Row="5" Margin="-2,-4,-2,-2">
+                <StackLayout Orientation="Vertical" Spacing="0">
+                    <Button x:Name="BControl" Text="Control" HeightRequest="50" Margin="0,0,0,-1" TextColor="White" BackgroundColor="#008B8B" FontAttributes="Bold" FontSize="16" Clicked="BControl_OnClicked"/>
+                    <Button x:Name="BSynchron" Text="Synchron" HeightRequest="50" Margin="0,-1,0,-1" TextColor="White" BackgroundColor="#008080" FontAttributes="Bold" FontSize="16" Clicked="BSynchron_OnClicked"/>
+                    <Button x:Name="BFollow" Text="Follow" HeightRequest="50" Margin="0,-1,0,0" TextColor="White" BackgroundColor="#008080" FontAttributes="Bold" FontSize="16" Clicked="BFollow_OnClicked"/>
+                </StackLayout>
+            </ScrollView>
+        </Grid>
+        
     </ContentPage.Content>
 </ContentPage>

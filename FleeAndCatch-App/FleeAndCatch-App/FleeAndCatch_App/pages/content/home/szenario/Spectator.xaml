@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="FleeAndCatch_App.pages.content.Spectator"
+             x:Class="FleeAndCatch_App.pages.content.home.szenario.Spectator"
              Title="Spectator">
+
     <ContentPage.Content>
 
         <Grid>
@@ -34,8 +35,7 @@
 
                 <Label Grid.Column="1" Text="Comming soon" FontAttributes="Bold" FontSize="20" TextColor="#000080"/>
             </Grid>
-
         </Grid>
-
+        
     </ContentPage.Content>
 </ContentPage>

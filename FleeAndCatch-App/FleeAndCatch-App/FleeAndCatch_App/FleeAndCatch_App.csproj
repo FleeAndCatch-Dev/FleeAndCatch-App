@@ -38,11 +38,12 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="pages\content\control\Control.xaml.cs">
+    <Compile Include="enums\Szenario.cs" />
+    <Compile Include="pages\content\home\szenario\selection\control\Control.xaml.cs">
       <DependentUpon>Control.xaml</DependentUpon>
     </Compile>
-    <Compile Include="pages\content\control\Robot.xaml.cs">
-      <DependentUpon>Robot.xaml</DependentUpon>
+    <Compile Include="pages\content\home\szenario\selection\RobotInformation.xaml.cs">
+      <DependentUpon>RobotInformation.xaml</DependentUpon>
     </Compile>
     <Compile Include="pages\content\Help.xaml.cs">
       <DependentUpon>Help.xaml</DependentUpon>
@@ -50,13 +51,16 @@
     <Compile Include="pages\content\Home.xaml.cs">
       <DependentUpon>Home.xaml</DependentUpon>
     </Compile>
-    <Compile Include="pages\content\Control.xaml.cs">
-      <DependentUpon>Control.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="pages\content\Szenario.xaml.cs">
+    <Compile Include="pages\content\home\Szenario.xaml.cs">
       <DependentUpon>Szenario.xaml</DependentUpon>
     </Compile>
-    <Compile Include="pages\content\Spectator.xaml.cs">
+    <Compile Include="pages\content\home\szenario\NewSzenario.xaml.cs">
+      <DependentUpon>NewSzenario.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="pages\content\home\szenario\Robots.xaml.cs">
+      <DependentUpon>Robots.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="pages\content\home\szenario\Spectator.xaml.cs">
       <DependentUpon>Spectator.xaml</DependentUpon>
     </Compile>
     <Compile Include="pages\SignIn.xaml.cs">
@@ -109,15 +113,15 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="SQLitePCLRaw.batteries_green, Version=1.0.0.0, Culture=neutral, PublicKeyToken=a84b7dcfb1391f7f, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SQLitePCLRaw.bundle_green.1.1.1\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SQLitePCLRaw.batteries_green.dll</HintPath>
+      <HintPath>..\..\packages\SQLitePCLRaw.bundle_green.1.1.2\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SQLitePCLRaw.batteries_green.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="SQLitePCLRaw.batteries_v2, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8226ea5df37bcae9, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SQLitePCLRaw.bundle_green.1.1.1\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SQLitePCLRaw.batteries_v2.dll</HintPath>
+      <HintPath>..\..\packages\SQLitePCLRaw.bundle_green.1.1.2\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SQLitePCLRaw.batteries_v2.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="SQLitePCLRaw.core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=1488e028ca7ab535, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SQLitePCLRaw.core.1.1.1\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SQLitePCLRaw.core.dll</HintPath>
+      <HintPath>..\..\packages\SQLitePCLRaw.core.1.1.2\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SQLitePCLRaw.core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xamarin.Forms.Core, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -166,37 +170,43 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="pages\content\Spectator.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="pages\content\Help.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="pages\content\Control.xaml">
+    <EmbeddedResource Include="pages\content\home\Szenario.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="pages\content\Szenario.xaml">
+    <EmbeddedResource Include="pages\content\home\szenario\Spectator.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="pages\content\control\Robot.xaml">
+    <EmbeddedResource Include="pages\content\home\szenario\NewSzenario.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="pages\content\control\Control.xaml">
+    <EmbeddedResource Include="pages\content\home\szenario\Robots.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="pages\content\home\szenario\selection\control\Control.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="pages\content\home\szenario\selection\RobotInformation.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

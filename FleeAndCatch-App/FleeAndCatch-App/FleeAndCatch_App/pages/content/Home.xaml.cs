@@ -17,6 +17,11 @@ namespace FleeAndCatch_App.pages.content
             await Navigation.PushAsync(new Help());
         }
 
+        private async void BSzenario_OnClicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new home.Szenario());
+        }
+
         private async void BLogOut_OnClicked(object sender, EventArgs e)
         {
             if (Client.Connected)
