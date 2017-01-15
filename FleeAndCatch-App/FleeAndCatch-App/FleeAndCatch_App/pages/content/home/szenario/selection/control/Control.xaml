@@ -51,7 +51,7 @@
             </StackLayout>
 
             <!--Button-->
-            <Button x:Name="BChange" Grid.Column="0" Text="Stop" TextColor="White" BackgroundColor="#8B0000" Margin="-2,-2" FontAttributes="Bold" FontSize="16" Clicked="BChange_OnClicked"/>
+            <Button Grid.Row="2" x:Name="BChange" Text="Stop" TextColor="White" BackgroundColor="#8B0000" Margin="-2,-2" FontAttributes="Bold" FontSize="16" Clicked="BChange_OnClicked"/>
         </Grid>
         
         <!--<Grid>

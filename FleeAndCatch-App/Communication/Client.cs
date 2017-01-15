@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Commands;
 using Commands.Components;
@@ -19,6 +20,8 @@ namespace Communication
         private static bool connected;
         private static ClientIdentification identification;
         private static Device device;
+
+        //private static SemaphoreSlim tcpSocketClientSemaphore = new SemaphoreSlim(1, 1);
 
         /// <summary>
         /// Create a new task with a new communication.
@@ -60,12 +63,14 @@ namespace Communication
         /// <returns>String: Json command</returns>
         private static string ReceiveCmd()
         {
+
             var size = new byte[4];
 
             tcpSocketClient.ReadStream.Read(size, 0, size.Length);
 
-            var length = size.Select((t, i) => (int) (t*Math.Pow(128, i))).Sum();
+            var length = size.Select((t, i) => (int)(t * Math.Pow(128, i))).Sum();
             var data = new byte[length];
+
             tcpSocketClient.ReadStream.Read(data, 0, data.Length);
 
             return Encoding.UTF8.GetString(data, 0, data.Length);
@@ -88,7 +93,7 @@ namespace Communication
                 size[size.Length - (i + 1)] = (byte) (rest/Math.Pow(128, size.Length - (i + 1)));
                 rest = (int) (rest%Math.Pow(128, size.Length - (i + 1)));
             }
-                
+
             tcpSocketClient.WriteStream.Write(size, 0, size.Length);
             await tcpSocketClient.WriteStream.FlushAsync();
 

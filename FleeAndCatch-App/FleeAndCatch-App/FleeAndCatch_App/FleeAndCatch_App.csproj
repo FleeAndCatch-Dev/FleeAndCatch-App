@@ -38,7 +38,6 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="enums\Szenario.cs" />
     <Compile Include="pages\content\home\szenario\selection\control\Control.xaml.cs">
       <DependentUpon>Control.xaml</DependentUpon>
     </Compile>

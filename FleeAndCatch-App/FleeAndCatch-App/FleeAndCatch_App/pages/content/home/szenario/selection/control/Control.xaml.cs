@@ -38,7 +38,7 @@ namespace FleeAndCatch_App.pages.content.home.szenario.selection.control
             CrossDeviceMotion.Current.SensorValueChanged += RefreshView;
 
             refresh = true;
-            Device.StartTimer(TimeSpan.FromMilliseconds(50), NewControlCmd);
+            Device.StartTimer(TimeSpan.FromMilliseconds(20), NewControlCmd);
         }
 
         protected override void OnDisappearing()
@@ -70,7 +70,10 @@ namespace FleeAndCatch_App.pages.content.home.szenario.selection.control
                         z = Convert.ToDouble(((MotionVector)a.Value).Z.ToString("F"));
                         break;
                     case TargetPlatform.Windows:
-                        await DisplayAlert("Error", "Not supported OS", "OK");
+                        x = Convert.ToDouble(((MotionVector)a.Value).X.ToString("F"));
+                        y = Convert.ToDouble(((MotionVector)a.Value).Y.ToString("F"));
+                        z = Convert.ToDouble(((MotionVector)a.Value).Z.ToString("F"));
+                        //await DisplayAlert("Error", "Not supported OS", "OK");
                         break;
                     case TargetPlatform.Android:
                         x = Convert.ToDouble(((MotionVector)a.Value).X.ToString("F")) / 10;

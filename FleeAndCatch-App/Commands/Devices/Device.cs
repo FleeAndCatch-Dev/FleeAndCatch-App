@@ -25,6 +25,7 @@ namespace Commands.Devices
         {
             object device = null;
 
+            //Specification for the desrialisation of the device
             try
             {
                 device = serializer.Deserialize<App>(reader);
