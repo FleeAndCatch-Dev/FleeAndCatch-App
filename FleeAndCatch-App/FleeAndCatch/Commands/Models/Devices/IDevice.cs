@@ -1,0 +1,58 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using FleeAndCatch.Commands.Models.Devices.Apps;
+using FleeAndCatch.Commands.Models.Devices.Robots;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+
+namespace FleeAndCatch.Commands.Models.Devices
+{
+    public interface IDevice
+    {
+        JObject GetJObject();
+    }
+
+    public class DeviceConverter : JsonConverter
+    {
+        public override bool CanConvert(Type objectType)
+        {
+            return (objectType == typeof(IDevice));
+        }
+
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            object device = null;
+
+            //Specification for the desrialisation of the device
+            try
+            {
+                device = serializer.Deserialize<App>(reader);
+            }
+            catch
+            {
+                device = serializer.Deserialize<Robot>(reader);
+            }
+
+            return device;
+        }
+
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            /*JToken t = JToken.FromObject(value);
+            if (t.Type != JTokenType.Object)
+            {
+                t.WriteTo(writer);
+            }
+            else
+            {
+                Object o = (JObject)t;
+                IList<string> propertyNames = o.Properties().Select(p => p.Name).ToList();
+                o.AddFirst(new JProperty("Keys", new JArray(propertyNames)));
+                o.WriteTo(writer);
+            }*/
+        }
+    }
+}

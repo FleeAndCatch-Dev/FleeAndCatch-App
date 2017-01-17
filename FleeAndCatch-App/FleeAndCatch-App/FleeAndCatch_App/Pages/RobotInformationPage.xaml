@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FleeAndCatch_App.Pages.RobotInformationPage"
+             Title="FleeAndCatch">
+
+    <StackLayout Orientation="Vertical">
+        <StackLayout x:Name="ViewOrientation" Orientation="Vertical" VerticalOptions="Start">
+            <StackLayout Padding="20" HorizontalOptions="Center" VerticalOptions="Center">
+                <Image Source="FleeAndCatch_Logo.png" HeightRequest="100" WidthRequest="100"/>
+            </StackLayout>
+            <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Padding="10, 0">
+                <Label Text="Identification:"/>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10">
+                    <Label Text="{Binding Robot.Identification.Id}"/>
+                    <Label Text="{Binding Robot.Identification.Type}"/>
+                    <Label Text="{Binding Robot.Identification.Subtype}"/>
+                    <Label Text="{Binding Robot.Identification.Roletype}"/>
+                </StackLayout>
+                <Label Text="Position:"/>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10">
+                    <Label Text="{Binding Robot.Position.X}"/>
+                    <Label Text="{Binding Robot.Position.Y}"/>
+                    <Label Text="{Binding Robot.Position.Orientation}"/>
+                </StackLayout>
+                <Label Text="Speed:"/>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10">
+                    <Label Text="{Binding Robot.Speed}"/>
+                </StackLayout>
+            </StackLayout>
+        </StackLayout>
+        <Button x:Name="BStart" Text="Start" TextColor="White" HeightRequest="50" BackgroundColor="#008B8B" Margin="-2,-2" FontAttributes="Bold" FontSize="16" HorizontalOptions="Center" VerticalOptions="End" Command="{Binding BStart_OnCommand}"/>
+    </StackLayout>
+</ContentPage>

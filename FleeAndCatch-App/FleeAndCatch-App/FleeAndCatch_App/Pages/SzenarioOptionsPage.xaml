@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FleeAndCatch_App.Pages.SzenarioOptionsPage"
+             Title="Szenario options">
+    
+    <StackLayout Orientation="Vertical">
+        <StackLayout x:Name="ViewOrientation" Orientation="Vertical" VerticalOptions="StartAndExpand">
+            <StackLayout Padding="20" HorizontalOptions="Center" VerticalOptions="Center">
+                <Image Source="FleeAndCatch_Logo.png" HeightRequest="150" WidthRequest="150"/>
+            </StackLayout>
+            <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="Center">
+                <Label Text="Choose a szenario" FontAttributes="Bold" FontSize="20" TextColor="#000080"/>
+            </StackLayout>
+        </StackLayout>
+        <Button x:Name="BControl" Text="Control" HeightRequest="50" Margin="-2,-4" TextColor="White" BackgroundColor="#008B8B" FontAttributes="Bold" FontSize="16" Command="{Binding BControl_OnCommand}"/>
+        <Button x:Name="BSynchron" Text="Synchron" HeightRequest="50" Margin="-2,-4" TextColor="White" BackgroundColor="#008080" FontAttributes="Bold" FontSize="16" Command="{Binding BSynchron_OnCommand}"/>
+        <Button x:Name="BFollow" Text="Follow" HeightRequest="50" Margin="-2,-4,-2,-2" TextColor="White" BackgroundColor="#008080" FontAttributes="Bold" FontSize="16" Command="{Binding BFollow_OnCommand}"/>
+    </StackLayout>
+</ContentPage>

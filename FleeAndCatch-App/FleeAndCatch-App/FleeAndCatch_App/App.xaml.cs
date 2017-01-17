@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Communication;
-using FleeAndCatch_App.pages;
-using FleeAndCatch_App.sqlite;
-using FleeAndCatch_App.sqlite.database;
+using FleeAndCatch_App.PageModels;
+using FleeAndCatch_App.SQLite;
+using FleeAndCatch_App.SQLite.Database;
 using Xamarin.Forms;
 
 namespace FleeAndCatch_App
@@ -16,12 +15,13 @@ namespace FleeAndCatch_App
         {
             InitializeComponent();
 
-            var page = new NavigationPage(new SignIn())
+            var page = FreshMvvm.FreshPageModelResolver.ResolvePageModel<SignInPageModel>();
+            var navigation = new FreshMvvm.FreshNavigationContainer(page)
             {
                 BarBackgroundColor = Color.FromHex("#008B8B"),
                 BarTextColor = Color.White
             };
-            MainPage = page;
+            MainPage = navigation;
         }
 
         protected override void OnStart()
