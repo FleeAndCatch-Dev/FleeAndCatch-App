@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PropertyChanged;
 using Xamarin.Forms;
 
 namespace FleeAndCatch_App.PageModels
 {
+    [ImplementPropertyChanged]
     public class SzenarioPageModel : FreshMvvm.FreshBasePageModel
     {
         public SzenarioPageModel()

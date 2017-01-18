@@ -8,14 +8,18 @@ using DeviceMotion.Plugin.Abstractions;
 using FleeAndCatch.Commands;
 using FleeAndCatch.Commands.Models.Devices.Robots;
 using FleeAndCatch_App.Communication;
+using PropertyChanged;
 using Xamarin.Forms;
 using Command = Xamarin.Forms.Command;
 
 namespace FleeAndCatch_App.PageModels
 {
+    [ImplementPropertyChanged]
     public class ControlPageModel : FreshMvvm.FreshBasePageModel
     {
         public Robot Robot { get; set; }
+        public string Change { get; set; }
+        public Color ChangeColor { get; set; }
         private Steering.SpeedType speed;
         private Steering.DirectionType direction;
         private bool refresh;
@@ -36,6 +40,9 @@ namespace FleeAndCatch_App.PageModels
         {
             base.ViewIsAppearing(sender, e);
 
+            Change = "Stop";
+            ChangeColor = Color.FromHex("#8B0000");
+
             CrossDeviceMotion.Current.Start(MotionSensorType.Accelerometer, MotionSensorDelay.Ui);
             CrossDeviceMotion.Current.SensorValueChanged += RefreshView;
 
@@ -48,9 +55,9 @@ namespace FleeAndCatch_App.PageModels
             refresh = false;
             CrossDeviceMotion.Current.Stop(MotionSensorType.Accelerometer);
 
-            var cmd = new Control(CommandType.Control.ToString(), ControlType.End.ToString(), Client.Identification, Robot, new Steering(0, 0));
-            Client.SendCmd(cmd.GetCommand());
-            CoreMethods.RemoveFromNavigation<RobotInformationPageModel>();
+            /*var cmd = new Control(CommandType.Control.ToString(), ControlType.End.ToString(), Client.Identification, Robot, new Steering(0, 0));
+            Client.SendCmd(cmd.GetCommand());*/
+            //CoreMethods.PopToRoot(false);
 
             base.ViewIsDisappearing(sender, e);
         }
@@ -61,24 +68,24 @@ namespace FleeAndCatch_App.PageModels
             {
                 return new Command(() =>
                 {
-                    /*if (Math.Abs(robot.Speed) < 1)
+                    if (Math.Abs(Robot.Speed) < 1)
                     {
                         //Start
-                        BChange.Text = "Stop";
-                        BChange.BackgroundColor = Color.FromHex("#8B0000");
+                        Change = "Stop";
+                        ChangeColor = Color.FromHex("#8B0000");
 
-                        FleeAndCatch.Commands.Control cmd = new FleeAndCatch.Commands.Control(CommandType.Control.ToString(), ControlType.Start.ToString(), Client.Identification, robot, new Position.Steering((int)direction, (int)speed));
+                        var cmd = new Control(CommandType.Control.ToString(), ControlType.Start.ToString(), Client.Identification, Robot, new Steering((int)direction, (int)speed));
                         Client.SendCmd(cmd.GetCommand());
                     }
                     else
                     {
                         //Stop
-                        BChange.Text = "Start";
-                        BChange.BackgroundColor = Color.FromHex("#006400");
+                        Change = "Start";
+                        ChangeColor = Color.FromHex("#006400");
 
-                        FleeAndCatch.Commands.Control cmd = new FleeAndCatch.Commands.Control(CommandType.Control.ToString(), ControlType.Stop.ToString(), Client.Identification, robot, new Position.Steering((int)direction, (int)speed));
+                        var cmd = new Control(CommandType.Control.ToString(), ControlType.Stop.ToString(), Client.Identification, Robot, new Steering((int)direction, 0));
                         Client.SendCmd(cmd.GetCommand());
-                    }*/
+                    }
                 });
             }
         }
@@ -86,8 +93,12 @@ namespace FleeAndCatch_App.PageModels
         private bool NewControlCmd()
         {
             if (!refresh) return false;
-            var cmd = new Control(CommandType.Control.ToString(), ControlType.Control.ToString(), Client.Identification, Robot, new Steering((int)direction, (int)speed));
-            Client.SendCmd(cmd.GetCommand());
+            var robotList = new List<Robot> {Robot};
+
+            var cmdSync = new Synchronization(CommandType.Synchronization.ToString(), SynchronizationType.Current.ToString(), Client.Identification, robotList);
+            Client.SendCmd(cmdSync.GetCommand());
+            var cmdCtrl = new Control(CommandType.Control.ToString(), ControlType.Control.ToString(), Client.Identification, Robot, new Steering((int)direction, (int)speed));
+            Client.SendCmd(cmdCtrl.GetCommand());
             return true;
         }
 
@@ -100,20 +111,13 @@ namespace FleeAndCatch_App.PageModels
                 switch (Device.OS)
                 {
                     case TargetPlatform.WinPhone:
-                        x = Convert.ToDouble(((MotionVector)e.Value).X.ToString("F"));
-                        y = Convert.ToDouble(((MotionVector)e.Value).Y.ToString("F"));
-                        z = Convert.ToDouble(((MotionVector)e.Value).Z.ToString("F"));
-                        break;
                     case TargetPlatform.Windows:
                         x = Convert.ToDouble(((MotionVector)e.Value).X.ToString("F"));
                         y = Convert.ToDouble(((MotionVector)e.Value).Y.ToString("F"));
-                        z = Convert.ToDouble(((MotionVector)e.Value).Z.ToString("F"));
-                        //await DisplayAlert("Error", "Not supported OS", "OK");
                         break;
                     case TargetPlatform.Android:
                         x = Convert.ToDouble(((MotionVector)e.Value).X.ToString("F")) / 10;
                         y = Convert.ToDouble(((MotionVector)e.Value).Y.ToString("F")) / 10;
-                        z = Convert.ToDouble(((MotionVector)e.Value).Z.ToString("F")) / 10;
                         break;
                     case TargetPlatform.iOS:
                         await CoreMethods.DisplayAlert("Error", "Not supported OS", "OK");

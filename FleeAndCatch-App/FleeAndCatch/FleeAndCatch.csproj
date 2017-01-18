@@ -47,6 +47,7 @@
     <Compile Include="Commands\Models\Identification.cs" />
     <Compile Include="Commands\Synchronisation.cs" />
     <Compile Include="Components\ComponentType.cs" />
+    <Compile Include="Exceptions\Exception.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

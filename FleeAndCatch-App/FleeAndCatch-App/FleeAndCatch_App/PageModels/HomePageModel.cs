@@ -5,10 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using FleeAndCatch_App.Communication;
 using FleeAndCatch_App.Pages;
+using PropertyChanged;
 using Xamarin.Forms;
 
 namespace FleeAndCatch_App.PageModels
 {
+    [ImplementPropertyChanged]
     public class HomePageModel : FreshMvvm.FreshBasePageModel
     {
         public HomePageModel()

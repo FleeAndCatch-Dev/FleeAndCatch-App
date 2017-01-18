@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Acr.UserDialogs;
 using FleeAndCatch_App.Models;
 using FleeAndCatch_App.SQLite;
 using Xamarin.Forms;
 using FleeAndCatch_App.Communication;
+using PropertyChanged;
 
 namespace FleeAndCatch_App.PageModels
 {
+    [ImplementPropertyChanged]
     public class SignInPageModel : FreshMvvm.FreshBasePageModel
     {
         public Connection Connection { get; set; }
@@ -49,6 +52,7 @@ namespace FleeAndCatch_App.PageModels
                 {
                     if (!string.IsNullOrEmpty(Connection.Address))
                     {
+                        UserDialogs.Instance.ShowLoading();
                         var connectionTask = new Task(Connect);
                         connectionTask.Start();
                     }
@@ -100,8 +104,8 @@ namespace FleeAndCatch_App.PageModels
                     }
                 }
 
-                Device.BeginInvokeOnMainThread(() =>
-                {
+                Device.BeginInvokeOnMainThread(() => {
+                    UserDialogs.Instance.HideLoading();
                     var page = FreshMvvm.FreshPageModelResolver.ResolvePageModel<HomePageModel>();
                     var navigation = new FreshMvvm.FreshNavigationContainer(page)
                     {
@@ -113,7 +117,10 @@ namespace FleeAndCatch_App.PageModels
             }
             catch (Exception ex)
             {
-                await CoreMethods.DisplayAlert("Error", ex.Message, "OK");
+                Device.BeginInvokeOnMainThread(async () => {
+                    UserDialogs.Instance.HideLoading();
+                    await CoreMethods.DisplayAlert("Error", ex.Message, "OK");
+                });
             }
         }
     }

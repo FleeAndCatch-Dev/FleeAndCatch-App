@@ -5,7 +5,7 @@
              Title="FleeAndCatch">
     
     <StackLayout Orientation="Vertical">
-        <StackLayout x:Name="ViewOrientation" Orientation="Vertical" VerticalOptions="Start">
+        <StackLayout x:Name="ViewOrientation" Orientation="Vertical" VerticalOptions="StartAndExpand">
             <StackLayout Padding="20" HorizontalOptions="Center" VerticalOptions="Center">
                 <Image Source="FleeAndCatch_Logo.png" HeightRequest="100" WidthRequest="100"/>
             </StackLayout>
@@ -29,6 +29,6 @@
                 </StackLayout>
             </StackLayout>
         </StackLayout>
-        <Button x:Name="BChange" Text="Stop" TextColor="White" HeightRequest="50" BackgroundColor="#8B0000" Margin="-2,-2" FontAttributes="Bold" FontSize="16" Command="{Binding BChange_OnCommand}"/>
+        <Button x:Name="BChange" Text="{Binding Change}" TextColor="White" HeightRequest="50" BackgroundColor="{Binding ChangeColor}" Margin="-2,-2" FontAttributes="Bold" FontSize="16" Command="{Binding BChange_OnCommand}"/>
     </StackLayout>
 </ContentPage>

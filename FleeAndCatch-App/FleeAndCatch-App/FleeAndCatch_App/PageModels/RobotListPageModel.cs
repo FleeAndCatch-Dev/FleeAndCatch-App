@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Acr.UserDialogs;
 using Android.Content.Res;
 using FleeAndCatch.Commands;
 using FleeAndCatch.Commands.Models.Devices.Robots;
@@ -12,11 +13,10 @@ using FleeAndCatch_App.Controller;
 using FleeAndCatch_App.Models;
 using PropertyChanged;
 using Xamarin.Forms;
-using Command = Xamarin.Forms.Command;
-using static FleeAndCatch.Commands.Models.Devices.Robots.Position;
 
 namespace FleeAndCatch_App.PageModels
 {
+    [ImplementPropertyChanged]
     public class RobotListPageModel : FreshMvvm.FreshBasePageModel
     {
         public List<RobotGroup> RobotGroupList { get; set; }
@@ -35,6 +35,7 @@ namespace FleeAndCatch_App.PageModels
         {
             base.ViewIsAppearing(sender, e);
 
+            UserDialogs.Instance.ShowLoading();
             var connectionTask = new Task(UpdateRobotList);
             connectionTask.Start();
         }
@@ -56,12 +57,16 @@ namespace FleeAndCatch_App.PageModels
                     var cmd = new Control(CommandType.Control.ToString(), ControlType.Begin.ToString(), Client.Identification, robot, new Steering(0, 0));
                     Client.SendCmd(cmd.GetCommand());
 
-                    CoreMethods.PushPageModel<RobotInformationPageModel>(robot);
-                    RaisePropertyChanged();
+                    Device.BeginInvokeOnMainThread(() => {
+                        UserDialogs.Instance.HideLoading();
+                        CoreMethods.PushPageModel<RobotInformationPageModel>(robot);
+                        RaisePropertyChanged();
+                    });
                     return;
                 }
                 Device.BeginInvokeOnMainThread(async () =>
                 {
+                    UserDialogs.Instance.HideLoading();
                     await CoreMethods.DisplayAlert("Error", "There isn't a robot of that group", "OK");
                 });
             }
@@ -72,11 +77,15 @@ namespace FleeAndCatch_App.PageModels
             if (Client.Connected)
             {
                 RobotController.Updated = false;
-                var command = new Synchronization(CommandType.Synchronization.ToString(), SynchronizationType.Robots.ToString(), Client.Identification, RobotController.Robots);
+                var command = new Synchronization(CommandType.Synchronization.ToString(), SynchronizationType.All.ToString(), Client.Identification, RobotController.Robots);
                 Client.SendCmd(command.GetCommand());
+
+                UserDialogs.Instance.ShowLoading();
 
                 while (!RobotController.Updated)
                     await Task.Delay(TimeSpan.FromMilliseconds(10));
+
+                UserDialogs.Instance.HideLoading();
 
                 RobotGroupList = new List<RobotGroup>();
 

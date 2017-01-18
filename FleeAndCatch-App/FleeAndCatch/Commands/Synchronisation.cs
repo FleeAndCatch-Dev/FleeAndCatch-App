@@ -54,6 +54,6 @@ namespace FleeAndCatch.Commands
 
     public enum SynchronizationType
     {
-        Robots
+        All, Current
     }
 }
