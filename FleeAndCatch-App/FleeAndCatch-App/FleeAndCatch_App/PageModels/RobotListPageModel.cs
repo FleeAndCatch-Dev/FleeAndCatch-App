@@ -13,6 +13,7 @@ using FleeAndCatch_App.Controller;
 using FleeAndCatch_App.Models;
 using PropertyChanged;
 using Xamarin.Forms;
+using Command = Xamarin.Forms.Command;
 
 namespace FleeAndCatch_App.PageModels
 {
@@ -80,12 +81,13 @@ namespace FleeAndCatch_App.PageModels
                 var command = new Synchronization(CommandType.Synchronization.ToString(), SynchronizationType.All.ToString(), Client.Identification, RobotController.Robots);
                 Client.SendCmd(command.GetCommand());
 
-                UserDialogs.Instance.ShowLoading();
+                Device.BeginInvokeOnMainThread( () =>
+                {
+                    UserDialogs.Instance.ShowLoading();
+                });
 
                 while (!RobotController.Updated)
                     await Task.Delay(TimeSpan.FromMilliseconds(10));
-
-                UserDialogs.Instance.HideLoading();
 
                 RobotGroupList = new List<RobotGroup>();
 
@@ -99,10 +101,15 @@ namespace FleeAndCatch_App.PageModels
                     }
                     RobotGroupList.Insert(RobotGroupList.Count, new RobotGroup { Name = Enum.GetNames(typeof(ComponentType.RobotType))[i], Number = counter });
                 }
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    UserDialogs.Instance.HideLoading();
+                });
                 return;
             }
             Device.BeginInvokeOnMainThread(async () =>
             {
+                UserDialogs.Instance.HideLoading();
                 await CoreMethods.DisplayAlert("Error", "Ups, there is something wrong, please start the application again", "OK");
             });
         }

@@ -4,7 +4,7 @@
              x:Class="FleeAndCatch_App.Pages.RobotListPage"
              Title="FleeAndCatch">
 
-    <ListView ItemsSource="{Binding RobotGroupList}" HasUnevenRows="True" IsRefreshing="True" SelectedItem="{Binding RobotList_OnItemSelected, Mode=TwoWay}">
+    <ListView ItemsSource="{Binding RobotGroupList}" HasUnevenRows="True" SelectedItem="{Binding RobotList_OnItemSelected, Mode=TwoWay}">
         <ListView.ItemTemplate>
             <DataTemplate>
                 <ViewCell>

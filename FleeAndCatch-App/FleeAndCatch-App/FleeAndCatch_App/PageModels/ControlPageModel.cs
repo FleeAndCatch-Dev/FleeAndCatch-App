@@ -8,6 +8,7 @@ using DeviceMotion.Plugin.Abstractions;
 using FleeAndCatch.Commands;
 using FleeAndCatch.Commands.Models.Devices.Robots;
 using FleeAndCatch_App.Communication;
+using FleeAndCatch_App.Controller;
 using PropertyChanged;
 using Xamarin.Forms;
 using Command = Xamarin.Forms.Command;
@@ -20,6 +21,7 @@ namespace FleeAndCatch_App.PageModels
         public Robot Robot { get; set; }
         public string Change { get; set; }
         public Color ChangeColor { get; set; }
+        public ImageSource ImageSource { get; set; }
         private Steering.SpeedType speed;
         private Steering.DirectionType direction;
         private bool refresh;
@@ -47,7 +49,7 @@ namespace FleeAndCatch_App.PageModels
             CrossDeviceMotion.Current.SensorValueChanged += RefreshView;
 
             refresh = true;
-            Device.StartTimer(TimeSpan.FromMilliseconds(50), NewControlCmd);
+            Device.StartTimer(TimeSpan.FromMilliseconds(30), NewControlCmd);
         }
 
         protected override void ViewIsDisappearing(object sender, EventArgs e)
@@ -55,9 +57,16 @@ namespace FleeAndCatch_App.PageModels
             refresh = false;
             CrossDeviceMotion.Current.Stop(MotionSensorType.Accelerometer);
 
-            /*var cmd = new Control(CommandType.Control.ToString(), ControlType.End.ToString(), Client.Identification, Robot, new Steering(0, 0));
-            Client.SendCmd(cmd.GetCommand());*/
-            //CoreMethods.PopToRoot(false);
+            var cmd = new Control(CommandType.Control.ToString(), ControlType.End.ToString(), Client.Identification, Robot, new Steering(0, 0));
+            Client.SendCmd(cmd.GetCommand());
+
+            var page = FreshMvvm.FreshPageModelResolver.ResolvePageModel<HomePageModel>();
+            var navigation = new FreshMvvm.FreshNavigationContainer(page)
+            {
+                BarBackgroundColor = Color.FromHex("#008B8B"),
+                BarTextColor = Color.White
+            };
+            Application.Current.MainPage = navigation;
 
             base.ViewIsDisappearing(sender, e);
         }
@@ -93,10 +102,17 @@ namespace FleeAndCatch_App.PageModels
         private bool NewControlCmd()
         {
             if (!refresh) return false;
-            var robotList = new List<Robot> {Robot};
 
-            var cmdSync = new Synchronization(CommandType.Synchronization.ToString(), SynchronizationType.Current.ToString(), Client.Identification, robotList);
-            Client.SendCmd(cmdSync.GetCommand());
+            foreach (var t in RobotController.Robots)
+            {
+                if (t.Identification == Robot.Identification)
+                    Robot = t;
+            }
+
+            var robotList = new List<Robot> { Robot };
+
+            /*var cmdSync = new Synchronization(CommandType.Synchronization.ToString(), SynchronizationType.Current.ToString(), Client.Identification, robotList);
+            Client.SendCmd(cmdSync.GetCommand());*/
             var cmdCtrl = new Control(CommandType.Control.ToString(), ControlType.Control.ToString(), Client.Identification, Robot, new Steering((int)direction, (int)speed));
             Client.SendCmd(cmdCtrl.GetCommand());
             return true;
@@ -135,22 +151,36 @@ namespace FleeAndCatch_App.PageModels
                     {
                         //Gerade aus
                         if (y >= 0.25)
+                        {
                             speed = Steering.SpeedType.Faster;
+                            ImageSource = ImageSource.FromFile("Images/ic_expand_less_black_48dp.png");
+                        } 
                         else if (y <= -0.25)
+                        {
                             speed = Steering.SpeedType.Slower;
+                            ImageSource = ImageSource.FromFile("Images/ic_expand_more_black_48dp.png");
+                        } 
                         else
                         {
                             direction = Steering.DirectionType.StraightOn;
                             speed = Steering.SpeedType.Equal;
+                            ImageSource = ImageSource.FromFile("");
                         }
                     }
                     else
                     {
                         //Drehen
                         if (x >= 0.25)
+                        {
                             direction = Steering.DirectionType.Right;
+                            ImageSource = ImageSource.FromFile("Images/ic_chevron_right_black_48dp.png");
+                        }                            
                         else if (x <= -0.25)
+                        {
                             direction = Steering.DirectionType.Left;
+                            ImageSource = ImageSource.FromFile("Images/ic_chevron_left_black_48dp.png");
+                        }
+                            
                     }
                 }
                 else if (Device.Idiom == TargetIdiom.Tablet)

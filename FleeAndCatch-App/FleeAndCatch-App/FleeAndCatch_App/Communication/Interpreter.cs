@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FleeAndCatch.Commands;
+using FleeAndCatch.Commands.Models.Devices.Robots;
 using FleeAndCatch_App.Controller;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -71,9 +72,19 @@ namespace FleeAndCatch_App.Communication
             var command = JsonConvert.DeserializeObject<Synchronization>(JsonConvert.SerializeObject(pCommand));
             switch (type)
             {
-                case SynchronizationType.Robots:
+                case SynchronizationType.All:
                     RobotController.Robots = command.Robots;
                     RobotController.Updated = true;
+                    return;
+                case SynchronizationType.Current:
+                    for (var i = 0; i < RobotController.Robots.Count; i++)
+                    {
+                        foreach (var t in command.Robots)
+                        {
+                            if (RobotController.Robots[i].Identification == t.Identification)
+                                RobotController.Robots[i] = t;
+                        }
+                    }
                     return;
                 default:
                     throw new ArgumentOutOfRangeException();

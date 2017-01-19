@@ -112,6 +112,10 @@
   <ItemGroup>
     <Content Include="FleeAndCatch_Logo.png" />
     <Content Include="FodyWeavers.xml" />
+    <Content Include="Images\ic_chevron_left_black_48dp.png" />
+    <Content Include="Images\ic_chevron_right_black_48dp.png" />
+    <Content Include="Images\ic_expand_less_black_48dp.png" />
+    <Content Include="Images\ic_expand_more_black_48dp.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

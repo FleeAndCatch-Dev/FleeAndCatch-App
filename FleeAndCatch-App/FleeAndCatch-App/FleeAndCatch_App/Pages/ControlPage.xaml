@@ -9,7 +9,7 @@
             <StackLayout Padding="20" HorizontalOptions="Center" VerticalOptions="Center">
                 <Image Source="FleeAndCatch_Logo.png" HeightRequest="100" WidthRequest="100"/>
             </StackLayout>
-            <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Padding="10, 0">
+            <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="Center" Padding="10, 0">
                 <Label Text="Identification:"/>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10">
                     <Label Text="{Binding Robot.Identification.Id}"/>
@@ -27,6 +27,9 @@
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10">
                     <Label Text="{Binding Robot.Speed}"/>
                 </StackLayout>
+            </StackLayout>
+            <StackLayout Padding="20" VerticalOptions="CenterAndExpand">
+                <Image Source="{Binding ImageSource}" HeightRequest="80" WidthRequest="80" VerticalOptions="Center" HorizontalOptions="Center"/>
             </StackLayout>
         </StackLayout>
         <Button x:Name="BChange" Text="{Binding Change}" TextColor="White" HeightRequest="50" BackgroundColor="{Binding ChangeColor}" Margin="-2,-2" FontAttributes="Bold" FontSize="16" Command="{Binding BChange_OnCommand}"/>

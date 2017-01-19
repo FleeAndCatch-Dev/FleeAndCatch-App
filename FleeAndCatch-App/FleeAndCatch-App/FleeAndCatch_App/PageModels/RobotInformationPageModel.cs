@@ -27,14 +27,6 @@ namespace FleeAndCatch_App.PageModels
             Robot = initData as Robot;
         }
 
-        protected override void ViewIsDisappearing(object sender, EventArgs e)
-        {
-            var cmd = new Control(CommandType.Control.ToString(), ControlType.End.ToString(), Client.Identification, Robot, new Steering(0, 0));
-            Client.SendCmd(cmd.GetCommand());
-
-            base.ViewIsDisappearing(sender, e);
-        }
-
         public Command BStart_OnCommand
         {
             get
