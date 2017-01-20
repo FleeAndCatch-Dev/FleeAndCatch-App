@@ -38,14 +38,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\Command.cs" />
-    <Compile Include="Commands\Connection.cs" />
-    <Compile Include="Commands\Control.cs" />
+    <Compile Include="Commands\ConnectionCommand.cs" />
+    <Compile Include="Commands\ExceptionCommand.cs" />
+    <Compile Include="Commands\Models\Szenarios\Control.cs" />
     <Compile Include="Commands\Models\Devices\Apps\App.cs" />
     <Compile Include="Commands\Models\Devices\IDevice.cs" />
     <Compile Include="Commands\Models\Devices\Robots\Robot.cs" />
     <Compile Include="Commands\Models\Devices\Robots\ThreeWheelDrive.cs" />
     <Compile Include="Commands\Models\Identification.cs" />
-    <Compile Include="Commands\Synchronisation.cs" />
+    <Compile Include="Commands\Models\Szenarios\Szenario.cs" />
+    <Compile Include="Commands\SynchronisationCommand.cs" />
+    <Compile Include="Commands\SzenarioCommand.cs" />
     <Compile Include="Components\ComponentType.cs" />
     <Compile Include="Exceptions\Exception.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

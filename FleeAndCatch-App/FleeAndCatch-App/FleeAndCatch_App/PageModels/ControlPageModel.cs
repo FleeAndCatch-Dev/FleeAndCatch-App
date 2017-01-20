@@ -7,6 +7,7 @@ using DeviceMotion.Plugin;
 using DeviceMotion.Plugin.Abstractions;
 using FleeAndCatch.Commands;
 using FleeAndCatch.Commands.Models.Devices.Robots;
+using FleeAndCatch.Commands.Models.Szenarios;
 using FleeAndCatch_App.Communication;
 using FleeAndCatch_App.Controller;
 using PropertyChanged;
@@ -22,6 +23,7 @@ namespace FleeAndCatch_App.PageModels
         public string Change { get; set; }
         public Color ChangeColor { get; set; }
         public ImageSource ImageSource { get; set; }
+        private Szenario _szenario;
         private Steering.SpeedType speed;
         private Steering.DirectionType direction;
         private bool refresh;
@@ -35,7 +37,10 @@ namespace FleeAndCatch_App.PageModels
         {
             base.Init(initData);
 
-            Robot = initData as Robot;
+            _szenario = initData as Szenario;
+            if (_szenario == null) return;
+            Robot = _szenario.Robots[0];
+            _szenario.SzenarioType = ControlType.Control.ToString();
         }
 
         protected override void ViewIsAppearing(object sender, EventArgs e)
@@ -49,7 +54,7 @@ namespace FleeAndCatch_App.PageModels
             CrossDeviceMotion.Current.SensorValueChanged += RefreshView;
 
             refresh = true;
-            Device.StartTimer(TimeSpan.FromMilliseconds(30), NewControlCmd);
+            Device.StartTimer(TimeSpan.FromMilliseconds(50), NewControlCmd);
         }
 
         protected override void ViewIsDisappearing(object sender, EventArgs e)
@@ -57,7 +62,8 @@ namespace FleeAndCatch_App.PageModels
             refresh = false;
             CrossDeviceMotion.Current.Stop(MotionSensorType.Accelerometer);
 
-            var cmd = new Control(CommandType.Control.ToString(), ControlType.End.ToString(), Client.Identification, Robot, new Steering(0, 0));
+            _szenario.SzenarioType = ControlType.End.ToString();
+            var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), ControlType.Control.ToString(), Client.Identification, _szenario);
             Client.SendCmd(cmd.GetCommand());
 
             var page = FreshMvvm.FreshPageModelResolver.ResolvePageModel<HomePageModel>();
@@ -83,8 +89,7 @@ namespace FleeAndCatch_App.PageModels
                         Change = "Stop";
                         ChangeColor = Color.FromHex("#8B0000");
 
-                        var cmd = new Control(CommandType.Control.ToString(), ControlType.Start.ToString(), Client.Identification, Robot, new Steering((int)direction, (int)speed));
-                        Client.SendCmd(cmd.GetCommand());
+                        _szenario.SzenarioType = ControlType.Start.ToString();
                     }
                     else
                     {
@@ -92,9 +97,10 @@ namespace FleeAndCatch_App.PageModels
                         Change = "Start";
                         ChangeColor = Color.FromHex("#006400");
 
-                        var cmd = new Control(CommandType.Control.ToString(), ControlType.Stop.ToString(), Client.Identification, Robot, new Steering((int)direction, 0));
-                        Client.SendCmd(cmd.GetCommand());
+                        _szenario.SzenarioType = ControlType.Stop.ToString();
                     }
+                    var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), ControlType.Control.ToString(), Client.Identification, _szenario);
+                    Client.SendCmd(cmd.GetCommand());
                 });
             }
         }
@@ -102,18 +108,20 @@ namespace FleeAndCatch_App.PageModels
         private bool NewControlCmd()
         {
             if (!refresh) return false;
-
+            var control = (Control)_szenario;
+            control.Steering.Directiond = direction.ToString();
+            control.Steering.Speed = speed.ToString();
             foreach (var t in RobotController.Robots)
             {
                 if (t.Identification == Robot.Identification)
                     Robot = t;
             }
 
-            var robotList = new List<Robot> { Robot };
+            //var robotList = new List<Robot> { Robot };
 
             /*var cmdSync = new Synchronization(CommandType.Synchronization.ToString(), SynchronizationType.Current.ToString(), Client.Identification, robotList);
             Client.SendCmd(cmdSync.GetCommand());*/
-            var cmdCtrl = new Control(CommandType.Control.ToString(), ControlType.Control.ToString(), Client.Identification, Robot, new Steering((int)direction, (int)speed));
+            var cmdCtrl = new SzenarioCommand(CommandType.Szenario.ToString(), ControlType.Control.ToString(), Client.Identification, control);
             Client.SendCmd(cmdCtrl.GetCommand());
             return true;
         }

@@ -8,9 +8,9 @@ using Xamarin.Forms;
 
 namespace FleeAndCatch_App.Pages
 {
-    public partial class RobotInformationPage : ContentPage
+    public partial class SzenarioInformationPage : ContentPage
     {
-        public RobotInformationPage()
+        public SzenarioInformationPage()
         {
             InitializeComponent();
         }

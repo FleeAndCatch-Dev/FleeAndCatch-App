@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FleeAndCatch_App.Pages.ControlPage"
              Title="FleeAndCatch">
-    
+
     <StackLayout Orientation="Vertical">
         <StackLayout x:Name="ViewOrientation" Orientation="Vertical" VerticalOptions="StartAndExpand">
             <StackLayout Padding="20" HorizontalOptions="Center" VerticalOptions="Center">

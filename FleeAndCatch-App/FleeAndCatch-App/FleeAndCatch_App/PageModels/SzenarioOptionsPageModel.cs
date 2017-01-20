@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FleeAndCatch.Commands;
+using FleeAndCatch.Commands.Models.Szenarios;
 using PropertyChanged;
-using Xamarin.Forms;
+using Command = Xamarin.Forms.Command;
 
 namespace FleeAndCatch_App.PageModels
 {
@@ -22,7 +24,7 @@ namespace FleeAndCatch_App.PageModels
             {
                 return new Command( () =>
                 {
-                    CoreMethods.PushPageModel<RobotListPageModel>();
+                    CoreMethods.PushPageModel<RobotListPageModel>(SzenarioCommandType.Control);
                     RaisePropertyChanged();
                 });
             }
@@ -33,7 +35,9 @@ namespace FleeAndCatch_App.PageModels
             {
                 return new Command(() =>
                 {
-                    //await Application.Current.MainPage.Navigation.PushAsync(new Szenario());
+                    CoreMethods.DisplayAlert("Error", "Sorry, this isn't implemented", "OK");
+                    /*CoreMethods.PushPageModel<RobotListPageModel>(SzenarioType.Synchron);
+                    RaisePropertyChanged();*/
                 });
             }
         }
@@ -43,7 +47,9 @@ namespace FleeAndCatch_App.PageModels
             {
                 return new Command(() =>
                 {
-                    //await Application.Current.MainPage.Navigation.PushAsync(new Szenario());
+                    CoreMethods.DisplayAlert("Error", "Sorry, this isn't implemented", "OK");
+                    /*CoreMethods.PushPageModel<RobotListPageModel>(SzenarioType.Follow);
+                    RaisePropertyChanged();*/
                 });
             }
         }

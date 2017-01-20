@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using Acr.UserDialogs;
 using Android.Content.Res;
 using FleeAndCatch.Commands;
+using FleeAndCatch.Commands.Models;
 using FleeAndCatch.Commands.Models.Devices.Robots;
+using FleeAndCatch.Commands.Models.Szenarios;
 using FleeAndCatch.Components;
 using FleeAndCatch_App.Communication;
 using FleeAndCatch_App.Controller;
@@ -21,6 +23,7 @@ namespace FleeAndCatch_App.PageModels
     public class RobotListPageModel : FreshMvvm.FreshBasePageModel
     {
         public List<RobotGroup> RobotGroupList { get; set; }
+        private SzenarioCommandType _szenarioType;
 
         public RobotListPageModel()
         {
@@ -29,6 +32,8 @@ namespace FleeAndCatch_App.PageModels
         public override void Init(object initData)
         {
             base.Init(initData);
+
+            _szenarioType = (SzenarioCommandType) initData;
             RobotGroupList = new List<RobotGroup>();
         }
 
@@ -55,14 +60,34 @@ namespace FleeAndCatch_App.PageModels
                             robot = t;
                     }
 
-                    var cmd = new Control(CommandType.Control.ToString(), ControlType.Begin.ToString(), Client.Identification, robot, new Steering(0, 0));
+                    SzenarioCommand cmd = null;
+                    Szenario szenario = null;
+                    var appList = new List<FleeAndCatch.Commands.Models.Devices.Apps.App>();
+                    var robotList = new List<Robot>();
+                    switch (_szenarioType)
+                    {
+                        case SzenarioCommandType.Control:
+                            appList.Add((FleeAndCatch.Commands.Models.Devices.Apps.App) Client.Device);
+                            robotList.Add(robot);
+                            szenario = new Control(_szenarioType.ToString(), ControlType.Begin.ToString(), appList, robotList, new Steering(0, 0));                
+                            break;
+                        case SzenarioCommandType.Synchron:
+                            break;
+                        case SzenarioCommandType.Follow:
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                    cmd = new SzenarioCommand(CommandType.Szenario.ToString(), _szenarioType.ToString(), Client.Identification, szenario);
                     Client.SendCmd(cmd.GetCommand());
 
-                    Device.BeginInvokeOnMainThread(() => {
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
                         UserDialogs.Instance.HideLoading();
-                        CoreMethods.PushPageModel<RobotInformationPageModel>(robot);
+                        CoreMethods.PushPageModel<SzenarioInformationPageModel>(szenario);
                         RaisePropertyChanged();
                     });
+
                     return;
                 }
                 Device.BeginInvokeOnMainThread(async () =>
@@ -78,7 +103,7 @@ namespace FleeAndCatch_App.PageModels
             if (Client.Connected)
             {
                 RobotController.Updated = false;
-                var command = new Synchronization(CommandType.Synchronization.ToString(), SynchronizationType.All.ToString(), Client.Identification, RobotController.Robots);
+                var command = new Synchronization(CommandType.Synchronization.ToString(), SynchronizationCommandType.All.ToString(), Client.Identification, RobotController.Robots);
                 Client.SendCmd(command.GetCommand());
 
                 Device.BeginInvokeOnMainThread( () =>

@@ -31,7 +31,7 @@ namespace FleeAndCatch_App.Communication
 
             tcpSocketClient = new TcpSocketClient();
             identification = new ClientIdentification(0, ComponentType.IdentificationType.App.ToString(), pAddress, Default.Port);
-            device = new FleeAndCatch.Commands.Models.Devices.Apps.App(new AppIdentification(0, ComponentType.IdentificationType.App.ToString(), RoleType.Undefined.ToString()));
+            Device = new FleeAndCatch.Commands.Models.Devices.Apps.App(new AppIdentification(-1, ComponentType.IdentificationType.App.ToString(), ComponentType.RoleType.Undefined.ToString()));
             connected = false;
 
             if (connected) throw new Exception("Connection to the server is already exist");
@@ -47,7 +47,7 @@ namespace FleeAndCatch_App.Communication
             await tcpSocketClient.ConnectAsync(identification.Address, identification.Port);
             connected = true;
 
-            var command = new Connection(CommandType.Connection.ToString(), ConnectionType.Connect.ToString(), identification, device);
+            var command = new ConnectionCommand(CommandType.Connection.ToString(), ConnectionCommandType.Connect.ToString(), identification, Device);
             SendCmd(command.GetCommand());
 
             while (connected)
@@ -116,7 +116,7 @@ namespace FleeAndCatch_App.Communication
         public static void Close()
         {
             if (!Connected) throw new Exception("There is no connection to the server");
-            var command = new Connection(CommandType.Connection.ToString(), ConnectionType.Disconnect.ToString(), identification, device);
+            var command = new ConnectionCommand(CommandType.Connection.ToString(), ConnectionCommandType.Disconnect.ToString(), identification, Device);
             SendCmd(command.GetCommand());
         }
 
@@ -158,7 +158,11 @@ namespace FleeAndCatch_App.Communication
 
         public static bool Connected => connected;
         public static ClientIdentification Identification => identification;
-        public static IDevice Device => Device;
+        public static IDevice Device
+        {
+            get { return device; }
+            set { device = value; }
+        }
     }
 
     public static class Default

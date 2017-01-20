@@ -4,38 +4,35 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FleeAndCatch.Commands.Models;
-using FleeAndCatch.Commands.Models.Devices.Robots;
+using FleeAndCatch.Commands.Models.Devices;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace FleeAndCatch.Commands
 {
-    public class Synchronization : Command
+    public class ConnectionCommand : Command
     {
-        [JsonProperty("robots")]
-        private List<Robot> robots;
+        [JsonProperty("device")]
+        [JsonConverter(typeof(DeviceConverter))]
+        private IDevice device;
 
         /// <summary>
-        /// Create an object of the synchronisation command.
+        /// Create an object of a connection command.
         /// </summary>
         /// <param name="pId">Id as command type.</param>
-        /// <param name="pType">Type as synchronisation type.</param>
-        /// <param name="pClient">Client of represeenting the device.</param>
-        public Synchronization(string pId, string pType, ClientIdentification pIdentification, List<Robot> pRobots) : base(pId, pType, pIdentification)
+        /// <param name="pType">Type as connaction type.</param>
+        /// <param name="pClient">Client for representation of the device.</param>
+        public ConnectionCommand(string pId, string pType, ClientIdentification pIdentification, IDevice pDevice) : base(pId, pType, pIdentification)
         {
-            robots = pRobots;
+            this.device = pDevice;
         }
 
         /// <summary>
-        /// Get json string of the command.
+        /// Get the command as json string.
         /// </summary>
         /// <returns>Json string.</returns>
         public override string GetCommand()
         {
-            var array = new JArray();
-            foreach (var t in robots)
-                array.Add(t.GetJObject());
-
             var command = new JObject
             {
                 {"id", id},
@@ -43,17 +40,15 @@ namespace FleeAndCatch.Commands
                 {"apiid", apiid},
                 {"errorhandling", errorhandling},
                 {"identification", identification.GetJObject()},
-                {"robots", array}
+                {"device", device.GetJObject()}
             };
 
             return JsonConvert.SerializeObject(command);
         }
-
-        public List<Robot> Robots => robots;
     }
 
-    public enum SynchronizationType
+    public enum ConnectionCommandType
     {
-        All, Current
+        Connect, Disconnect
     }
 }

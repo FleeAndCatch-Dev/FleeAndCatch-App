@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FleeAndCatch_App.Pages.SzenarioInformationPage"
+             Title="FleeAndCatch">
+
+    <StackLayout Orientation="Vertical">
+        <ScrollView>
+            <StackLayout Orientation="Vertical" Spacing="10">
+                <StackLayout Orientation="Horizontal" VerticalOptions="Start">
+                    <Label Text="Szenario id:"/>
+                    <Label Text="{Binding Szenario.SzenarioId}"/>
+                </StackLayout>
+                <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand">
+                    <StackLayout Orientation="Vertical">
+                        <Label Text="Apps:"/>
+                        <ListView ItemsSource="{Binding GroupedApps}" IsGroupingEnabled="True">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <StackLayout Orientation="Horizontal" Padding="20,10" HorizontalOptions="FillAndExpand">
+                                            <Label Text="{Binding Name}" FontSize="12" VerticalTextAlignment="Center" HorizontalTextAlignment="Start"/>
+                                            <Label Text="{Binding Text}" FontSize="12" VerticalTextAlignment="Center" HorizontalTextAlignment="End"/>
+                                        </StackLayout>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackLayout>
+                    <StackLayout Orientation="Vertical">
+                        <Label Text="Robots:"/>
+                        <ListView ItemsSource="{Binding GroupedRobots}" IsGroupingEnabled="True">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <StackLayout Orientation="Horizontal" Padding="20,10" HorizontalOptions="FillAndExpand">
+                                            <Label Text="{Binding Name}" FontSize="12" VerticalTextAlignment="Center" HorizontalTextAlignment="Start"/>
+                                            <Label Text="{Binding Text}" FontSize="12" VerticalTextAlignment="Center" HorizontalTextAlignment="End"/>
+                                        </StackLayout>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackLayout>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+        <Button Text="Start" HeightRequest="50" TextColor="White" BackgroundColor="#006400" Margin="-2,-4,-2,-2" FontAttributes="Bold" FontSize="16" Command="{Binding BStart_OnCommand}"/>
+    </StackLayout>
+</ContentPage>

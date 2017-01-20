@@ -101,8 +101,17 @@ namespace FleeAndCatch.Commands.Models.Devices.Robots
             return jsonIdentification;
         }
 
-        public string Directiond => direction;
-        public string Speed => speed;
+        public string Directiond
+        {
+            get { return direction; }
+            set { direction = value; }
+        }
+
+        public string Speed
+        {
+            get { return speed; }
+            set { speed = value; }
+        }
 
         public enum SpeedType
         {

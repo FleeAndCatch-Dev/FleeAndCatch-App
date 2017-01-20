@@ -31,13 +31,5 @@ namespace FleeAndCatch.Components
         {
             Undefined, Catcher, Fugitive
         }
-
-        /// <summary>
-        /// Enumeration for the different szenario types of
-        /// </summary>
-        public enum SzenarioType
-        {
-            Control, Synchron, Follow
-        }
     }
 }

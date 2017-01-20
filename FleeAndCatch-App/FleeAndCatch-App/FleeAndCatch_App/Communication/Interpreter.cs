@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FleeAndCatch.Commands;
+using FleeAndCatch.Commands.Models;
 using FleeAndCatch.Commands.Models.Devices.Robots;
+using FleeAndCatch.Components;
 using FleeAndCatch_App.Controller;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -22,7 +24,7 @@ namespace FleeAndCatch_App.Communication
             var jsonCommand = JObject.Parse(pCommand);
             if (Convert.ToString(jsonCommand.SelectToken("apiid")) != "@@fleeandcatch@@")
                 throw new Exception("Wrong apiid in json command");
-            var id = (CommandType)Enum.Parse(typeof(CommandType), Convert.ToString(jsonCommand.SelectToken("id")));
+            var id = (CommandType) Enum.Parse(typeof(CommandType), Convert.ToString(jsonCommand.SelectToken("id")));
             switch (id)
             {
                 case CommandType.Connection:
@@ -31,7 +33,7 @@ namespace FleeAndCatch_App.Communication
                 case CommandType.Synchronization:
                     Synchronization(jsonCommand);
                     return;
-                case CommandType.Control:
+                case CommandType.Szenario:
                     throw new ArgumentOutOfRangeException();
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -45,15 +47,17 @@ namespace FleeAndCatch_App.Communication
         private static void Connection(JObject pCommand)
         {
             if (pCommand == null) throw new ArgumentNullException(nameof(pCommand));
-            var type = (ConnectionType)Enum.Parse(typeof(ConnectionType), Convert.ToString(pCommand.SelectToken("type")));
-            var command = JsonConvert.DeserializeObject<Connection>(JsonConvert.SerializeObject(pCommand));
+            var type = (ConnectionCommandType) Enum.Parse(typeof(ConnectionCommandType), Convert.ToString(pCommand.SelectToken("type")));
+            var command = JsonConvert.DeserializeObject<ConnectionCommand>(JsonConvert.SerializeObject(pCommand));
 
             switch (type)
             {
-                case ConnectionType.Connect:
+                case ConnectionCommandType.Connect:
                     Client.Identification.Id = command.Identification.Id;
+                    var app = (FleeAndCatch.Commands.Models.Devices.Apps.App) Client.Device;
+                    app.Identification.Id = command.Identification.Id;
                     return;
-                case ConnectionType.Disconnect:
+                case ConnectionCommandType.Disconnect:
                     Client.Disconnect();
                     return;
                 default:
@@ -68,15 +72,15 @@ namespace FleeAndCatch_App.Communication
         private static void Synchronization(JObject pCommand)
         {
             if (pCommand == null) throw new ArgumentNullException(nameof(pCommand));
-            var type = (SynchronizationType)Enum.Parse(typeof(SynchronizationType), Convert.ToString(pCommand.SelectToken("type")));
+            var type = (SynchronizationCommandType)Enum.Parse(typeof(SynchronizationCommandType), Convert.ToString(pCommand.SelectToken("type")));
             var command = JsonConvert.DeserializeObject<Synchronization>(JsonConvert.SerializeObject(pCommand));
             switch (type)
             {
-                case SynchronizationType.All:
+                case SynchronizationCommandType.All:
                     RobotController.Robots = command.Robots;
                     RobotController.Updated = true;
                     return;
-                case SynchronizationType.Current:
+                case SynchronizationCommandType.Current:
                     for (var i = 0; i < RobotController.Robots.Count; i++)
                     {
                         foreach (var t in command.Robots)

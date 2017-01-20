@@ -41,15 +41,14 @@
     </Compile>
     <Compile Include="Communication\Client.cs" />
     <Compile Include="Communication\Interpreter.cs" />
-    <Compile Include="Controller\AppController.cs" />
     <Compile Include="Controller\RobotController.cs" />
     <Compile Include="Models\Connection.cs" />
     <Compile Include="Models\RobotGroup.cs" />
     <Compile Include="PageModels\ControlPageModel.cs" />
     <Compile Include="PageModels\HomePageModel.cs" />
-    <Compile Include="PageModels\RobotInformationPageModel.cs" />
     <Compile Include="PageModels\RobotListPageModel.cs" />
     <Compile Include="PageModels\SignInPageModel.cs" />
+    <Compile Include="PageModels\SzenarioInformationPageModel.cs" />
     <Compile Include="PageModels\SzenarioOptionsPageModel.cs" />
     <Compile Include="PageModels\SzenarioPageModel.cs" />
     <Compile Include="Pages\ControlPage.xaml.cs">
@@ -58,14 +57,14 @@
     <Compile Include="Pages\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\RobotInformationPage.xaml.cs">
-      <DependentUpon>RobotInformationPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\RobotListPage.xaml.cs">
       <DependentUpon>RobotListPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\SignInPage.xaml.cs">
       <DependentUpon>SignInPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SzenarioInformationPage.xaml.cs">
+      <DependentUpon>SzenarioInformationPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\SzenarioOptionsPage.xaml.cs">
       <DependentUpon>SzenarioOptionsPage.xaml</DependentUpon>
@@ -214,13 +213,13 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Pages\RobotInformationPage.xaml">
+    <EmbeddedResource Include="Pages\ControlPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Pages\ControlPage.xaml">
+    <EmbeddedResource Include="Pages\SzenarioInformationPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
