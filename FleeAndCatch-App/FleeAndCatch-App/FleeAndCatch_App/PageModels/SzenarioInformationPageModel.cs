@@ -70,10 +70,6 @@ namespace FleeAndCatch_App.PageModels
     [ImplementPropertyChanged]
     public class Group : ObservableCollection<Item>
     {
-        public Group()
-        {
-            
-        }
     }
 
     [ImplementPropertyChanged]

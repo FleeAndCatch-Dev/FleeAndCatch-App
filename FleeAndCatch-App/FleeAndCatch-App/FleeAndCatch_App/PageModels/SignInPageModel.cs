@@ -18,11 +18,6 @@ namespace FleeAndCatch_App.PageModels
         public Connection Connection { get; set; }
         public bool Visible { get; set; }
 
-        public SignInPageModel()
-        {
-            
-        }
-
         public override void Init(object initData)
         {
             base.Init(initData);

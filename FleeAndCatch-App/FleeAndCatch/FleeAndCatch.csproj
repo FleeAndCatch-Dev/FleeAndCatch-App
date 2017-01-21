@@ -40,6 +40,7 @@
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\ConnectionCommand.cs" />
     <Compile Include="Commands\ExceptionCommand.cs" />
+    <Compile Include="Commands\Models\Exception.cs" />
     <Compile Include="Commands\Models\Szenarios\Control.cs" />
     <Compile Include="Commands\Models\Devices\Apps\App.cs" />
     <Compile Include="Commands\Models\Devices\IDevice.cs" />

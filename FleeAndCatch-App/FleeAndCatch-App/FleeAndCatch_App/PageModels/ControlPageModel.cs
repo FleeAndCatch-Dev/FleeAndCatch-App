@@ -23,7 +23,7 @@ namespace FleeAndCatch_App.PageModels
         public string Change { get; set; }
         public Color ChangeColor { get; set; }
         public ImageSource ImageSource { get; set; }
-        private Szenario _szenario;
+        private Szenario szenario;
         private Steering.SpeedType speed;
         private Steering.DirectionType direction;
         private bool refresh;
@@ -37,10 +37,10 @@ namespace FleeAndCatch_App.PageModels
         {
             base.Init(initData);
 
-            _szenario = initData as Szenario;
-            if (_szenario == null) return;
-            Robot = _szenario.Robots[0];
-            _szenario.SzenarioType = ControlType.Control.ToString();
+            szenario = initData as Szenario;
+            if (szenario == null) return;
+            Robot = szenario.Robots[0];
+            szenario.SzenarioType = ControlType.Control.ToString();
         }
 
         protected override void ViewIsAppearing(object sender, EventArgs e)
@@ -54,7 +54,7 @@ namespace FleeAndCatch_App.PageModels
             CrossDeviceMotion.Current.SensorValueChanged += RefreshView;
 
             refresh = true;
-            Device.StartTimer(TimeSpan.FromMilliseconds(50), NewControlCmd);
+            Device.StartTimer(TimeSpan.FromMilliseconds(25), NewControlCmd);
         }
 
         protected override void ViewIsDisappearing(object sender, EventArgs e)
@@ -62,8 +62,9 @@ namespace FleeAndCatch_App.PageModels
             refresh = false;
             CrossDeviceMotion.Current.Stop(MotionSensorType.Accelerometer);
 
-            _szenario.SzenarioType = ControlType.End.ToString();
-            var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), ControlType.Control.ToString(), Client.Identification, _szenario);
+            szenario.Robots[0].Active = false;
+            szenario.SzenarioType = ControlType.End.ToString();
+            var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), ControlType.Control.ToString(), Client.Identification, szenario);
             Client.SendCmd(cmd.GetCommand());
 
             var page = FreshMvvm.FreshPageModelResolver.ResolvePageModel<HomePageModel>();
@@ -89,7 +90,7 @@ namespace FleeAndCatch_App.PageModels
                         Change = "Stop";
                         ChangeColor = Color.FromHex("#8B0000");
 
-                        _szenario.SzenarioType = ControlType.Start.ToString();
+                        szenario.SzenarioType = ControlType.Start.ToString();
                     }
                     else
                     {
@@ -97,9 +98,9 @@ namespace FleeAndCatch_App.PageModels
                         Change = "Start";
                         ChangeColor = Color.FromHex("#006400");
 
-                        _szenario.SzenarioType = ControlType.Stop.ToString();
+                        szenario.SzenarioType = ControlType.Stop.ToString();
                     }
-                    var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), ControlType.Control.ToString(), Client.Identification, _szenario);
+                    var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), ControlType.Control.ToString(), Client.Identification, szenario);
                     Client.SendCmd(cmd.GetCommand());
                 });
             }
@@ -108,7 +109,7 @@ namespace FleeAndCatch_App.PageModels
         private bool NewControlCmd()
         {
             if (!refresh) return false;
-            var control = (Control)_szenario;
+            var control = (Control)szenario;
             control.Steering.Directiond = direction.ToString();
             control.Steering.Speed = speed.ToString();
             foreach (var t in RobotController.Robots)
@@ -121,6 +122,7 @@ namespace FleeAndCatch_App.PageModels
 
             /*var cmdSync = new Synchronization(CommandType.Synchronization.ToString(), SynchronizationType.Current.ToString(), Client.Identification, robotList);
             Client.SendCmd(cmdSync.GetCommand());*/
+
             var cmdCtrl = new SzenarioCommand(CommandType.Szenario.ToString(), ControlType.Control.ToString(), Client.Identification, control);
             Client.SendCmd(cmdCtrl.GetCommand());
             return true;

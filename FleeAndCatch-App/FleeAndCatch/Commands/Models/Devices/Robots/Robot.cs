@@ -44,7 +44,12 @@ namespace FleeAndCatch.Commands.Models.Devices.Robots
         }
 
         public RobotIdentification Identification => identification;
-        public bool Active => active;
+
+        public bool Active
+        {
+            get { return active; }
+            set { active = value; }
+        }
         public Position Position => position;
         public double Speed => speed;
     }

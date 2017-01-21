@@ -25,10 +25,6 @@ namespace FleeAndCatch_App.PageModels
         public List<RobotGroup> RobotGroupList { get; set; }
         private SzenarioCommandType _szenarioType;
 
-        public RobotListPageModel()
-        {
-        }
-
         public override void Init(object initData)
         {
             base.Init(initData);
@@ -67,9 +63,13 @@ namespace FleeAndCatch_App.PageModels
                     switch (_szenarioType)
                     {
                         case SzenarioCommandType.Control:
-                            appList.Add((FleeAndCatch.Commands.Models.Devices.Apps.App) Client.Device);
-                            robotList.Add(robot);
-                            szenario = new Control(_szenarioType.ToString(), ControlType.Begin.ToString(), appList, robotList, new Steering(0, 0));                
+                            if (robot != null)
+                            {
+                                robot.Active = true;
+                                appList.Add((FleeAndCatch.Commands.Models.Devices.Apps.App) Client.Device);
+                                robotList.Add(robot);
+                                szenario = new Control(_szenarioType.ToString(), ControlType.Begin.ToString(), appList, robotList, new Steering(0, 0));
+                            }
                             break;
                         case SzenarioCommandType.Synchron:
                             break;

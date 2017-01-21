@@ -32,6 +32,11 @@ namespace FleeAndCatch.Commands.Models.Devices.Apps
         }
 
         public AppIdentification Identification => identification;
-        public bool Active => active;
+
+        public bool Active
+        {
+            get { return active; }
+            set { active = value; }
+        }
     }
 }

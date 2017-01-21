@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Acr.UserDialogs;
 using FleeAndCatch.Commands;
 using FleeAndCatch.Commands.Models;
 using FleeAndCatch.Commands.Models.Devices.Robots;
 using FleeAndCatch.Components;
 using FleeAndCatch_App.Controller;
+using FleeAndCatch_App.PageModels;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Xamarin.Forms;
 
 namespace FleeAndCatch_App.Communication
 {
@@ -23,7 +26,7 @@ namespace FleeAndCatch_App.Communication
         {
             var jsonCommand = JObject.Parse(pCommand);
             if (Convert.ToString(jsonCommand.SelectToken("apiid")) != "@@fleeandcatch@@")
-                throw new Exception("Wrong apiid in json command");
+                throw new Java.Lang.Exception("Wrong apiid in json command");
             var id = (CommandType) Enum.Parse(typeof(CommandType), Convert.ToString(jsonCommand.SelectToken("id")));
             switch (id)
             {
@@ -35,6 +38,9 @@ namespace FleeAndCatch_App.Communication
                     return;
                 case CommandType.Szenario:
                     throw new ArgumentOutOfRangeException();
+                case CommandType.Exception:
+                    Exception(jsonCommand);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -93,6 +99,44 @@ namespace FleeAndCatch_App.Communication
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        /// <summary>
+        /// Parse a synchronisation command.
+        /// </summary>
+        /// <param name="pCommand"></param>
+        private static void Exception(JObject pCommand)
+        {
+            if (pCommand == null) throw new ArgumentNullException(nameof(pCommand));
+            var type = (ExceptionCommandType)Enum.Parse(typeof(ExceptionCommandType), Convert.ToString(pCommand.SelectToken("type")));
+            var command = JsonConvert.DeserializeObject<ExceptionCommand>(JsonConvert.SerializeObject(pCommand));
+
+            switch (type)
+            {
+                case ExceptionCommandType.Undefined:
+                    break;
+                case ExceptionCommandType.UnhandeldDisconnection:
+                    var app = (FleeAndCatch.Commands.Models.Devices.Apps.App) Client.Device;
+                    app.Active = false;
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        var page = FreshMvvm.FreshPageModelResolver.ResolvePageModel<HomePageModel>();
+                        var navigation = new FreshMvvm.FreshNavigationContainer(page)
+                        {
+                            BarBackgroundColor = Color.FromHex("#008B8B"),
+                            BarTextColor = Color.White
+                        };
+                        Application.Current.MainPage = navigation;
+                    });
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                Application.Current.MainPage.DisplayAlert("Error", command.Exception.Message, "OK");
+            });
         }
     }
 }

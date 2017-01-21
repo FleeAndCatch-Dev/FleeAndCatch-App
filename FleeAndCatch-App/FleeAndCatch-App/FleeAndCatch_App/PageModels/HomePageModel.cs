@@ -13,11 +13,6 @@ namespace FleeAndCatch_App.PageModels
     [ImplementPropertyChanged]
     public class HomePageModel : FreshMvvm.FreshBasePageModel
     {
-        public HomePageModel()
-        {
-            
-        }
-
         public Command BSzenario_OnCommand
         {
             get

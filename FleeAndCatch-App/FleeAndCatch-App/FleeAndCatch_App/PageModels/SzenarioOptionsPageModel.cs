@@ -13,11 +13,6 @@ namespace FleeAndCatch_App.PageModels
     [ImplementPropertyChanged]
     public class SzenarioOptionsPageModel : FreshMvvm.FreshBasePageModel
     {
-        public SzenarioOptionsPageModel()
-        {
-            
-        }
-
         public Command BControl_OnCommand
         {
             get

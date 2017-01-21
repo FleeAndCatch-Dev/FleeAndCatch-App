@@ -34,7 +34,7 @@ namespace FleeAndCatch_App.Communication
             Device = new FleeAndCatch.Commands.Models.Devices.Apps.App(new AppIdentification(-1, ComponentType.IdentificationType.App.ToString(), ComponentType.RoleType.Undefined.ToString()));
             connected = false;
 
-            if (connected) throw new Exception("Connection to the server is already exist");
+            if (connected) throw new Java.Lang.Exception("Connection to the server is already exist");
             var listenTask = new Task(Listen);
             listenTask.Start();
         }
@@ -81,7 +81,7 @@ namespace FleeAndCatch_App.Communication
         /// <param name="pCommand">Json command</param>
         public static async void SendCmd(string pCommand)
         {
-            if (!connected) throw new Exception("There is no connection to the server");
+            if (!connected) throw new Java.Lang.Exception("There is no connection to the server");
             checkCmd(pCommand);
 
             var command = Encoding.UTF8.GetBytes(pCommand);
@@ -115,7 +115,7 @@ namespace FleeAndCatch_App.Communication
         /// </summary>
         public static void Close()
         {
-            if (!Connected) throw new Exception("There is no connection to the server");
+            if (!Connected) throw new Java.Lang.Exception("There is no connection to the server");
             var command = new ConnectionCommand(CommandType.Connection.ToString(), ConnectionCommandType.Disconnect.ToString(), identification, Device);
             SendCmd(command.GetCommand());
         }
@@ -127,7 +127,7 @@ namespace FleeAndCatch_App.Communication
         private static void ParseAddress(string pAddress)
         {
             var adressPart = pAddress.Split(new string[] { "." }, StringSplitOptions.None);
-            if (adressPart.Length != 4) throw new Exception("The Address could not parse into an ip adress");
+            if (adressPart.Length != 4) throw new Java.Lang.Exception("The Address could not parse into an ip adress");
             var result = true;
             foreach (var t in adressPart)
             {
@@ -137,7 +137,7 @@ namespace FleeAndCatch_App.Communication
             }
             if (result)
                 return;
-            throw new Exception("The Address could not parse into an ip adress");
+            throw new Java.Lang.Exception("The Address could not parse into an ip adress");
         }
 
         /// <summary>
@@ -150,9 +150,9 @@ namespace FleeAndCatch_App.Communication
             {
                 JObject.Parse(pCommand);
             }
-            catch (Exception)
+            catch (Java.Lang.Exception)
             {
-                throw new Exception("The command could not parse into json");
+                throw new Java.Lang.Exception("The command could not parse into json");
             }
         }
 
