@@ -5,14 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using SQLite;
 
-namespace FleeAndCatch_App.sqlite
+namespace FleeAndCatch_App.SQLite
 {
     public interface ISQLite
     {
-        /// <summary>
-        /// Returns a SQLConnection from the local database.
-        /// </summary>
-        /// <returns>SQLConnection</returns>
         SQLiteConnection GetConnection();
     }
 }

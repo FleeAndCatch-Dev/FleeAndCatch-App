@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using FleeAndCatch_App.iOS;
-using FleeAndCatch_App.sqlite;
+using FleeAndCatch_App.SQLite;
 using SQLite;
 using Xamarin.Forms;
 
@@ -18,7 +18,7 @@ namespace FleeAndCatch_App.iOS
             var documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
             var libraryPath = Path.Combine(documentsPath, "..", "Library");
             var path = Path.Combine(libraryPath, sqliteFilename);
-            var connection = new SQLite.SQLiteConnection(path);
+            var connection = new SQLiteConnection(path);
             return connection;
         }
     }

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
-using FleeAndCatch_App.sqlite;
+using FleeAndCatch_App.SQLite;
 using FleeAndCatch_App.UWP;
 using SQLite;
 using Xamarin.Forms;
@@ -19,7 +19,7 @@ namespace FleeAndCatch_App.UWP
         {
             var sqliteFilename = "fleeandcatch.db3";
             var path = Path.Combine(ApplicationData.Current.LocalFolder.Path, sqliteFilename);
-            var connection = new SQLite.SQLiteConnection(path);
+            var connection = new SQLiteConnection(path);
             return connection;
         }
     }

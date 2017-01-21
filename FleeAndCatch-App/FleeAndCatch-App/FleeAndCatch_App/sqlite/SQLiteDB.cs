@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FleeAndCatch_App.sqlite.database;
+using FleeAndCatch_App.SQLite.Database;
 
-namespace FleeAndCatch_App.sqlite
+namespace FleeAndCatch_App.SQLite
 {
     public class SQLiteDB
     {

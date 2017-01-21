@@ -11,7 +11,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using FleeAndCatch_App.Droid;
-using FleeAndCatch_App.sqlite;
+using FleeAndCatch_App.SQLite;
 using SQLite;
 using Xamarin.Forms;
 
@@ -25,7 +25,7 @@ namespace FleeAndCatch_App.Droid
             var sqliteFilename = "fleeandcatch.db3";
             var documentsPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
             var path = Path.Combine(documentsPath, sqliteFilename);
-            var connection = new SQLite.SQLiteConnection(path);
+            var connection = new SQLiteConnection(path);
             return connection;
         }
     }
