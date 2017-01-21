@@ -25,6 +25,11 @@ namespace FleeAndCatch_App.PageModels
             Connection = new Connection();
         }
 
+        /// <summary>
+        /// Get a saved address from the database
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected override void ViewIsAppearing(object sender, EventArgs e)
         {
             base.ViewIsAppearing(sender, e);

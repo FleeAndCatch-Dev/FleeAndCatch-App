@@ -37,6 +37,9 @@ namespace FleeAndCatch_App.PageModels
             }
         }
 
+        /// <summary>
+        /// Generates the elements for the informations
+        /// </summary>
         private void GenerateLists()
         {
             GroupedApps = new List<Group>();

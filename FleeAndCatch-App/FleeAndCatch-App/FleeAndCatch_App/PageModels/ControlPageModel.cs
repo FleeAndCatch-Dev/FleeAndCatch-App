@@ -33,6 +33,10 @@ namespace FleeAndCatch_App.PageModels
             
         }
 
+        /// <summary>
+        /// Set the current robot and the szenario type
+        /// </summary>
+        /// <param name="initData"></param>
         public override void Init(object initData)
         {
             base.Init(initData);
@@ -43,6 +47,11 @@ namespace FleeAndCatch_App.PageModels
             szenario.SzenarioType = ControlType.Control.ToString();
         }
 
+        /// <summary>
+        /// Init motion control and start a timer for this methods
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected override void ViewIsAppearing(object sender, EventArgs e)
         {
             base.ViewIsAppearing(sender, e);
@@ -57,6 +66,11 @@ namespace FleeAndCatch_App.PageModels
             Device.StartTimer(TimeSpan.FromMilliseconds(25), NewControlCmd);
         }
 
+        /// <summary>
+        /// Stop the motion control, send a end command and navigate to the root page
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected override void ViewIsDisappearing(object sender, EventArgs e)
         {
             refresh = false;
@@ -78,6 +92,9 @@ namespace FleeAndCatch_App.PageModels
             base.ViewIsDisappearing(sender, e);
         }
 
+        /// <summary>
+        /// Starts and stops the robot
+        /// </summary>
         public Command BChange_OnCommand
         {
             get
@@ -106,6 +123,10 @@ namespace FleeAndCatch_App.PageModels
             }
         }
 
+        /// <summary>
+        /// Start a new control command and sends it
+        /// </summary>
+        /// <returns></returns>
         private bool NewControlCmd()
         {
             if (!refresh) return false;
@@ -128,6 +149,11 @@ namespace FleeAndCatch_App.PageModels
             return true;
         }
 
+        /// <summary>
+        /// Refresh the user interface
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void RefreshView(object sender, SensorValueChangedEventArgs e)
         {
             Device.BeginInvokeOnMainThread(async () =>

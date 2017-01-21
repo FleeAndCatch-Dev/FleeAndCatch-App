@@ -33,6 +33,11 @@ namespace FleeAndCatch_App.PageModels
             RobotGroupList = new List<RobotGroup>();
         }
 
+        /// <summary>
+        /// Start a new task for updating the list
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected override void ViewIsAppearing(object sender, EventArgs e)
         {
             base.ViewIsAppearing(sender, e);
@@ -42,6 +47,9 @@ namespace FleeAndCatch_App.PageModels
             connectionTask.Start();
         }
 
+        /// <summary>
+        /// Get the selected robot and navigates the user to the szenario page
+        /// </summary>
         public RobotGroup RobotList_OnItemSelected
         {
             get { return null; }
@@ -98,6 +106,9 @@ namespace FleeAndCatch_App.PageModels
             }
         }
 
+        /// <summary>
+        /// Update the user interface and the current robotlist
+        /// </summary>
         private async void UpdateRobotList()
         {
             if (Client.Connected)

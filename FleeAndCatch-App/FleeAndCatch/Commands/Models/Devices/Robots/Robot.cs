@@ -56,9 +56,12 @@ namespace FleeAndCatch.Commands.Models.Devices.Robots
 
     public class Position
     {
-        [JsonProperty("x")] private double x;
-        [JsonProperty("y")] private double y;
-        [JsonProperty("orientation")] private double orientation;
+        [JsonProperty("x")]
+        private double x;
+        [JsonProperty("y")]
+        private double y;
+        [JsonProperty("orientation")]
+        private double orientation;
 
         public Position(double pX, double pY, double pOrientation)
         {

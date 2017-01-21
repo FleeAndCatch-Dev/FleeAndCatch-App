@@ -39,8 +39,7 @@ namespace FleeAndCatch_App.Communication
                 case CommandType.Szenario:
                     throw new ArgumentOutOfRangeException();
                 case CommandType.Exception:
-                    Exception(jsonCommand);
-                    break;
+                    throw new ArgumentOutOfRangeException();
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -99,44 +98,6 @@ namespace FleeAndCatch_App.Communication
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-        }
-
-        /// <summary>
-        /// Parse a synchronisation command.
-        /// </summary>
-        /// <param name="pCommand"></param>
-        private static void Exception(JObject pCommand)
-        {
-            if (pCommand == null) throw new ArgumentNullException(nameof(pCommand));
-            var type = (ExceptionCommandType)Enum.Parse(typeof(ExceptionCommandType), Convert.ToString(pCommand.SelectToken("type")));
-            var command = JsonConvert.DeserializeObject<ExceptionCommand>(JsonConvert.SerializeObject(pCommand));
-
-            switch (type)
-            {
-                case ExceptionCommandType.Undefined:
-                    break;
-                case ExceptionCommandType.UnhandeldDisconnection:
-                    var app = (FleeAndCatch.Commands.Models.Devices.Apps.App) Client.Device;
-                    app.Active = false;
-                    Device.BeginInvokeOnMainThread(() =>
-                    {
-                        var page = FreshMvvm.FreshPageModelResolver.ResolvePageModel<HomePageModel>();
-                        var navigation = new FreshMvvm.FreshNavigationContainer(page)
-                        {
-                            BarBackgroundColor = Color.FromHex("#008B8B"),
-                            BarTextColor = Color.White
-                        };
-                        Application.Current.MainPage = navigation;
-                    });
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
-            Device.BeginInvokeOnMainThread(() =>
-            {
-                Application.Current.MainPage.DisplayAlert("Error", command.Exception.Message, "OK");
-            });
         }
     }
 }
