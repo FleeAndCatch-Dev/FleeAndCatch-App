@@ -51,6 +51,7 @@ namespace FleeAndCatch_App.PageModels
                     new Item { Name = "RoleType:", Text = Convert.ToString(t.Identification.Roletype)},
                     new Item { Name = "Active:", Text = Convert.ToString(t.Active)}
                 };
+                app.Name = "App";
                 GroupedApps.Add(app);
             }
             GroupedRobots = new List<Group>();
@@ -65,6 +66,7 @@ namespace FleeAndCatch_App.PageModels
                     new Item { Name = "Position:", Text = Convert.ToString(t.Position.X) + " " + Convert.ToString(t.Position.Y) + " " + Convert.ToString(t.Position.Orientation)},
                     new Item { Name = "Speed:", Text = Convert.ToString(t.Speed)}
                 };
+                robot.Name = "Robot";
                 GroupedApps.Add(robot);
             }
         }
@@ -73,6 +75,7 @@ namespace FleeAndCatch_App.PageModels
     [ImplementPropertyChanged]
     public class Group : ObservableCollection<Item>
     {
+        public string Name { get; set; }
     }
 
     [ImplementPropertyChanged]
