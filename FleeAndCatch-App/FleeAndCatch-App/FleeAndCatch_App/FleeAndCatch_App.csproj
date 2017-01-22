@@ -76,6 +76,7 @@
     <Compile Include="SQLite\Database\ConnectionDB.cs" />
     <Compile Include="SQLite\ISQLite.cs" />
     <Compile Include="SQLite\SQLiteDB.cs" />
+    <Compile Include="ViewElements\BindablePicker.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="App.xaml">

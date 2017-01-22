@@ -139,11 +139,6 @@ namespace FleeAndCatch_App.PageModels
                     Robot = t;
             }
 
-            //var robotList = new List<Robot> { Robot };
-
-            /*var cmdSync = new Synchronization(CommandType.Synchronization.ToString(), SynchronizationType.Current.ToString(), Client.Identification, robotList);
-            Client.SendCmd(cmdSync.GetCommand());*/
-
             var cmdCtrl = new SzenarioCommand(CommandType.Szenario.ToString(), ControlType.Control.ToString(), Client.Identification, control);
             Client.SendCmd(cmdCtrl.GetCommand());
             return true;

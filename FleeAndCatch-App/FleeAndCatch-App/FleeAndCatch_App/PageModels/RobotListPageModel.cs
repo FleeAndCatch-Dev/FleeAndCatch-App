@@ -48,34 +48,48 @@ namespace FleeAndCatch_App.PageModels
         }
 
         /// <summary>
-        /// Get the selected robot and navigates the user to the szenario page
+        /// Get the selected robots and navigates the user to the szenario page
         /// </summary>
-        public RobotGroup RobotList_OnItemSelected
+        public Command BContinue_OnCommand
         {
-            get { return null; }
-            set
+            get
             {
-                if (value.Number > 0)
+                return new Command(() =>
                 {
-                    Robot robot = null;
-                    foreach (var t in RobotController.Robots)
-                    {
-                        if (value.Name == t.Identification.Subtype)
-                            robot = t;
-                    }
-
-                    SzenarioCommand cmd = null;
+                    if (RobotGroupList.Count <= 0) return;
                     Szenario szenario = null;
                     var appList = new List<FleeAndCatch.Commands.Models.Devices.Apps.App>();
                     var robotList = new List<Robot>();
+
+                    //Add the robots
+                    foreach (var t1 in RobotGroupList)
+                    {
+                        var value = t1.Choosen;
+                        var type = (ComponentType.RobotType) Enum.Parse(typeof(ComponentType.RobotType), t1.Name);
+                        while (value > 0)
+                        {
+                            foreach (var t in RobotController.Robots)
+                            {
+                                if (t.Identification.Subtype != type.ToString()) continue;
+                                robotList.Add(t);
+                                value--;
+                                break;
+                            }
+                        }
+                    }
+
+                    //Add the apps
+                    appList.Add((FleeAndCatch.Commands.Models.Devices.Apps.App)Client.Device);
+
                     switch (_szenarioType)
                     {
                         case SzenarioCommandType.Control:
-                            if (robot != null)
+                            if (robotList.Count == 1)
                             {
-                                robot.Active = true;
-                                appList.Add((FleeAndCatch.Commands.Models.Devices.Apps.App) Client.Device);
-                                robotList.Add(robot);
+                                foreach (var t in robotList)
+                                {
+                                    t.Active = true;
+                                }
                                 szenario = new Control(_szenarioType.ToString(), ControlType.Begin.ToString(), appList, robotList, new Steering(0, 0));
                             }
                             break;
@@ -86,22 +100,24 @@ namespace FleeAndCatch_App.PageModels
                         default:
                             throw new ArgumentOutOfRangeException();
                     }
-                    cmd = new SzenarioCommand(CommandType.Szenario.ToString(), _szenarioType.ToString(), Client.Identification, szenario);
-                    Client.SendCmd(cmd.GetCommand());
+                    if (szenario != null)
+                    {
+                        var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), _szenarioType.ToString(), Client.Identification, szenario);
+                        Client.SendCmd(cmd.GetCommand());
 
-                    Device.BeginInvokeOnMainThread(() =>
+                        Device.BeginInvokeOnMainThread(() =>
+                        {
+                            UserDialogs.Instance.HideLoading();
+                            CoreMethods.PushPageModel<SzenarioInformationPageModel>(szenario);
+                            RaisePropertyChanged();
+                        });
+                        return;
+                    }
+                    Device.BeginInvokeOnMainThread(async () =>
                     {
                         UserDialogs.Instance.HideLoading();
-                        CoreMethods.PushPageModel<SzenarioInformationPageModel>(szenario);
-                        RaisePropertyChanged();
+                        await CoreMethods.DisplayAlert("Error", "This inputs aren't correct", "OK");
                     });
-
-                    return;
-                }
-                Device.BeginInvokeOnMainThread(async () =>
-                {
-                    UserDialogs.Instance.HideLoading();
-                    await CoreMethods.DisplayAlert("Error", "There isn't a robot of that group", "OK");
                 });
             }
         }
@@ -127,7 +143,7 @@ namespace FleeAndCatch_App.PageModels
 
                 RobotGroupList = new List<RobotGroup>();
 
-                for (int i = 0; i < Enum.GetNames(typeof(ComponentType.RobotType)).Length; i++)
+                for (var i = 0; i < Enum.GetNames(typeof(ComponentType.RobotType)).Length; i++)
                 {
                     var counter = 0;
                     foreach (var t in RobotController.Robots)
@@ -135,7 +151,7 @@ namespace FleeAndCatch_App.PageModels
                         if (t.Identification.Subtype == Enum.GetNames(typeof(ComponentType.RobotType))[i] && !t.Active)
                             counter++;
                     }
-                    RobotGroupList.Insert(RobotGroupList.Count, new RobotGroup { Name = Enum.GetNames(typeof(ComponentType.RobotType))[i], Number = counter });
+                    RobotGroupList.Insert(RobotGroupList.Count, new RobotGroup(Enum.GetNames(typeof(ComponentType.RobotType))[i], counter));
                 }
                 Device.BeginInvokeOnMainThread(() =>
                 {
