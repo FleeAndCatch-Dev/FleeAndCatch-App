@@ -31,6 +31,10 @@ namespace FleeAndCatch_App.PageModels
 
             _szenarioType = (SzenarioCommandType) initData;
             RobotGroupList = new List<RobotGroup>();
+
+            RobotController.Updated = false;
+            var command = new Synchronization(CommandType.Synchronization.ToString(), SynchronizationCommandType.All.ToString(), Client.Identification, RobotController.Robots);
+            Client.SendCmd(command.GetCommand());
         }
 
         /// <summary>
@@ -129,10 +133,6 @@ namespace FleeAndCatch_App.PageModels
         {
             if (Client.Connected)
             {
-                RobotController.Updated = false;
-                var command = new Synchronization(CommandType.Synchronization.ToString(), SynchronizationCommandType.All.ToString(), Client.Identification, RobotController.Robots);
-                Client.SendCmd(command.GetCommand());
-
                 Device.BeginInvokeOnMainThread( () =>
                 {
                     UserDialogs.Instance.ShowLoading();

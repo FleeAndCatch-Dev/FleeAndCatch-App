@@ -79,7 +79,6 @@ namespace FleeAndCatch_App.PageModels
                 var connections = SQLiteDB.Connection.GetConnections();
                 foreach (var t in connections)
                 {
-                    if (t.Address == Connection.Address) continue;
                     t.Save = false;
                     SQLiteDB.Connection.UpdateConnection(t);
                 }
@@ -88,20 +87,12 @@ namespace FleeAndCatch_App.PageModels
                 {
                     if (SQLiteDB.Connection.GetConnection(Connection.Address) != null)
                     {
-                        SQLiteDB.Connection.GetConnection(Connection.Address).Save = true;
-                        SQLiteDB.Connection.UpdateConnection(SQLiteDB.Connection.GetConnection(Connection.Address));
+                        var localConnection = SQLiteDB.Connection.GetConnection(Connection.Address);
+                        localConnection.Save = true;
+                        SQLiteDB.Connection.UpdateConnection(localConnection);
                     }
                     else
-                    {
                         SQLiteDB.Connection.AddConnection(Connection.Address, true);
-                    }
-                }
-                else
-                {
-                    if (SQLiteDB.Connection.GetConnection(Connection.Address) == null)
-                    {
-                        SQLiteDB.Connection.AddConnection(Connection.Address, false);
-                    }
                 }
 
                 Device.BeginInvokeOnMainThread(() => {
