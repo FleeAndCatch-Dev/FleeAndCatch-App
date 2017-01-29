@@ -39,6 +39,6 @@ namespace FleeAndCatch.Commands
 
     public enum ExceptionCommandType
     {
-        Undefined, UnhandeldDisconnection
+        Undefined, Disconnection
     }
 }

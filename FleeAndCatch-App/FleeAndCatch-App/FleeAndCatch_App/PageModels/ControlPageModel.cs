@@ -23,15 +23,10 @@ namespace FleeAndCatch_App.PageModels
         public string Change { get; set; }
         public Color ChangeColor { get; set; }
         public ImageSource ImageSource { get; set; }
-        private Szenario szenario;
-        private Steering.SpeedType speed;
-        private Steering.DirectionType direction;
-        private bool refresh;
-
-        public ControlPageModel()
-        {
-            
-        }
+        private Szenario _szenario;
+        private Steering.SpeedType _speed;
+        private Steering.DirectionType _direction;
+        private static bool _refresh;
 
         /// <summary>
         /// Set the current robot and the szenario type
@@ -41,10 +36,10 @@ namespace FleeAndCatch_App.PageModels
         {
             base.Init(initData);
 
-            szenario = initData as Szenario;
-            if (szenario == null) return;
-            Robot = szenario.Robots[0];
-            szenario.SzenarioType = ControlType.Control.ToString();
+            _szenario = initData as Szenario;
+            if (_szenario == null) return;
+            Robot = _szenario.Robots[0];
+            _szenario.SzenarioType = ControlType.Control.ToString();
         }
 
         /// <summary>
@@ -62,7 +57,7 @@ namespace FleeAndCatch_App.PageModels
             CrossDeviceMotion.Current.Start(MotionSensorType.Accelerometer, MotionSensorDelay.Ui);
             CrossDeviceMotion.Current.SensorValueChanged += RefreshView;
 
-            refresh = true;
+            _refresh = true;
             Device.StartTimer(TimeSpan.FromMilliseconds(25), NewControlCmd);
         }
 
@@ -73,23 +68,7 @@ namespace FleeAndCatch_App.PageModels
         /// <param name="e"></param>
         protected override void ViewIsDisappearing(object sender, EventArgs e)
         {
-            refresh = false;
-            CrossDeviceMotion.Current.Stop(MotionSensorType.Accelerometer);
-
-            szenario.Robots[0].Active = false;
-            szenario.SzenarioType = ControlType.End.ToString();
-            var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), ControlType.Control.ToString(), Client.Identification, szenario);
-            Client.SendCmd(cmd.GetCommand());
-
-            var page = FreshMvvm.FreshPageModelResolver.ResolvePageModel<HomePageModel>();
-            var navigation = new FreshMvvm.FreshNavigationContainer(page)
-            {
-                BarBackgroundColor = Color.FromHex("#008B8B"),
-                BarTextColor = Color.White
-            };
-            Application.Current.MainPage = navigation;
-
-            base.ViewIsDisappearing(sender, e);
+            _refresh = false;
         }
 
         /// <summary>
@@ -107,7 +86,7 @@ namespace FleeAndCatch_App.PageModels
                         Change = "Stop";
                         ChangeColor = Color.FromHex("#8B0000");
 
-                        szenario.SzenarioType = ControlType.Start.ToString();
+                        _szenario.SzenarioType = ControlType.Start.ToString();
                     }
                     else
                     {
@@ -115,9 +94,9 @@ namespace FleeAndCatch_App.PageModels
                         Change = "Start";
                         ChangeColor = Color.FromHex("#006400");
 
-                        szenario.SzenarioType = ControlType.Stop.ToString();
+                        _szenario.SzenarioType = ControlType.Stop.ToString();
                     }
-                    var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), ControlType.Control.ToString(), Client.Identification, szenario);
+                    var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), ControlType.Control.ToString(), Client.Identification, _szenario);
                     Client.SendCmd(cmd.GetCommand());
                 });
             }
@@ -129,10 +108,30 @@ namespace FleeAndCatch_App.PageModels
         /// <returns></returns>
         private bool NewControlCmd()
         {
-            if (!refresh) return false;
-            var control = (Control)szenario;
-            control.Steering.Directiond = direction.ToString();
-            control.Steering.Speed = speed.ToString();
+            if (!_refresh)
+            {
+                //stop sensors////////////////////////////////////////////////////////////////////////////////////////CHeck for bugs
+                //nevigate to startpage
+                CrossDeviceMotion.Current.Stop(MotionSensorType.Accelerometer);
+
+                _szenario.Robots[0].Active = false;
+                _szenario.SzenarioType = ControlType.End.ToString();
+                var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), ControlType.Control.ToString(), Client.Identification, _szenario);
+                Client.SendCmd(cmd.GetCommand());
+
+                var page = FreshMvvm.FreshPageModelResolver.ResolvePageModel<HomePageModel>();
+                var navigation = new FreshMvvm.FreshNavigationContainer(page)
+                {
+                    BarBackgroundColor = Color.FromHex("#008B8B"),
+                    BarTextColor = Color.White
+                };
+                Application.Current.MainPage = navigation;
+
+                return false;
+            }
+            var control = (Control)_szenario;
+            control.Steering.Directiond = _direction.ToString();
+            control.Steering.Speed = _speed.ToString();
             foreach (var t in RobotController.Robots)
             {
                 if (t.Identification == Robot.Identification)
@@ -183,18 +182,18 @@ namespace FleeAndCatch_App.PageModels
                         //Gerade aus
                         if (y >= 0.25)
                         {
-                            speed = Steering.SpeedType.Faster;
+                            _speed = Steering.SpeedType.Faster;
                             ImageSource = ImageSource.FromFile("Images/ic_expand_less_black_48dp.png");
                         } 
                         else if (y <= -0.25)
                         {
-                            speed = Steering.SpeedType.Slower;
+                            _speed = Steering.SpeedType.Slower;
                             ImageSource = ImageSource.FromFile("Images/ic_expand_more_black_48dp.png");
                         } 
                         else
                         {
-                            direction = Steering.DirectionType.StraightOn;
-                            speed = Steering.SpeedType.Equal;
+                            _direction = Steering.DirectionType.StraightOn;
+                            _speed = Steering.SpeedType.Equal;
                             ImageSource = ImageSource.FromFile("");
                         }
                     }
@@ -203,12 +202,12 @@ namespace FleeAndCatch_App.PageModels
                         //Drehen
                         if (x >= 0.25)
                         {
-                            direction = Steering.DirectionType.Right;
+                            _direction = Steering.DirectionType.Right;
                             ImageSource = ImageSource.FromFile("Images/ic_chevron_right_black_48dp.png");
                         }                            
                         else if (x <= -0.25)
                         {
-                            direction = Steering.DirectionType.Left;
+                            _direction = Steering.DirectionType.Left;
                             ImageSource = ImageSource.FromFile("Images/ic_chevron_left_black_48dp.png");
                         }
                             
@@ -220,22 +219,22 @@ namespace FleeAndCatch_App.PageModels
                     {
                         //Gerade aus
                         if (x >= 0.25)
-                            speed = Steering.SpeedType.Faster;
+                            _speed = Steering.SpeedType.Faster;
                         else if (x <= -0.25)
-                            speed = Steering.SpeedType.Slower;
+                            _speed = Steering.SpeedType.Slower;
                         else
                         {
-                            direction = Steering.DirectionType.StraightOn;
-                            speed = Steering.SpeedType.Equal;
+                            _direction = Steering.DirectionType.StraightOn;
+                            _speed = Steering.SpeedType.Equal;
                         }
                     }
                     else
                     {
                         //Drehen
                         if (y >= 0.25)
-                            direction = Steering.DirectionType.Right;
+                            _direction = Steering.DirectionType.Right;
                         else if (y <= -0.25)
-                            direction = Steering.DirectionType.Left;
+                            _direction = Steering.DirectionType.Left;
                     }
                 }
                 else
@@ -243,6 +242,11 @@ namespace FleeAndCatch_App.PageModels
                     await CoreMethods.DisplayAlert("Error", "Not supported target", "OK");
                 }
             });
+        }
+
+        public static bool Refresh
+        {
+            set { _refresh = value; }
         }
     }
 }

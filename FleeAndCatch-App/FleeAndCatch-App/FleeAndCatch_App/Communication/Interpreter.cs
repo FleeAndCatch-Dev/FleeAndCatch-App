@@ -39,7 +39,8 @@ namespace FleeAndCatch_App.Communication
                 case CommandType.Szenario:
                     throw new ArgumentOutOfRangeException();
                 case CommandType.Exception:
-                    throw new ArgumentOutOfRangeException();
+                    Exception(jsonCommand);
+                    return;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -94,6 +95,30 @@ namespace FleeAndCatch_App.Communication
                                 RobotController.Robots[i] = t;
                         }
                     }
+                    return;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        /// <summary>
+        /// Parse a exception command.
+        /// </summary>
+        /// <param name="pCommand"></param>
+        private static void Exception(JObject pCommand)
+        {
+            if (pCommand == null) throw new ArgumentNullException(nameof(pCommand));
+            var type = (ExceptionCommandType)Enum.Parse(typeof(ExceptionCommandType), Convert.ToString(pCommand.SelectToken("type")));
+            var command = JsonConvert.DeserializeObject<ExceptionCommand>(JsonConvert.SerializeObject(pCommand));
+
+            switch (type)
+            {
+                case ExceptionCommandType.Undefined:
+                    throw new Java.Lang.Exception(command.Exception.Message);
+                case ExceptionCommandType.Disconnection:
+                    //Other device is disconnecting 
+                    ControlPageModel.Refresh = false;
+                    //App navigates automatic to home page
                     return;
                 default:
                     throw new ArgumentOutOfRangeException();
