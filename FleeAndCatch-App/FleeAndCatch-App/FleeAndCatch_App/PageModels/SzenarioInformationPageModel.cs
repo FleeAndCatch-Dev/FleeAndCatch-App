@@ -4,9 +4,10 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FleeAndCatch.Commands;
 using FleeAndCatch.Commands.Models.Szenarios;
 using PropertyChanged;
-using Xamarin.Forms;
+using Command = Xamarin.Forms.Command;
 
 namespace FleeAndCatch_App.PageModels
 {
@@ -31,7 +32,19 @@ namespace FleeAndCatch_App.PageModels
             {
                 return new Command(() =>
                 {
-                    CoreMethods.PushPageModel<ControlPageModel>(Szenario);
+                    var type = (SzenarioCommandType) Enum.Parse(typeof(SzenarioCommandType), Szenario.SzenarioId);
+                    switch (type)
+                    {
+                        case SzenarioCommandType.Control:
+                            CoreMethods.PushPageModel<ControlPageModel>(Szenario);
+                            break;
+                        case SzenarioCommandType.Synchron:
+                            break;
+                        case SzenarioCommandType.Follow:
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }                
                     RaisePropertyChanged();
                 });
             }

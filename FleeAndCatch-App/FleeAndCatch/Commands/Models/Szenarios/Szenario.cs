@@ -27,23 +27,6 @@ namespace FleeAndCatch.Commands.Models.Szenarios
 
         public abstract JObject GetJObject();
 
-        /*var appArray = new JArray();
-            foreach (var t in apps)
-                appArray.Add(t.GetJObject());
-
-            var robotArray = new JArray();
-            foreach (var t in robots)
-                robotArray.Add(t.GetJObject());
-
-            var jsonSzenario = new JObject
-            {
-                {"szenarioid", szenarioid},
-                {"active", active},
-                {"apps", appArray},
-                {"robots", robotArray}
-            };
-            return jsonSzenario;*/
-
         public string SzenarioId => szenarioid;
 
         public string SzenarioType

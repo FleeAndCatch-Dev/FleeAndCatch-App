@@ -25,6 +25,11 @@ namespace FleeAndCatch_App.PageModels
         public List<RobotGroup> RobotGroupList { get; set; }
         private SzenarioCommandType _szenarioType;
 
+        public RobotListPageModel()
+        {
+            RobotGroupList = new List<RobotGroup>();
+        }
+
         public override void Init(object initData)
         {
             base.Init(initData);
@@ -141,8 +146,8 @@ namespace FleeAndCatch_App.PageModels
                 while (!RobotController.Updated)
                     await Task.Delay(TimeSpan.FromMilliseconds(10));
 
-                RobotGroupList = new List<RobotGroup>();
-
+                RobotGroupList.Clear();
+                var tempList = new List<RobotGroup>();
                 for (var i = 0; i < Enum.GetNames(typeof(ComponentType.RobotType)).Length; i++)
                 {
                     var counter = 0;
@@ -151,8 +156,9 @@ namespace FleeAndCatch_App.PageModels
                         if (t.Identification.Subtype == Enum.GetNames(typeof(ComponentType.RobotType))[i] && !t.Active)
                             counter++;
                     }
-                    RobotGroupList.Insert(RobotGroupList.Count, new RobotGroup(Enum.GetNames(typeof(ComponentType.RobotType))[i], counter));
+                    tempList.Add(new RobotGroup(Enum.GetNames(typeof(ComponentType.RobotType))[i], counter));
                 }
+                RobotGroupList = tempList;
                 Device.BeginInvokeOnMainThread(() =>
                 {
                     UserDialogs.Instance.HideLoading();
