@@ -8,20 +8,17 @@ using Newtonsoft.Json.Linq;
 
 namespace FleeAndCatch.Commands.Models.Devices.Apps
 {
-    public class App : IDevice
+    public class App : Device
     {
         [JsonProperty("identification")]
         private AppIdentification identification;
-        [JsonProperty("active")]
-        private bool active;
 
-        public App(AppIdentification pAppIdentification)
+        public App(AppIdentification pAppIdentification) : base(false)
         {
             identification = pAppIdentification;
-            active = false;
         }
 
-        public JObject GetJObject()
+        public override JObject GetJObject()
         {
             var jsonApp = new JObject
             {
@@ -32,11 +29,5 @@ namespace FleeAndCatch.Commands.Models.Devices.Apps
         }
 
         public AppIdentification Identification => identification;
-
-        public bool Active
-        {
-            get { return active; }
-            set { active = value; }
-        }
     }
 }

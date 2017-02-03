@@ -10,16 +10,31 @@ using Newtonsoft.Json.Linq;
 
 namespace FleeAndCatch.Commands.Models.Devices
 {
-    public interface IDevice
+    public abstract class Device
     {
-        JObject GetJObject();
+        [JsonProperty("active")]
+        protected bool active;
+        private bool pActive;
+
+        protected Device(bool pActive)
+        {
+            this.pActive = pActive;
+        }
+
+        public abstract JObject GetJObject();
+
+        public bool Active
+        {
+            get { return active; }
+            set { active = value; }
+        }
     }
 
     public class DeviceConverter : JsonConverter
     {
         public override bool CanConvert(Type objectType)
         {
-            return (objectType == typeof(IDevice));
+            return (objectType == typeof(Device));
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)

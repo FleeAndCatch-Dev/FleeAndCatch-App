@@ -8,12 +8,10 @@ using Newtonsoft.Json.Linq;
 
 namespace FleeAndCatch.Commands.Models.Devices.Robots
 {
-    public class Robot : IDevice
+    public class Robot : Device
     {
         [JsonProperty("identification")]
         protected RobotIdentification identification;
-        [JsonProperty("active")]
-        protected bool active;
         [JsonProperty("position")]
         protected Position position;
         [JsonProperty("speed")]
@@ -23,15 +21,14 @@ namespace FleeAndCatch.Commands.Models.Devices.Robots
         /// Create an object of an robot for a json command.
         /// </summary>
         /// <param name="pId">Id of the robot in communication.</param>
-        public Robot(RobotIdentification pIdentification, bool pActive, Position pPosition, double pSpeed)
+        public Robot(RobotIdentification pIdentification, bool pActive, Position pPosition, double pSpeed) : base(pActive)
         {
             identification = pIdentification;
-            active = pActive;
             position = pPosition;
             speed = pSpeed;
         }
 
-        public JObject GetJObject()
+        public override JObject GetJObject()
         {
             var jsonRobot = new JObject
             {
@@ -44,12 +41,6 @@ namespace FleeAndCatch.Commands.Models.Devices.Robots
         }
 
         public RobotIdentification Identification => identification;
-
-        public bool Active
-        {
-            get { return active; }
-            set { active = value; }
-        }
         public Position Position => position;
         public double Speed => speed;
     }

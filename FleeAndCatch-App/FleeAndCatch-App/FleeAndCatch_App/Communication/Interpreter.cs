@@ -115,10 +115,15 @@ namespace FleeAndCatch_App.Communication
             {
                 case ExceptionCommandType.Undefined:
                     throw new Java.Lang.Exception(command.Exception.Message);
-                case ExceptionCommandType.Disconnection:
+                case ExceptionCommandType.UnhandeldDisconnection:
                     //Other device is disconnecting 
-                    ControlPageModel.Refresh = false;
-                    //App navigates automatic to home page
+                    var app = Client.Device as FleeAndCatch.Commands.Models.Devices.Apps.App;
+                    if (app != null && app.Active)
+                    {
+                        //Handle UnhandeldDisconnection
+                        ControlPageModel.Refresh = false;
+                        //App navigates automatic to home page
+                    }
                     return;
                 default:
                     throw new ArgumentOutOfRangeException();

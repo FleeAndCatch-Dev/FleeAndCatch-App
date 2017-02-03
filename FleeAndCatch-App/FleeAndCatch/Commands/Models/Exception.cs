@@ -17,9 +17,9 @@ namespace FleeAndCatch.Commands.Models
         private string message;
         [JsonProperty("device")]
         [JsonConverter(typeof(DeviceConverter))]
-        private IDevice device;
+        private Device device;
 
-        public Exception(string pType, string pMessage, IDevice pDevice)
+        public Exception(string pType, string pMessage, Device pDevice)
         {
             this.type = pType;
             this.message = pMessage;
@@ -39,6 +39,6 @@ namespace FleeAndCatch.Commands.Models
 
         public string Type => type;
         public string Message => message;
-        public IDevice Device => device;
+        public Device Device => device;
     }
 }

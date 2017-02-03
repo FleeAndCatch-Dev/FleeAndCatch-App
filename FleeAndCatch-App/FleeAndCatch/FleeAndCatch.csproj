@@ -43,7 +43,7 @@
     <Compile Include="Commands\Models\Exception.cs" />
     <Compile Include="Commands\Models\Szenarios\Control.cs" />
     <Compile Include="Commands\Models\Devices\Apps\App.cs" />
-    <Compile Include="Commands\Models\Devices\IDevice.cs" />
+    <Compile Include="Commands\Models\Devices\Device.cs" />
     <Compile Include="Commands\Models\Devices\Robots\Robot.cs" />
     <Compile Include="Commands\Models\Devices\Robots\ThreeWheelDrive.cs" />
     <Compile Include="Commands\Models\Identification.cs" />

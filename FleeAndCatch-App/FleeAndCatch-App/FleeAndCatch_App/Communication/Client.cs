@@ -9,6 +9,7 @@ using Newtonsoft.Json.Linq;
 using Sockets.Plugin;
 using static FleeAndCatch.Components.ComponentType;
 using System.Text;
+using FleeAndCatch.Commands.Models.Szenarios;
 using Newtonsoft.Json;
 
 namespace FleeAndCatch_App.Communication
@@ -18,7 +19,8 @@ namespace FleeAndCatch_App.Communication
         private static TcpSocketClient tcpSocketClient;
         private static bool connected;
         private static ClientIdentification identification;
-        private static IDevice device;
+        private static Device device;
+        private static Szenario szenario;
 
         //private static SemaphoreSlim tcpSocketClientSemaphore = new SemaphoreSlim(1, 1);
 
@@ -158,10 +160,16 @@ namespace FleeAndCatch_App.Communication
 
         public static bool Connected => connected;
         public static ClientIdentification Identification => identification;
-        public static IDevice Device
+        public static Device Device
         {
             get { return device; }
             set { device = value; }
+        }
+
+        public static Szenario Szenario
+        {
+            get { return szenario; }
+            set { szenario = value; }
         }
     }
 
