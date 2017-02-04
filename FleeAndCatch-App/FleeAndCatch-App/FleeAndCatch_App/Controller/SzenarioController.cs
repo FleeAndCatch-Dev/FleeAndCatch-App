@@ -9,5 +9,6 @@ namespace FleeAndCatch_App.Controller
     public static class SzenarioController
     {
         public static bool ChangedPosition { get; set; }
+        public static bool Refresh { get; set; }
     }
 }

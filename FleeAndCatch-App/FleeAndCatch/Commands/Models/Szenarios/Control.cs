@@ -30,6 +30,7 @@ namespace FleeAndCatch.Commands.Models.Szenarios
             {
                 {"szenarioid", szenarioid},
                 {"szenariotype", szenariotype},
+                {"mode", mode},
                 {"apps", appArray},
                 {"robots", robotArray},
                 {"steering", steering.GetJObject()}

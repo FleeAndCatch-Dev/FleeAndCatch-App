@@ -27,7 +27,6 @@ namespace FleeAndCatch_App.PageModels
         private Szenario _szenario;
         private Steering.SpeedType _speed;
         private Steering.DirectionType _direction;
-        private static bool _refresh;
 
         /// <summary>
         /// Set the current robot and the szenario type
@@ -58,7 +57,7 @@ namespace FleeAndCatch_App.PageModels
             CrossDeviceMotion.Current.Start(MotionSensorType.Accelerometer, MotionSensorDelay.Ui);
             CrossDeviceMotion.Current.SensorValueChanged += RefreshView;
 
-            _refresh = true;
+            SzenarioController.Refresh = true;
             Device.StartTimer(TimeSpan.FromMilliseconds(25), NewControlCmd);
         }
 
@@ -69,7 +68,7 @@ namespace FleeAndCatch_App.PageModels
         /// <param name="e"></param>
         protected override void ViewIsDisappearing(object sender, EventArgs e)
         {
-            _refresh = false;
+            SzenarioController.Refresh = false;
         }
 
         /// <summary>
@@ -121,14 +120,15 @@ namespace FleeAndCatch_App.PageModels
                 SzenarioController.ChangedPosition = false;
             }
 
-            if (!_refresh)
+            if (!SzenarioController.Refresh)
             {
-                //stop sensors////////////////////////////////////////////////////////////////////////////////////////CHeck for bugs
-                //nevigate to startpage
+                //stop sensors
+                //navigate to startpage
                 CrossDeviceMotion.Current.Stop(MotionSensorType.Accelerometer);
-
+                //set object active -> false
                 _szenario.Robots[0].Active = false;
                 Client.Device.Active = false;
+
                 _szenario.SzenarioType = ControlType.End.ToString();
                 var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), ControlType.Control.ToString(), Client.Identification, _szenario);
                 Client.SendCmd(JsonConvert.SerializeObject(cmd));
@@ -257,11 +257,6 @@ namespace FleeAndCatch_App.PageModels
                     await CoreMethods.DisplayAlert("Error", "Not supported target", "OK");
                 }
             });
-        }
-
-        public static bool Refresh
-        {
-            set { _refresh = value; }
         }
     }
 }

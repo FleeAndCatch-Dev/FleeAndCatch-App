@@ -37,7 +37,8 @@ namespace FleeAndCatch_App.Communication
                     Synchronization(jsonCommand);
                     return;
                 case CommandType.Szenario:
-                    throw new ArgumentOutOfRangeException();
+                    Szenario(jsonCommand);
+                    return;
                 case CommandType.Exception:
                     Exception(jsonCommand);
                     return;
@@ -53,12 +54,14 @@ namespace FleeAndCatch_App.Communication
         private static void Connection(JObject pCommand)
         {
             if (pCommand == null) throw new ArgumentNullException(nameof(pCommand));
-            var type = (ConnectionCommandType) Enum.Parse(typeof(ConnectionCommandType), Convert.ToString(pCommand.SelectToken("type")));
             var command = JsonConvert.DeserializeObject<ConnectionCommand>(JsonConvert.SerializeObject(pCommand));
+            var type = (ConnectionCommandType) Enum.Parse(typeof(ConnectionCommandType), command.Type);
+            
 
             switch (type)
             {
                 case ConnectionCommandType.Connect:
+                    //Set the id to the objects
                     Client.Identification.Id = command.Identification.Id;
                     var app = (FleeAndCatch.Commands.Models.Devices.Apps.App) Client.Device;
                     app.Identification.Id = command.Identification.Id;
@@ -77,9 +80,10 @@ namespace FleeAndCatch_App.Communication
         /// <param name="pCommand"></param>
         private static void Synchronization(JObject pCommand)
         {
-            if (pCommand == null) throw new ArgumentNullException(nameof(pCommand));
-            var type = (SynchronizationCommandType)Enum.Parse(typeof(SynchronizationCommandType), Convert.ToString(pCommand.SelectToken("type")));
+            if (pCommand == null) throw new ArgumentNullException(nameof(pCommand));            
             var command = JsonConvert.DeserializeObject<Synchronization>(JsonConvert.SerializeObject(pCommand));
+            var type = (SynchronizationCommandType)Enum.Parse(typeof(SynchronizationCommandType), command.Type);
+
             switch (type)
             {
                 case SynchronizationCommandType.All:
@@ -89,18 +93,26 @@ namespace FleeAndCatch_App.Communication
                 case SynchronizationCommandType.Current:
                     for (var i = 0; i < RobotController.Robots.Count; i++)
                     {
-                        foreach (var t in command.Robots)
-                        {
-                            if (RobotController.Robots[i].Identification.Id != t.Identification.Id) continue;
-                            RobotController.Robots[i] = t;
-                            SzenarioController.ChangedPosition = true;
-                            break;
-                        }
+                        if (RobotController.Robots[i].Identification.Id != Client.Identification.Id) continue;
+                        //Update robot object instances
+                        RobotController.Robots[i] = command.Robots[0];
+                        Client.Device = command.Robots[0];
+                        SzenarioController.ChangedPosition = true;
+                        break;
                     }
                     return;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        /// <summary>
+        /// Parse a szenario command.
+        /// </summary>
+        /// <param name="pCommand"></param>
+        private static void Szenario(JObject jsonCommand)
+        {
+            //Handle szenario command TODO
         }
 
         /// <summary>
@@ -110,8 +122,8 @@ namespace FleeAndCatch_App.Communication
         private static void Exception(JObject pCommand)
         {
             if (pCommand == null) throw new ArgumentNullException(nameof(pCommand));
-            var type = (ExceptionCommandType)Enum.Parse(typeof(ExceptionCommandType), Convert.ToString(pCommand.SelectToken("type")));
             var command = JsonConvert.DeserializeObject<ExceptionCommand>(JsonConvert.SerializeObject(pCommand));
+            var type = (ExceptionCommandType)Enum.Parse(typeof(ExceptionCommandType), command.Type);        
 
             switch (type)
             {
@@ -123,7 +135,7 @@ namespace FleeAndCatch_App.Communication
                     if (app != null && app.Active)
                     {
                         //Handle UnhandeldDisconnection
-                        ControlPageModel.Refresh = false;
+                       SzenarioController.Refresh = false;
                         //App navigates automatic to home page
                     }
                     return;
