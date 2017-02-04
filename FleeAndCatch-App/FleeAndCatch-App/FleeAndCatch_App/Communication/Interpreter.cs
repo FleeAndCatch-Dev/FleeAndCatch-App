@@ -37,8 +37,7 @@ namespace FleeAndCatch_App.Communication
                     Synchronization(jsonCommand);
                     return;
                 case CommandType.Szenario:
-                    Szenario(jsonCommand);
-                    return;
+                    throw new ArgumentOutOfRangeException();
                 case CommandType.Exception:
                     Exception(jsonCommand);
                     return;
@@ -93,12 +92,14 @@ namespace FleeAndCatch_App.Communication
                 case SynchronizationCommandType.Current:
                     for (var i = 0; i < RobotController.Robots.Count; i++)
                     {
-                        if (RobotController.Robots[i].Identification.Id != Client.Identification.Id) continue;
-                        //Update robot object instances
-                        RobotController.Robots[i] = command.Robots[0];
-                        Client.Device = command.Robots[0];
-                        SzenarioController.ChangedPosition = true;
-                        break;
+                        foreach (var t in command.Robots)
+                        {
+                            if (RobotController.Robots[i].Identification.Id != t.Identification.Id) continue;
+                            //Update robot object instances
+                            RobotController.Robots[i] = t;
+                            SzenarioController.ChangedPosition = true;
+                            break;
+                        }
                     }
                     return;
                 default:
@@ -107,20 +108,12 @@ namespace FleeAndCatch_App.Communication
         }
 
         /// <summary>
-        /// Parse a szenario command.
-        /// </summary>
-        /// <param name="pCommand"></param>
-        private static void Szenario(JObject jsonCommand)
-        {
-            //Handle szenario command TODO
-        }
-
-        /// <summary>
         /// Parse a exception command.
         /// </summary>
         /// <param name="pCommand"></param>
         private static void Exception(JObject pCommand)
         {
+            //Need to test
             if (pCommand == null) throw new ArgumentNullException(nameof(pCommand));
             var command = JsonConvert.DeserializeObject<ExceptionCommand>(JsonConvert.SerializeObject(pCommand));
             var type = (ExceptionCommandType)Enum.Parse(typeof(ExceptionCommandType), command.Type);        
@@ -131,7 +124,7 @@ namespace FleeAndCatch_App.Communication
                     throw new Java.Lang.Exception(command.Exception.Message);
                 case ExceptionCommandType.UnhandeldDisconnection:
                     //Other device is disconnecting 
-                    var app = Client.Device as FleeAndCatch.Commands.Models.Devices.Apps.App;
+                    var app = (FleeAndCatch.Commands.Models.Devices.Apps.App)Client.Device;
                     if (app != null && app.Active)
                     {
                         //Handle UnhandeldDisconnection

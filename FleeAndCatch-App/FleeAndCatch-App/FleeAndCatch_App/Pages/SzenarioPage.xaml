@@ -13,8 +13,16 @@
                 <Label Text="Szenario options" FontAttributes="Bold" FontSize="20" TextColor="#000080"/>
             </StackLayout>
         </StackLayout>
-        <Button x:Name="BNewSzenario" Text="New Szenario" HeightRequest="50" Margin="-2,-4" TextColor="White" BackgroundColor="#008B8B" FontAttributes="Bold" FontSize="16" Command="{Binding BNewSzenario_OnCommand}"/>
-        <Button x:Name="BSpectator" Text="Spectator" HeightRequest="50" Margin="-2,-4" TextColor="White" BackgroundColor="#008080" FontAttributes="Bold" FontSize="16" Command="{Binding BSpectator_OnCommand}"/>
-        <Button x:Name="BHelp" Text="Help" HeightRequest="50" TextColor="White" BackgroundColor="#008080" Margin="-2,-4,-2,-2" FontAttributes="Bold" FontSize="16" Command="{Binding BHelp_OnCommand}"/>
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+          </Grid.ColumnDefinitions>
+
+          <Button Grid.Column="0" Text="Single" HeightRequest="50" Margin="-2,-4,-4,-4" TextColor="White" BackgroundColor="#008B8B" FontAttributes="Bold" FontSize="16" Command="{Binding BSingle_OnCommand}"/>
+          <Button Grid.Column="1" Text="Multi" HeightRequest="50" Margin="-4,-4,-2,-4" TextColor="White" BackgroundColor="#008B8B" FontAttributes="Bold" FontSize="16" Command="{Binding BMulti_OnCommand}"/>
+        </Grid>
+        <Button Text="Spectator" HeightRequest="50" Margin="-2,-4" TextColor="White" BackgroundColor="#008080" FontAttributes="Bold" FontSize="16" Command="{Binding BSpectator_OnCommand}"/>
+        <Button Text="Help" HeightRequest="50" TextColor="White" BackgroundColor="#008080" Margin="-2,-4,-2,-2" FontAttributes="Bold" FontSize="16" Command="{Binding BHelp_OnCommand}"/>
     </StackLayout>
 </ContentPage>

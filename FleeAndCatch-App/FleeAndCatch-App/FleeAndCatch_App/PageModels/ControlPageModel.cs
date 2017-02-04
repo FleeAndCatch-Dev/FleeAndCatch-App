@@ -58,7 +58,7 @@ namespace FleeAndCatch_App.PageModels
             CrossDeviceMotion.Current.SensorValueChanged += RefreshView;
 
             SzenarioController.Refresh = true;
-            Device.StartTimer(TimeSpan.FromMilliseconds(25), NewControlCmd);
+            Device.StartTimer(TimeSpan.FromMilliseconds(50), NewControlCmd);
         }
 
         /// <summary>

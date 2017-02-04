@@ -58,6 +58,22 @@ namespace FleeAndCatch_App.PageModels
         }
 
         /// <summary>
+        /// Refresh the listview
+        /// </summary>
+        public Command Refresh_OnCommand
+        {
+            get
+            {
+                return new Command(() =>
+                {
+                    UserDialogs.Instance.ShowLoading();
+                    var connectionTask = new Task(UpdateRobotList);
+                    connectionTask.Start();
+                });
+            }
+        }
+
+        /// <summary>
         /// Get the selected robots and navigates the user to the szenario page
         /// </summary>
         public Command BContinue_OnCommand
@@ -81,6 +97,7 @@ namespace FleeAndCatch_App.PageModels
                             foreach (var t in RobotController.Robots)
                             {
                                 if (t.Identification.Subtype != type.ToString()) continue;
+                                t.Active = true;
                                 robotList.Add(t);
                                 value--;
                                 break;
@@ -89,6 +106,7 @@ namespace FleeAndCatch_App.PageModels
                     }
 
                     //Add the apps
+                    Client.Device.Active = true;
                     appList.Add((FleeAndCatch.Commands.Models.Devices.Apps.App)Client.Device);
 
                     switch (_szenarioType)
