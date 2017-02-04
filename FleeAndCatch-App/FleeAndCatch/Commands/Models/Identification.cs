@@ -147,16 +147,6 @@ namespace FleeAndCatch.Commands.Models
         {
             object device = null;
 
-            //Specification for the desrialisation of the device
-            /*try
-            {
-                device = serializer.Deserialize<App>(reader);
-            }
-            catch
-            {
-                device = serializer.Deserialize<Robot>(reader);
-            }*/
-
             return device;
         }
 

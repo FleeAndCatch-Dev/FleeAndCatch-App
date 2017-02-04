@@ -42,6 +42,7 @@
     <Compile Include="Communication\Client.cs" />
     <Compile Include="Communication\Interpreter.cs" />
     <Compile Include="Controller\RobotController.cs" />
+    <Compile Include="Controller\SzenarioController.cs" />
     <Compile Include="Models\Connection.cs" />
     <Compile Include="Models\RobotGroup.cs" />
     <Compile Include="PageModels\ControlPageModel.cs" />

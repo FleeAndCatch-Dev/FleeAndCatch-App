@@ -13,6 +13,7 @@ using FleeAndCatch.Components;
 using FleeAndCatch_App.Communication;
 using FleeAndCatch_App.Controller;
 using FleeAndCatch_App.Models;
+using Newtonsoft.Json;
 using PropertyChanged;
 using Xamarin.Forms;
 using Command = Xamarin.Forms.Command;
@@ -99,7 +100,8 @@ namespace FleeAndCatch_App.PageModels
                                 {
                                     t.Active = true;
                                 }
-                                szenario = new Control(_szenarioType.ToString(), ControlType.Begin.ToString(), appList, robotList, new Steering(0, 0));
+                                Client.Device.Active = true;
+                                szenario = new Control(_szenarioType.ToString(), ControlType.Begin.ToString(), SzenarioMode.Single.ToString(), appList, robotList, new Steering(0, 0));
                             }
                             break;
                         case SzenarioCommandType.Synchron:

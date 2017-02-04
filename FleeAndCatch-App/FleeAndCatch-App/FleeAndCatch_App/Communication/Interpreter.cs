@@ -91,8 +91,10 @@ namespace FleeAndCatch_App.Communication
                     {
                         foreach (var t in command.Robots)
                         {
-                            if (RobotController.Robots[i].Identification == t.Identification)
-                                RobotController.Robots[i] = t;
+                            if (RobotController.Robots[i].Identification.Id != t.Identification.Id) continue;
+                            RobotController.Robots[i] = t;
+                            SzenarioController.ChangedPosition = true;
+                            break;
                         }
                     }
                     return;

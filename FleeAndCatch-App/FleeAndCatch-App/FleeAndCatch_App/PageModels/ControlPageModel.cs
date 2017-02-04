@@ -10,6 +10,7 @@ using FleeAndCatch.Commands.Models.Devices.Robots;
 using FleeAndCatch.Commands.Models.Szenarios;
 using FleeAndCatch_App.Communication;
 using FleeAndCatch_App.Controller;
+using Newtonsoft.Json;
 using PropertyChanged;
 using Xamarin.Forms;
 using Command = Xamarin.Forms.Command;
@@ -108,6 +109,18 @@ namespace FleeAndCatch_App.PageModels
         /// <returns></returns>
         private bool NewControlCmd()
         {
+            //Change the user interface
+            if (SzenarioController.ChangedPosition)
+            {
+                foreach (var t in RobotController.Robots)
+                {
+                    if (Robot.Identification.Id != t.Identification.Id) continue;
+                    Robot = t;
+                    break;
+                }
+                SzenarioController.ChangedPosition = false;
+            }
+
             if (!_refresh)
             {
                 //stop sensors////////////////////////////////////////////////////////////////////////////////////////CHeck for bugs
@@ -115,9 +128,10 @@ namespace FleeAndCatch_App.PageModels
                 CrossDeviceMotion.Current.Stop(MotionSensorType.Accelerometer);
 
                 _szenario.Robots[0].Active = false;
+                Client.Device.Active = false;
                 _szenario.SzenarioType = ControlType.End.ToString();
                 var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), ControlType.Control.ToString(), Client.Identification, _szenario);
-                Client.SendCmd(cmd.GetCommand());
+                Client.SendCmd(JsonConvert.SerializeObject(cmd));
 
                 var page = FreshMvvm.FreshPageModelResolver.ResolvePageModel<HomePageModel>();
                 var navigation = new FreshMvvm.FreshNavigationContainer(page)
@@ -130,6 +144,7 @@ namespace FleeAndCatch_App.PageModels
                 return false;
             }
             var control = (Control)_szenario;
+            control.SzenarioType = ControlType.Control.ToString();
             control.Steering.Directiond = _direction.ToString();
             control.Steering.Speed = _speed.ToString();
             foreach (var t in RobotController.Robots)

@@ -12,15 +12,18 @@ namespace FleeAndCatch.Commands.Models.Szenarios
         protected string szenarioid;
         [JsonProperty("szenariotype")]
         protected string szenariotype;
+        [JsonProperty("mode")]
+        protected string mode;
         [JsonProperty("apps")]
         protected List<App> apps;
         [JsonProperty("robots")]
         protected List<Robot> robots;
 
-        protected Szenario(string pSzenarioId, string pSzenarioType, List<App> pApps, List<Robot> pRobots)
+        protected Szenario(string pSzenarioId, string pSzenarioType, string pMode, List<App> pApps, List<Robot> pRobots)
         {
             this.szenarioid = pSzenarioId;
             this.szenariotype = pSzenarioType;
+            this.mode = pMode;
             this.apps = pApps;
             this.robots = pRobots;
         }
@@ -34,7 +37,14 @@ namespace FleeAndCatch.Commands.Models.Szenarios
             get { return szenariotype; }
             set { szenariotype = value; }
         }
+
+        public string Mode => mode;
         public List<App> Apps => apps;
         public List<Robot> Robots => robots;
+    }
+
+    public enum SzenarioMode
+    {
+        Single, Multi
     }
 }

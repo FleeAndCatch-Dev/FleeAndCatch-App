@@ -22,8 +22,6 @@ namespace FleeAndCatch_App.Communication
         private static Device device;
         private static Szenario szenario;
 
-        //private static SemaphoreSlim tcpSocketClientSemaphore = new SemaphoreSlim(1, 1);
-
         /// <summary>
         /// Create a new task with a new communication.
         /// </summary>

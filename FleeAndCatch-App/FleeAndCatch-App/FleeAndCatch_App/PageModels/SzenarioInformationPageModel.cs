@@ -5,7 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FleeAndCatch.Commands;
+using FleeAndCatch.Commands.Models.Devices.Robots;
 using FleeAndCatch.Commands.Models.Szenarios;
+using FleeAndCatch_App.Communication;
+using Newtonsoft.Json;
 using PropertyChanged;
 using Command = Xamarin.Forms.Command;
 
@@ -17,13 +20,32 @@ namespace FleeAndCatch_App.PageModels
         public Szenario Szenario { get; set; }
         public List<Group> GroupedApps { get; set; }
         public List<Group> GroupedRobots { get; set; }
+        private bool accept;
 
         public override void Init(object initData)
         {
             base.Init(initData);
 
             Szenario = initData as Szenario;
+            accept = false;
             GenerateLists();
+        }
+
+        protected override void ViewIsDisappearing(object sender, EventArgs e)
+        {
+            if (!accept)
+            {
+                foreach (var t in Szenario.Robots)
+                    t.Active = false;
+                foreach (var t in Szenario.Apps)
+                    t.Active = false;
+
+                Szenario.SzenarioType = ControlType.End.ToString();
+                var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), ControlType.Control.ToString(), Client.Identification, Szenario);
+                Client.SendCmd(JsonConvert.SerializeObject(cmd));
+            }
+
+            base.ViewIsDisappearing(sender, e);
         }
 
         public Command BStart_OnCommand
@@ -32,6 +54,7 @@ namespace FleeAndCatch_App.PageModels
             {
                 return new Command(() =>
                 {
+                    accept = true;
                     var type = (SzenarioCommandType) Enum.Parse(typeof(SzenarioCommandType), Szenario.SzenarioId);
                     switch (type)
                     {

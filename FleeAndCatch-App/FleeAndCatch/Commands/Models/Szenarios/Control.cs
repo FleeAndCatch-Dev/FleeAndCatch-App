@@ -11,7 +11,7 @@ namespace FleeAndCatch.Commands.Models.Szenarios
         [JsonProperty("steering")]
         private Steering steering;
 
-        public Control(string pSzenarioId, string pSzenarioType, List<App> pApps, List<Robot> pRobots, Steering pSteering) : base(pSzenarioId, pSzenarioType, pApps, pRobots)
+        public Control(string pSzenarioId, string pSzenarioType, string pMode, List<App> pApps, List<Robot> pRobots, Steering pSteering) : base(pSzenarioId, pSzenarioType, pMode, pApps, pRobots)
         {
             this.steering = pSteering;
         }
