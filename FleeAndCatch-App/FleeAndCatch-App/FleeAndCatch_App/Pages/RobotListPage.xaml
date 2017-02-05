@@ -1,19 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewElements="clr-namespace:FleeAndCatch_App.ViewElements;assembly=FleeAndCatch_App"
              x:Class="FleeAndCatch_App.Pages.RobotListPage"
              Title="FleeAndCatch">
-
-    <ListView ItemsSource="{Binding RobotGroupList}" HasUnevenRows="True" SelectedItem="{Binding RobotList_OnItemSelected, Mode=TwoWay}">
-        <ListView.ItemTemplate>
-            <DataTemplate>
-                <ViewCell>
-                    <StackLayout Orientation="Horizontal" Padding="20,10" HorizontalOptions="FillAndExpand">
-                        <Label Text="{Binding Name}" FontSize="18" VerticalTextAlignment="Center" HorizontalTextAlignment="Start"/>
-                        <Label Text="{Binding Number}" FontSize="18" VerticalTextAlignment="Center" HorizontalTextAlignment="End"/>
-                    </StackLayout>
-                </ViewCell>
-            </DataTemplate>
-        </ListView.ItemTemplate>
+  
+  <StackLayout Orientation="Vertical">
+    <ListView ItemsSource="{Binding RobotGroupList}" HasUnevenRows="True" VerticalOptions="StartAndExpand">
+      <ListView.ItemTemplate>
+        <DataTemplate>
+          <ViewCell>
+            <StackLayout Orientation="Horizontal" Padding="20,10">
+              <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand" Spacing="10">
+                <Label Text="{Binding Name}" FontSize="18" VerticalTextAlignment="Center" HorizontalTextAlignment="Start"/>
+                <Label Text="{Binding Number}" FontSize="18" VerticalTextAlignment="Center" HorizontalTextAlignment="End"/>
+              </StackLayout>
+              <viewElements:BindablePicker ItemsSource="{Binding Path=Items}" SelectedItem="{Binding Path=Choosen, Mode=TwoWay}" HorizontalOptions="End"/>
+            </StackLayout>
+          </ViewCell>
+        </DataTemplate>
+      </ListView.ItemTemplate>
     </ListView>
+    <Button x:Name="BContinue" Text="Continue" HeightRequest="50" Margin="-2,-4,-2,-2" TextColor="White" BackgroundColor="#008B8B" FontAttributes="Bold" FontSize="16" VerticalOptions="End" Command="{Binding BContinue_OnCommand}"/>
+  </StackLayout>
 </ContentPage>

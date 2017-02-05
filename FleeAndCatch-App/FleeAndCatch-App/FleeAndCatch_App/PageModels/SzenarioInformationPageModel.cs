@@ -4,9 +4,13 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FleeAndCatch.Commands;
+using FleeAndCatch.Commands.Models.Devices.Robots;
 using FleeAndCatch.Commands.Models.Szenarios;
+using FleeAndCatch_App.Communication;
+using Newtonsoft.Json;
 using PropertyChanged;
-using Xamarin.Forms;
+using Command = Xamarin.Forms.Command;
 
 namespace FleeAndCatch_App.PageModels
 {
@@ -16,13 +20,32 @@ namespace FleeAndCatch_App.PageModels
         public Szenario Szenario { get; set; }
         public List<Group> GroupedApps { get; set; }
         public List<Group> GroupedRobots { get; set; }
+        private bool accept;
 
         public override void Init(object initData)
         {
             base.Init(initData);
 
             Szenario = initData as Szenario;
+            accept = false;
             GenerateLists();
+        }
+
+        protected override void ViewIsDisappearing(object sender, EventArgs e)
+        {
+            if (!accept)
+            {
+                foreach (var t in Szenario.Robots)
+                    t.Active = false;
+                foreach (var t in Szenario.Apps)
+                    t.Active = false;
+
+                Szenario.SzenarioType = ControlType.End.ToString();
+                var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), ControlType.Control.ToString(), Client.Identification, Szenario);
+                Client.SendCmd(JsonConvert.SerializeObject(cmd));
+            }
+
+            base.ViewIsDisappearing(sender, e);
         }
 
         public Command BStart_OnCommand
@@ -31,7 +54,20 @@ namespace FleeAndCatch_App.PageModels
             {
                 return new Command(() =>
                 {
-                    CoreMethods.PushPageModel<ControlPageModel>(Szenario);
+                    accept = true;
+                    var type = (SzenarioCommandType) Enum.Parse(typeof(SzenarioCommandType), Szenario.SzenarioId);
+                    switch (type)
+                    {
+                        case SzenarioCommandType.Control:
+                            CoreMethods.PushPageModel<ControlPageModel>(Szenario);
+                            break;
+                        case SzenarioCommandType.Synchron:
+                            break;
+                        case SzenarioCommandType.Follow:
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }                
                     RaisePropertyChanged();
                 });
             }
@@ -51,6 +87,7 @@ namespace FleeAndCatch_App.PageModels
                     new Item { Name = "RoleType:", Text = Convert.ToString(t.Identification.Roletype)},
                     new Item { Name = "Active:", Text = Convert.ToString(t.Active)}
                 };
+                app.Name = "App";
                 GroupedApps.Add(app);
             }
             GroupedRobots = new List<Group>();
@@ -65,6 +102,7 @@ namespace FleeAndCatch_App.PageModels
                     new Item { Name = "Position:", Text = Convert.ToString(t.Position.X) + " " + Convert.ToString(t.Position.Y) + " " + Convert.ToString(t.Position.Orientation)},
                     new Item { Name = "Speed:", Text = Convert.ToString(t.Speed)}
                 };
+                robot.Name = "Robot";
                 GroupedApps.Add(robot);
             }
         }
@@ -73,6 +111,7 @@ namespace FleeAndCatch_App.PageModels
     [ImplementPropertyChanged]
     public class Group : ObservableCollection<Item>
     {
+        public string Name { get; set; }
     }
 
     [ImplementPropertyChanged]

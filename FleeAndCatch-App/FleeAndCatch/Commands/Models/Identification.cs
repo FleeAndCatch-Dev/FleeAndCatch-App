@@ -36,6 +36,7 @@ namespace FleeAndCatch.Commands.Models
 
         public ClientIdentification()
         {
+            
         }
 
         public ClientIdentification(int pId, string pType, string pAddress, int pPort)
@@ -71,7 +72,7 @@ namespace FleeAndCatch.Commands.Models
 
         public RobotIdentification()
         {
-
+            
         }
 
         public RobotIdentification(int pId, string pType, string pSubType, string pRoleType)
@@ -105,7 +106,7 @@ namespace FleeAndCatch.Commands.Models
 
         public AppIdentification()
         {
-
+            
         }
 
         public AppIdentification(int pId, string pType, string pRoleType)
@@ -146,16 +147,6 @@ namespace FleeAndCatch.Commands.Models
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             object device = null;
-
-            //Specification for the desrialisation of the device
-            /*try
-            {
-                device = serializer.Deserialize<App>(reader);
-            }
-            catch
-            {
-                device = serializer.Deserialize<Robot>(reader);
-            }*/
 
             return device;
         }

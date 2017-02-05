@@ -14,7 +14,7 @@ namespace FleeAndCatch.Commands
     {
         [JsonProperty("device")]
         [JsonConverter(typeof(DeviceConverter))]
-        private IDevice device;
+        private Device device;
 
         /// <summary>
         /// Create an object of a connection command.
@@ -22,7 +22,7 @@ namespace FleeAndCatch.Commands
         /// <param name="pId">Id as command type.</param>
         /// <param name="pType">Type as connaction type.</param>
         /// <param name="pClient">Client for representation of the device.</param>
-        public ConnectionCommand(string pId, string pType, ClientIdentification pIdentification, IDevice pDevice) : base(pId, pType, pIdentification)
+        public ConnectionCommand(string pId, string pType, ClientIdentification pIdentification, Device pDevice) : base(pId, pType, pIdentification)
         {
             this.device = pDevice;
         }

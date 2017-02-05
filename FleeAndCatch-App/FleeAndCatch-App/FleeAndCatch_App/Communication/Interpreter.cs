@@ -26,7 +26,7 @@ namespace FleeAndCatch_App.Communication
         {
             var jsonCommand = JObject.Parse(pCommand);
             if (Convert.ToString(jsonCommand.SelectToken("apiid")) != "@@fleeandcatch@@")
-                throw new Java.Lang.Exception("Wrong apiid in json command");
+                throw new System.Exception("Wrong apiid in json command");
             var id = (CommandType) Enum.Parse(typeof(CommandType), Convert.ToString(jsonCommand.SelectToken("id")));
             switch (id)
             {
@@ -39,7 +39,8 @@ namespace FleeAndCatch_App.Communication
                 case CommandType.Szenario:
                     throw new ArgumentOutOfRangeException();
                 case CommandType.Exception:
-                    throw new ArgumentOutOfRangeException();
+                    Exception(jsonCommand);
+                    return;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -52,12 +53,14 @@ namespace FleeAndCatch_App.Communication
         private static void Connection(JObject pCommand)
         {
             if (pCommand == null) throw new ArgumentNullException(nameof(pCommand));
-            var type = (ConnectionCommandType) Enum.Parse(typeof(ConnectionCommandType), Convert.ToString(pCommand.SelectToken("type")));
             var command = JsonConvert.DeserializeObject<ConnectionCommand>(JsonConvert.SerializeObject(pCommand));
+            var type = (ConnectionCommandType) Enum.Parse(typeof(ConnectionCommandType), command.Type);
+            
 
             switch (type)
             {
                 case ConnectionCommandType.Connect:
+                    //Set the id to the objects
                     Client.Identification.Id = command.Identification.Id;
                     var app = (FleeAndCatch.Commands.Models.Devices.Apps.App) Client.Device;
                     app.Identification.Id = command.Identification.Id;
@@ -76,9 +79,10 @@ namespace FleeAndCatch_App.Communication
         /// <param name="pCommand"></param>
         private static void Synchronization(JObject pCommand)
         {
-            if (pCommand == null) throw new ArgumentNullException(nameof(pCommand));
-            var type = (SynchronizationCommandType)Enum.Parse(typeof(SynchronizationCommandType), Convert.ToString(pCommand.SelectToken("type")));
+            if (pCommand == null) throw new ArgumentNullException(nameof(pCommand));            
             var command = JsonConvert.DeserializeObject<Synchronization>(JsonConvert.SerializeObject(pCommand));
+            var type = (SynchronizationCommandType)Enum.Parse(typeof(SynchronizationCommandType), command.Type);
+
             switch (type)
             {
                 case SynchronizationCommandType.All:
@@ -90,9 +94,42 @@ namespace FleeAndCatch_App.Communication
                     {
                         foreach (var t in command.Robots)
                         {
-                            if (RobotController.Robots[i].Identification == t.Identification)
-                                RobotController.Robots[i] = t;
+                            if (RobotController.Robots[i].Identification.Id != t.Identification.Id) continue;
+                            //Update robot object instances
+                            RobotController.Robots[i] = t;
+                            SzenarioController.ChangedPosition = true;
+                            break;
                         }
+                    }
+                    return;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        /// <summary>
+        /// Parse a exception command.
+        /// </summary>
+        /// <param name="pCommand"></param>
+        private static void Exception(JObject pCommand)
+        {
+            //Need to test
+            if (pCommand == null) throw new ArgumentNullException(nameof(pCommand));
+            var command = JsonConvert.DeserializeObject<ExceptionCommand>(JsonConvert.SerializeObject(pCommand));
+            var type = (ExceptionCommandType)Enum.Parse(typeof(ExceptionCommandType), command.Type);        
+
+            switch (type)
+            {
+                case ExceptionCommandType.Undefined:
+                    throw new System.Exception(command.Exception.Message);
+                case ExceptionCommandType.UnhandeldDisconnection:
+                    //Other device is disconnecting 
+                    var app = (FleeAndCatch.Commands.Models.Devices.Apps.App)Client.Device;
+                    if (app != null && app.Active)
+                    {
+                        //Handle UnhandeldDisconnection
+                       SzenarioController.Refresh = false;
+                        //App navigates automatic to home page
                     }
                     return;
                 default:

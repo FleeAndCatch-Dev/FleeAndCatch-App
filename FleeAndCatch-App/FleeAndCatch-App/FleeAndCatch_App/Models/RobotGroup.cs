@@ -12,5 +12,19 @@ namespace FleeAndCatch_App.Models
     {
         public string Name { get; set; }
         public int Number { get; set; }
+        public List<int> Items { get; set; }
+        public int Choosen { get; set; }
+
+        public RobotGroup(string pName, int pNumber)
+        {
+            this.Name = pName;
+            this.Number = pNumber;
+
+            this.Items = new List<int>();
+            for (var i = 0; i < pNumber + 1; i++)
+            {
+                this.Items.Add(i);
+            }
+        }
     }
 }

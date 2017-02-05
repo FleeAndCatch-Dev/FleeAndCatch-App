@@ -9,6 +9,7 @@ using Newtonsoft.Json.Linq;
 using Sockets.Plugin;
 using static FleeAndCatch.Components.ComponentType;
 using System.Text;
+using FleeAndCatch.Commands.Models.Szenarios;
 using Newtonsoft.Json;
 
 namespace FleeAndCatch_App.Communication
@@ -18,9 +19,8 @@ namespace FleeAndCatch_App.Communication
         private static TcpSocketClient tcpSocketClient;
         private static bool connected;
         private static ClientIdentification identification;
-        private static IDevice device;
-
-        //private static SemaphoreSlim tcpSocketClientSemaphore = new SemaphoreSlim(1, 1);
+        private static Device device;
+        private static Szenario szenario;
 
         /// <summary>
         /// Create a new task with a new communication.
@@ -30,11 +30,11 @@ namespace FleeAndCatch_App.Communication
             ParseAddress(pAddress);
 
             tcpSocketClient = new TcpSocketClient();
-            identification = new ClientIdentification(0, ComponentType.IdentificationType.App.ToString(), pAddress, Default.Port);
-            Device = new FleeAndCatch.Commands.Models.Devices.Apps.App(new AppIdentification(-1, ComponentType.IdentificationType.App.ToString(), ComponentType.RoleType.Undefined.ToString()));
+            identification = new ClientIdentification(0, IdentificationType.App.ToString(), pAddress, Default.Port);
+            Device = new FleeAndCatch.Commands.Models.Devices.Apps.App(new AppIdentification(-1, IdentificationType.App.ToString(), RoleType.Undefined.ToString()));
             connected = false;
 
-            if (connected) throw new Java.Lang.Exception("Connection to the server is already exist");
+            if (connected) throw new System.Exception("Connection to the server is already exist");
             var listenTask = new Task(Listen);
             listenTask.Start();
         }
@@ -81,7 +81,7 @@ namespace FleeAndCatch_App.Communication
         /// <param name="pCommand">Json command</param>
         public static async void SendCmd(string pCommand)
         {
-            if (!connected) throw new Java.Lang.Exception("There is no connection to the server");
+            if (!connected) throw new System.Exception("There is no connection to the server");
             checkCmd(pCommand);
 
             var command = Encoding.UTF8.GetBytes(pCommand);
@@ -115,7 +115,7 @@ namespace FleeAndCatch_App.Communication
         /// </summary>
         public static void Close()
         {
-            if (!Connected) throw new Java.Lang.Exception("There is no connection to the server");
+            if (!Connected) throw new System.Exception("There is no connection to the server");
             var command = new ConnectionCommand(CommandType.Connection.ToString(), ConnectionCommandType.Disconnect.ToString(), identification, Device);
             SendCmd(command.GetCommand());
         }
@@ -127,7 +127,7 @@ namespace FleeAndCatch_App.Communication
         private static void ParseAddress(string pAddress)
         {
             var adressPart = pAddress.Split(new string[] { "." }, StringSplitOptions.None);
-            if (adressPart.Length != 4) throw new Java.Lang.Exception("The Address could not parse into an ip adress");
+            if (adressPart.Length != 4) throw new System.Exception("The Address could not parse into an ip adress");
             var result = true;
             foreach (var t in adressPart)
             {
@@ -137,7 +137,7 @@ namespace FleeAndCatch_App.Communication
             }
             if (result)
                 return;
-            throw new Java.Lang.Exception("The Address could not parse into an ip adress");
+            throw new System.Exception("The Address could not parse into an ip adress");
         }
 
         /// <summary>
@@ -150,18 +150,24 @@ namespace FleeAndCatch_App.Communication
             {
                 JObject.Parse(pCommand);
             }
-            catch (Java.Lang.Exception)
+            catch (System.Exception)
             {
-                throw new Java.Lang.Exception("The command could not parse into json");
+                throw new System.Exception("The command could not parse into json");
             }
         }
 
         public static bool Connected => connected;
         public static ClientIdentification Identification => identification;
-        public static IDevice Device
+        public static Device Device
         {
             get { return device; }
             set { device = value; }
+        }
+
+        public static Szenario Szenario
+        {
+            get { return szenario; }
+            set { szenario = value; }
         }
     }
 

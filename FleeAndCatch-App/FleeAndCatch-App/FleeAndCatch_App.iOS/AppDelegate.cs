@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FleeAndCatch_App.iOS;
+
 using Foundation;
 using UIKit;
 
-[assembly: Xamarin.Forms.Dependency(typeof(DeviceOrientationImplementation))]
 namespace FleeAndCatch_App.iOS
 {
     // The UIApplicationDelegate for the application. This class is responsible for launching the 

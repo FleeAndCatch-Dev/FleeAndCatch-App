@@ -6,12 +6,10 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
-using FleeAndCatch_App.Droid;
 
-[assembly: Xamarin.Forms.Dependency(typeof(DeviceOrientationImplementation))]
 namespace FleeAndCatch_App.Droid
 {
-    [Activity(Label = "FleeAndCatch_App", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(Label = "FleeAndCatch", Icon = "@drawable/Scale_icon", Theme = "@style/MainTheme", MainLauncher = false , ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle bundle)
