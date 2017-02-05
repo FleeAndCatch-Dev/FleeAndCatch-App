@@ -177,6 +177,33 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="FodyWeavers.xml" />
+    <Content Include="Images\Direction\ic_chevron_left_black_48dp.png" />
+    <Content Include="Images\Direction\ic_chevron_right_black_48dp.png" />
+    <Content Include="Images\Direction\ic_expand_less_black_48dp.png" />
+    <Content Include="Images\Direction\ic_expand_more_black_48dp.png" />
+    <Content Include="Images\Logo\FleeAndCatch_Logo.png" />
+    <Content Include="Images\Logo\SplashScreen_1240x600.png" />
+    <Content Include="Images\Logo\SplashScreen_2480x1200.png" />
+    <Content Include="Images\Logo\SplashScreen_620x300.png" />
+    <Content Include="Images\Logo\SplashScreen_775x375.png" />
+    <Content Include="Images\Logo\SplashScreen_930x450.png" />
+    <Content Include="Images\Logo\Square_150x150.png" />
+    <Content Include="Images\Logo\Square_188x188.png" />
+    <Content Include="Images\Logo\Square_225x225.png" />
+    <Content Include="Images\Logo\Square_300x300.png" />
+    <Content Include="Images\Logo\Square_600x600.png" />
+    <Content Include="Images\Logo\StoreLogo_100x100.png" />
+    <Content Include="Images\Logo\StoreLogo_200x200.png" />
+    <Content Include="Images\Logo\StoreLogo_50x50.png" />
+    <Content Include="Images\Logo\StoreLogo_63x63.png" />
+    <Content Include="Images\Logo\StoreLogo_75x75.png" />
+    <Content Include="Images\Logo\Wide_1240x600.png" />
+    <Content Include="Images\Logo\Wide_310x150.png" />
+    <Content Include="Images\Logo\Wide_388x188.png" />
+    <Content Include="Images\Logo\Wide_465x225.png" />
+    <Content Include="Images\Logo\Wide_620x300.png" />
+    <Content Include="Images\Logo\Scale_88x88.png" />
+    <Content Include="Images\Logo\UnplatedTargetSize_24x24.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\FleeAndCatch\FleeAndCatch.csproj">

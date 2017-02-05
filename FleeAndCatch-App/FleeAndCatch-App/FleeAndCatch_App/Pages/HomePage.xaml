@@ -7,7 +7,7 @@
     <StackLayout Orientation="Vertical">
         <StackLayout x:Name="ViewOrientation" Orientation="Vertical" VerticalOptions="StartAndExpand">
             <StackLayout Padding="20" HorizontalOptions="Center" VerticalOptions="Center">
-                <Image Source="FleeAndCatch_Logo.png" HeightRequest="150" WidthRequest="150"/>
+                <Image Source="Images/Logo/FleeAndCatch_Logo.png" HeightRequest="150" WidthRequest="150"/>
             </StackLayout>
             <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="Center">
                 <Label Text="Welcome to FleeAndCatch" FontAttributes="Bold" FontSize="20" TextColor="#000080"/>
