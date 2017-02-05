@@ -3,20 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FleeAndCatch_App.Pages.SignInPage"
              Title="FleeAndCatch">
-    
-    <StackLayout Orientation="Vertical">
-        <StackLayout x:Name="ViewOrientation" Orientation="Vertical" VerticalOptions="StartAndExpand">
-            <StackLayout Padding="20" HorizontalOptions="Center" VerticalOptions="Center">
-                <Image Source="Images/Logo/FleeAndCatch_Logo.png" HeightRequest="150" WidthRequest="150"/>
-            </StackLayout>
-            <StackLayout WidthRequest="250" Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="Center">
-                <Entry x:Name="EAddress" Text="{Binding Connection.Address, Mode=TwoWay}" Placeholder="IP address" VerticalOptions="Center"/>
-                <StackLayout Orientation="Horizontal">
-                    <Label x:Name="LSave" Text="Save:" Margin="0, 0, 5, 5" VerticalOptions="Center" HorizontalOptions="End"/>
-                    <Switch x:Name="SSave" IsToggled="{Binding Connection.Save, Mode=TwoWay}" VerticalOptions="Center" HorizontalOptions="Start"/>
-                </StackLayout>
-            </StackLayout>
+  
+  <StackLayout Orientation="Vertical">
+    <StackLayout x:Name="ViewOrientation" Orientation="Vertical" VerticalOptions="StartAndExpand">
+      <StackLayout Padding="20" HorizontalOptions="Center" VerticalOptions="Center">
+        <Image Source="FleeAndCatch_Logo.png" HeightRequest="150" WidthRequest="150"/>
+      </StackLayout>
+      <StackLayout WidthRequest="250" Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="Center">
+        <Entry x:Name="EAddress" Text="{Binding Connection.Address, Mode=TwoWay}" Placeholder="IP address" VerticalOptions="Center"/>
+        <StackLayout Orientation="Horizontal">
+          <Label x:Name="LSave" Text="Save:" Margin="0, 0, 5, 5" VerticalOptions="Center" HorizontalOptions="End"/>
+          <Switch x:Name="SSave" IsToggled="{Binding Connection.Save, Mode=TwoWay}" VerticalOptions="Center" HorizontalOptions="Start"/>
         </StackLayout>
-        <Button x:Name="BSignIn" Text="Sign in" FontSize="20" FontAttributes="Bold" TextColor="White" BackgroundColor="#008B8B" HeightRequest="50" VerticalOptions="End" Command="{Binding BSignIn_OnCommand}"/>
+      </StackLayout>
     </StackLayout>
+    <Button x:Name="BSignIn" Text="Sign in" FontSize="20" FontAttributes="Bold" TextColor="White" BackgroundColor="#008B8B" HeightRequest="50" VerticalOptions="End" Command="{Binding BSignIn_OnCommand}"/>
+  </StackLayout>
 </ContentPage>

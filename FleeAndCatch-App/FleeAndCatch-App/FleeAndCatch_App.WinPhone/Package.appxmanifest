@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:m3="http://schemas.microsoft.com/appx/2014/manifest" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest">
 
-  <Identity Name="33c97df9-7fb4-4611-bc26-9f27bfe372ce"
+  <Identity Name="1e24fa03-7c28-4f46-bc0e-01d3e643429d"
             Publisher="CN=SL-Th"
             Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="33c97df9-7fb4-4611-bc26-9f27bfe372ce" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="1e24fa03-7c28-4f46-bc0e-01d3e643429d" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>FleeAndCatch_App.WinPhone</DisplayName>

@@ -26,7 +26,7 @@ namespace FleeAndCatch_App.Communication
         {
             var jsonCommand = JObject.Parse(pCommand);
             if (Convert.ToString(jsonCommand.SelectToken("apiid")) != "@@fleeandcatch@@")
-                throw new Java.Lang.Exception("Wrong apiid in json command");
+                throw new System.Exception("Wrong apiid in json command");
             var id = (CommandType) Enum.Parse(typeof(CommandType), Convert.ToString(jsonCommand.SelectToken("id")));
             switch (id)
             {
@@ -121,7 +121,7 @@ namespace FleeAndCatch_App.Communication
             switch (type)
             {
                 case ExceptionCommandType.Undefined:
-                    throw new Java.Lang.Exception(command.Exception.Message);
+                    throw new System.Exception(command.Exception.Message);
                 case ExceptionCommandType.UnhandeldDisconnection:
                     //Other device is disconnecting 
                     var app = (FleeAndCatch.Commands.Models.Devices.Apps.App)Client.Device;

@@ -198,12 +198,12 @@ namespace FleeAndCatch_App.PageModels
                         if (y >= 0.25)
                         {
                             _speed = Steering.SpeedType.Faster;
-                            ImageSource = ImageSource.FromFile("Images/ic_expand_less_black_48dp.png");
+                            ImageSource = ImageSource.FromFile("ic_expand_less_black_48dp.png");
                         } 
                         else if (y <= -0.25)
                         {
                             _speed = Steering.SpeedType.Slower;
-                            ImageSource = ImageSource.FromFile("Images/ic_expand_more_black_48dp.png");
+                            ImageSource = ImageSource.FromFile("ic_expand_more_black_48dp.png");
                         } 
                         else
                         {
@@ -218,12 +218,12 @@ namespace FleeAndCatch_App.PageModels
                         if (x >= 0.25)
                         {
                             _direction = Steering.DirectionType.Right;
-                            ImageSource = ImageSource.FromFile("Images/ic_chevron_right_black_48dp.png");
+                            ImageSource = ImageSource.FromFile("ic_chevron_right_black_48dp.png");
                         }                            
                         else if (x <= -0.25)
                         {
                             _direction = Steering.DirectionType.Left;
-                            ImageSource = ImageSource.FromFile("Images/ic_chevron_left_black_48dp.png");
+                            ImageSource = ImageSource.FromFile("ic_chevron_left_black_48dp.png");
                         }
                             
                     }
