@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BEDD12D9-5A17-442F-9527-7F8F5A228243}</ProjectGuid>
+    <ProjectGuid>{EEED0F39-82C2-44B4-A5EC-EB3E61E6CCD0}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>FleeAndCatch_App.Windows</RootNamespace>

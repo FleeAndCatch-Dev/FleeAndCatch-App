@@ -13,7 +13,7 @@ using Android.Widget;
 
 namespace FleeAndCatch_App.Droid
 {
-    [Activity(Label = "FleeAndCatch", Icon = "@drawable/Scale_icon", Theme = "@style/MainTheme.Splash", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(Label = "FleeAndCatch", Icon = "@drawable/Scale_icon", Theme = "@style/MainTheme.Splash", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]
     public class SplashActivity : Activity
     {
         protected override void OnCreate(Bundle savedInstanceState)

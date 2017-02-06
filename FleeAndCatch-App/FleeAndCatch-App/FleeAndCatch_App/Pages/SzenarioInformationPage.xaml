@@ -3,14 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FleeAndCatch_App.Pages.SzenarioInformationPage"
              Title="FleeAndCatch">
-  
+
   <StackLayout Orientation="Vertical">
     <ScrollView>
       <StackLayout Orientation="Vertical" Spacing="10">
         <StackLayout Orientation="Horizontal" Padding="5" VerticalOptions="Start" HorizontalOptions="CenterAndExpand">
           <Label Text="{Binding Szenario.SzenarioId}" FontSize="20" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center"/>
         </StackLayout>
-        <ScrollView>
           <StackLayout Orientation="Vertical" Padding="20, 0, 0, 20" Spacing="30" HorizontalOptions="CenterAndExpand">
             <ListView ItemsSource="{Binding GroupedApps}" HasUnevenRows="True" GroupDisplayBinding="{Binding Name}" IsGroupingEnabled="True">
               <ListView.ItemTemplate>
@@ -37,7 +36,6 @@
               </ListView.ItemTemplate>
             </ListView>
           </StackLayout>
-        </ScrollView>
       </StackLayout>
     </ScrollView>
     <Button Text="Start" HeightRequest="50" TextColor="White" BackgroundColor="#006400" Margin="-2,-4,-2,-2" FontAttributes="Bold" FontSize="16" Command="{Binding BStart_OnCommand}"/>

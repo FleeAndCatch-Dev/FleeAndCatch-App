@@ -15,11 +15,10 @@ namespace FleeAndCatch.Commands.Models.Devices
     {
         [JsonProperty("active")]
         protected bool active;
-        private bool pActive;
 
-        protected Device(bool pActive)
+        protected Device(bool active)
         {
-            this.pActive = pActive;
+            this.active = active;
         }
 
         public abstract JObject GetJObject();

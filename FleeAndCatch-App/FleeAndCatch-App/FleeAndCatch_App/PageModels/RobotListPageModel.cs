@@ -106,6 +106,7 @@ namespace FleeAndCatch_App.PageModels
 
                     //Add the apps
                     Client.Device.Active = true;
+                    FleeAndCatch.Commands.Models.Devices.Apps.App app = Client.Device as FleeAndCatch.Commands.Models.Devices.Apps.App;
                     appList.Add((FleeAndCatch.Commands.Models.Devices.Apps.App)Client.Device);
 
                     switch (_szenarioType)

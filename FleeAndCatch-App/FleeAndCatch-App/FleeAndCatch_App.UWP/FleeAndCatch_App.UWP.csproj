@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{8888B68D-41E6-44F7-8171-4401D8B2747E}</ProjectGuid>
+    <ProjectGuid>{BF44464C-6AF1-4E31-894B-FC182DAA1954}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>FleeAndCatch_App.UWP</RootNamespace>

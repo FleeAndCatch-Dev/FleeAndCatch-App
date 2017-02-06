@@ -5,7 +5,7 @@
     <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{21DD5144-51B4-401E-8A59-CDB0990A9D6B}</ProjectGuid>
+    <ProjectGuid>{02968613-B40D-4BF1-9610-0D4DBD10E400}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>FleeAndCatch_App</RootNamespace>
