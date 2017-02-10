@@ -71,39 +71,49 @@ namespace FleeAndCatch_App.PageModels
             {
                 Client.Connect(Connection.Address);
 
-                while (!Client.Connected)
+                for (var i = 0; i < Default.TimeOut; i++)
                 {
-                    await Task.Delay(TimeSpan.FromMilliseconds(5));
+                    if(Client.Connected)
+                        break;
+                    await Task.Delay(TimeSpan.FromMilliseconds(10));
                 }
 
-                var connections = SQLiteDB.Connection.GetConnections();
-                foreach (var t in connections)
+                if (Client.Connected)
                 {
-                    t.Save = false;
-                    SQLiteDB.Connection.UpdateConnection(t);
-                }
-
-                if (Connection.Save)
-                {
-                    if (SQLiteDB.Connection.GetConnection(Connection.Address) != null)
+                    var connections = SQLiteDB.Connection.GetConnections();
+                    foreach (var t in connections)
                     {
-                        var localConnection = SQLiteDB.Connection.GetConnection(Connection.Address);
-                        localConnection.Save = true;
-                        SQLiteDB.Connection.UpdateConnection(localConnection);
+                        t.Save = false;
+                        SQLiteDB.Connection.UpdateConnection(t);
                     }
-                    else
-                        SQLiteDB.Connection.AddConnection(Connection.Address, true);
-                }
 
-                Device.BeginInvokeOnMainThread(() => {
-                    UserDialogs.Instance.HideLoading();
-                    var page = FreshMvvm.FreshPageModelResolver.ResolvePageModel<HomePageModel>();
-                    var navigation = new FreshMvvm.FreshNavigationContainer(page)
+                    if (Connection.Save)
                     {
-                        BarBackgroundColor = Color.FromHex("#008B8B"),
-                        BarTextColor = Color.White
-                    };
-                    Application.Current.MainPage = navigation;
+                        if (SQLiteDB.Connection.GetConnection(Connection.Address) != null)
+                        {
+                            var localConnection = SQLiteDB.Connection.GetConnection(Connection.Address);
+                            localConnection.Save = true;
+                            SQLiteDB.Connection.UpdateConnection(localConnection);
+                        }
+                        else
+                            SQLiteDB.Connection.AddConnection(Connection.Address, true);
+                    }
+
+                    Device.BeginInvokeOnMainThread(() => {
+                        UserDialogs.Instance.HideLoading();
+                        var page = FreshMvvm.FreshPageModelResolver.ResolvePageModel<HomePageModel>();
+                        var navigation = new FreshMvvm.FreshNavigationContainer(page)
+                        {
+                            BarBackgroundColor = Color.FromHex("#008B8B"),
+                            BarTextColor = Color.White
+                        };
+                        Application.Current.MainPage = navigation;
+                    });
+                    return;
+                }
+                Device.BeginInvokeOnMainThread(async () => {
+                    UserDialogs.Instance.HideLoading();
+                    await CoreMethods.DisplayAlert("Error", "Connection timeout, try again", "OK");
                 });
             }
             catch (Exception ex)

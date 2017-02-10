@@ -48,7 +48,7 @@ namespace FleeAndCatch_App.Communication
             connected = true;
 
             var command = new ConnectionCommand(CommandType.Connection.ToString(), ConnectionCommandType.Connect.ToString(), identification, Device);
-            SendCmd(command.GetCommand());
+            SendCmd(command.ToJsonString());
 
             while (connected)
             {
@@ -117,7 +117,7 @@ namespace FleeAndCatch_App.Communication
         {
             if (!Connected) throw new System.Exception("There is no connection to the server");
             var command = new ConnectionCommand(CommandType.Connection.ToString(), ConnectionCommandType.Disconnect.ToString(), identification, Device);
-            SendCmd(command.GetCommand());
+            SendCmd(command.ToJsonString());
         }
 
         /// <summary>
@@ -174,5 +174,6 @@ namespace FleeAndCatch_App.Communication
     public static class Default
     {
         public static int Port = 5000;
+        public static int TimeOut = 300;
     }
 }

@@ -40,7 +40,8 @@ namespace FleeAndCatch_App.PageModels
             {
                 return new Command(() =>
                 {
-                    //await Application.Current.MainPage.Navigation.PushAsync(new Szenario());
+                    CoreMethods.PushPageModel<SzenarioListPageModel>();
+                    RaisePropertyChanged();
                 });
             }
         }

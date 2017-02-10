@@ -4,42 +4,34 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
-using FleeAndCatch.Commands;
-using FleeAndCatch.Commands.Models;
-using FleeAndCatch.Commands.Models.Devices.Robots;
-using FleeAndCatch.Commands.Models.Szenarios;
-using FleeAndCatch.Components;
 using FleeAndCatch_App.Communication;
 using FleeAndCatch_App.Controller;
 using FleeAndCatch_App.Models;
-using Newtonsoft.Json;
-using PropertyChanged;
 using Xamarin.Forms;
-using Command = Xamarin.Forms.Command;
 
 namespace FleeAndCatch_App.PageModels
 {
-    [ImplementPropertyChanged]
-    public class RobotListPageModel : FreshMvvm.FreshBasePageModel
+    public class SzenarioListPageModel : FreshMvvm.FreshBasePageModel
     {
-        public List<RobotGroup> RobotGroupList { get; set; }
-        private SzenarioCommandType _szenarioType;
+        public List<SzenarioGroup> SzenarioGroupList { get; set; }
+        //private SzenarioCommandType _szenarioType;
 
-        public RobotListPageModel()
+        public SzenarioListPageModel()
         {
-            RobotGroupList = new List<RobotGroup>();
+            SzenarioGroupList = new List<SzenarioGroup>();
         }
 
         public override void Init(object initData)
         {
             base.Init(initData);
 
-            _szenarioType = (SzenarioCommandType) initData;
-            RobotGroupList = new List<RobotGroup>();
+            //_szenarioType = (SzenarioCommandType)initData;
+            SzenarioGroupList = new List<SzenarioGroup>();
 
-            RobotController.Updated = false;
+            //Get all current szenarios
+            /*RobotController.Updated = false;
             var command = new Synchronization(CommandType.Synchronization.ToString(), SynchronizationCommandType.All.ToString(), Client.Identification, RobotController.Robots);
-            Client.SendCmd(command.ToJsonString());
+            Client.SendCmd(command.ToJsonString());*/
         }
 
         /// <summary>
@@ -52,7 +44,7 @@ namespace FleeAndCatch_App.PageModels
             base.ViewIsAppearing(sender, e);
 
             UserDialogs.Instance.ShowLoading();
-            var connectionTask = new Task(UpdateRobotList);
+            var connectionTask = new Task(UpdateSzenarioList);
             connectionTask.Start();
         }
 
@@ -65,9 +57,9 @@ namespace FleeAndCatch_App.PageModels
             {
                 return new Command(() =>
                 {
-                    UserDialogs.Instance.ShowLoading();
-                    var connectionTask = new Task(UpdateRobotList);
-                    connectionTask.Start();
+                    /*UserDialogs.Instance.ShowLoading();
+                    var connectionTask = new Task(UpdateSzenarioList);
+                    connectionTask.Start*/
                 });
             }
         }
@@ -81,16 +73,16 @@ namespace FleeAndCatch_App.PageModels
             {
                 return new Command(() =>
                 {
-                    if (RobotGroupList.Count <= 0) return;
+                    /*if (SzenarioGroupList.Count <= 0) return;
                     Szenario szenario = null;
                     var appList = new List<FleeAndCatch.Commands.Models.Devices.Apps.App>();
                     var robotList = new List<Robot>();
 
                     //Add the robots
-                    foreach (var t1 in RobotGroupList)
+                    foreach (var t1 in SzenarioGroupList)
                     {
                         var value = t1.Choosen;
-                        var type = (ComponentType.RobotType) Enum.Parse(typeof(ComponentType.RobotType), t1.Name);
+                        var type = (ComponentType.RobotType)Enum.Parse(typeof(ComponentType.RobotType), t1.Name);
                         while (value > 0)
                         {
                             foreach (var t in RobotController.Robots)
@@ -148,7 +140,7 @@ namespace FleeAndCatch_App.PageModels
                     {
                         UserDialogs.Instance.HideLoading();
                         await CoreMethods.DisplayAlert("Error", "This inputs aren't correct", "OK");
-                    });
+                    });*/
                 });
             }
         }
@@ -156,11 +148,11 @@ namespace FleeAndCatch_App.PageModels
         /// <summary>
         /// Update the user interface and the current robotlist
         /// </summary>
-        private async void UpdateRobotList()
+        private async void UpdateSzenarioList()
         {
             if (Client.Connected)
             {
-                Device.BeginInvokeOnMainThread( () =>
+                /*Device.BeginInvokeOnMainThread(() =>
                 {
                     UserDialogs.Instance.ShowLoading();
                 });
@@ -168,7 +160,7 @@ namespace FleeAndCatch_App.PageModels
                 while (!RobotController.Updated)
                     await Task.Delay(TimeSpan.FromMilliseconds(10));
 
-                RobotGroupList.Clear();
+                SzenarioGroupList.Clear();
                 var tempList = new List<RobotGroup>();
                 for (var i = 0; i < Enum.GetNames(typeof(ComponentType.RobotType)).Length; i++)
                 {
@@ -185,7 +177,7 @@ namespace FleeAndCatch_App.PageModels
                 {
                     UserDialogs.Instance.HideLoading();
                 });
-                return;
+                return;*/
             }
             Device.BeginInvokeOnMainThread(async () =>
             {

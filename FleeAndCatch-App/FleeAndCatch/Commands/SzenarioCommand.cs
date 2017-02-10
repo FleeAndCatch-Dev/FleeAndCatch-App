@@ -20,20 +20,7 @@ namespace FleeAndCatch.Commands
             this.szenario = pSzenario;
         }
 
-        public override string GetCommand()
-        {
-            var jsonSzenario = new JObject
-            {
-                {"id", id},
-                {"type", type},
-                {"apiid", apiid},
-                {"errorhandling", errorhandling},
-                {"identification", identification.GetJObject()},
-                {"szenario", szenario.GetJObject()}
-            };
-            return JsonConvert.SerializeObject(jsonSzenario);
-        }
-
+        [JsonIgnore]
         public Szenario Szenario => szenario;
     }
 

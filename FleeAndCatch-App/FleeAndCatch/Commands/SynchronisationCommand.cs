@@ -26,29 +26,7 @@ namespace FleeAndCatch.Commands
             robots = pRobots;
         }
 
-        /// <summary>
-        /// Get json string of the command.
-        /// </summary>
-        /// <returns>Json string.</returns>
-        public override string GetCommand()
-        {
-            var array = new JArray();
-            foreach (var t in robots)
-                array.Add(t.GetJObject());
-
-            var command = new JObject
-            {
-                {"id", id},
-                {"type", type},
-                {"apiid", apiid},
-                {"errorhandling", errorhandling},
-                {"identification", identification.GetJObject()},
-                {"robots", array}
-            };
-
-            return JsonConvert.SerializeObject(command);
-        }
-
+        [JsonIgnore]
         public List<Robot> Robots => robots;
     }
 

@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using FleeAndCatch.Commands.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Serialization;
 
 namespace FleeAndCatch.Commands
 {
@@ -35,16 +37,43 @@ namespace FleeAndCatch.Commands
             this.identification = pIdentification;
         }
 
-        /// <summary>
-        /// Get the command as json string.
-        /// </summary>
-        /// <returns>Json string.</returns>
-        public abstract string GetCommand();
+        public virtual string ToJsonString()
+        {
+            return ToJsonJObject().ToString(Formatting.None);
+        }
 
+        public virtual JObject ToJsonJObject()
+        {
+            try
+            {
+                var settings = new JsonSerializerSettings
+                {
+                    Formatting = Formatting.Indented,
+                    ContractResolver = new DefaultContractResolver(),
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                    NullValueHandling = NullValueHandling.Ignore
+                };
+                var json = JsonConvert.SerializeObject(this, Formatting.Indented, settings);
+                var jObject = JObject.Parse(json);
+
+                return jObject;
+            }
+            catch (System.Exception ex)
+            {
+                // ignored
+            }
+            return null;
+        }
+
+        [JsonIgnore]
         public string Id => id;
+        [JsonIgnore]
         public string Type => type;
+        [JsonIgnore]
         public string ApiId => apiid;
+        [JsonIgnore]
         public string ErrorHandling => errorhandling;
+        [JsonIgnore]
         public ClientIdentification Identification => identification;
     }
 

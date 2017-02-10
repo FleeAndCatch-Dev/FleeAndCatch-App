@@ -18,16 +18,7 @@ namespace FleeAndCatch.Commands.Models.Devices.Apps
             identification = pAppIdentification;
         }
 
-        public override JObject GetJObject()
-        {
-            var jsonApp = new JObject
-            {
-                {"identification", identification.GetJObject()},
-                {"active", active}
-            };
-            return jsonApp;
-        }
-
+        [JsonIgnore]
         public AppIdentification Identification => identification;
     }
 }

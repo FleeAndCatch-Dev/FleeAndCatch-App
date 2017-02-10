@@ -16,7 +16,7 @@ namespace FleeAndCatch.Commands.Models
         [JsonProperty("message")]
         private string message;
         [JsonProperty("device")]
-        [JsonConverter(typeof(DeviceConverter))]
+        [JsonConverter(typeof(DeviceJsonConverter))]
         private Device device;
 
         public Exception(string pType, string pMessage, Device pDevice)
@@ -26,19 +26,11 @@ namespace FleeAndCatch.Commands.Models
             this.device = pDevice;
         }
 
-        public JObject GetJObject()
-        {
-            var jsonIdentification = new JObject
-            {
-                {"type", type},
-                {"message", message},
-                {"device", device.GetJObject()}
-            };
-            return jsonIdentification;
-        }
-
+        [JsonIgnore]
         public string Type => type;
+        [JsonIgnore]
         public string Message => message;
+        [JsonIgnore]
         public Device Device => device;
     }
 }

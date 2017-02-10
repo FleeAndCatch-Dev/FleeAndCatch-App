@@ -21,8 +21,7 @@ namespace FleeAndCatch.Commands.Models.Devices
             this.active = active;
         }
 
-        public abstract JObject GetJObject();
-
+        [JsonIgnore]
         public bool Active
         {
             get { return active; }
@@ -30,8 +29,20 @@ namespace FleeAndCatch.Commands.Models.Devices
         }
     }
 
-    public class DeviceConverter : JsonConverter
+    public class DeviceJsonConverter : JsonConverter
     {
+        private Type[] _types;
+
+        public DeviceJsonConverter()
+        {
+            
+        }
+
+        public DeviceJsonConverter(params Type[] types)
+        {
+            _types = types;
+        }
+
         public override bool CanConvert(Type objectType)
         {
             return (objectType == typeof(Device));
@@ -56,7 +67,23 @@ namespace FleeAndCatch.Commands.Models.Devices
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            throw new NotImplementedException("Unnecessary because CanRead is false. The type will skip the converter.");
+            var t = JToken.FromObject(value);
+            if(t.Type != JTokenType.Object)
+                t.WriteTo(writer);
+            else
+            {
+                var device = value as Device;
+                var o = (JObject)t;
+                if (device == null) return;
+                if (device is App)
+                {
+                }
+                else if(device is Robot)
+                {
+                        
+                }
+                o.WriteTo(writer);
+            }
         }
     }
 }

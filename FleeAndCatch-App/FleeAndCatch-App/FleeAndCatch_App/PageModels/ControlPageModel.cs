@@ -97,7 +97,7 @@ namespace FleeAndCatch_App.PageModels
                         _szenario.SzenarioType = ControlType.Stop.ToString();
                     }
                     var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), ControlType.Control.ToString(), Client.Identification, _szenario);
-                    Client.SendCmd(cmd.GetCommand());
+                    Client.SendCmd(cmd.ToJsonString());
                 });
             }
         }
@@ -154,7 +154,7 @@ namespace FleeAndCatch_App.PageModels
             }
 
             var cmdCtrl = new SzenarioCommand(CommandType.Szenario.ToString(), ControlType.Control.ToString(), Client.Identification, control);
-            Client.SendCmd(cmdCtrl.GetCommand());
+            Client.SendCmd(cmdCtrl.ToJsonString());
             return true;
         }
 

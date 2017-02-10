@@ -12,8 +12,8 @@
           <ViewCell>
             <StackLayout Orientation="Horizontal" Padding="20,10">
               <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand" Spacing="10">
-                <Label Text="{Binding Name}" FontSize="18" VerticalTextAlignment="Center" HorizontalTextAlignment="Start"/>
-                <Label Text="{Binding Number}" FontSize="18" VerticalTextAlignment="Center" HorizontalTextAlignment="End"/>
+                <Label Text="{Binding Number}" FontSize="18" VerticalTextAlignment="Center" HorizontalTextAlignment="Start"/>
+                <Label Text="{Binding Name}" FontSize="18" VerticalTextAlignment="Center" HorizontalTextAlignment="End"/>
               </StackLayout>
               <viewElements:BindablePicker ItemsSource="{Binding Path=Items}" SelectedItem="{Binding Path=Choosen, Mode=TwoWay}" HorizontalOptions="End"/>
             </StackLayout>

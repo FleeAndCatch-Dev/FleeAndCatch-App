@@ -28,8 +28,6 @@ namespace FleeAndCatch.Commands.Models.Szenarios
             this.robots = pRobots;
         }
 
-        public abstract JObject GetJObject();
-
         public string SzenarioId => szenarioid;
 
         public string SzenarioType
@@ -38,8 +36,11 @@ namespace FleeAndCatch.Commands.Models.Szenarios
             set { szenariotype = value; }
         }
 
+        [JsonIgnore]
         public string Mode => mode;
+        [JsonIgnore]
         public List<App> Apps => apps;
+        [JsonIgnore]
         public List<Robot> Robots => robots;
     }
 
