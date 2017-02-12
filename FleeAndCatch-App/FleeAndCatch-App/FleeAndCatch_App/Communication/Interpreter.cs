@@ -7,6 +7,7 @@ using Acr.UserDialogs;
 using FleeAndCatch.Commands;
 using FleeAndCatch.Commands.Models;
 using FleeAndCatch.Commands.Models.Devices.Robots;
+using FleeAndCatch.Commands.Models.Szenarios;
 using FleeAndCatch.Components;
 using FleeAndCatch_App.Controller;
 using FleeAndCatch_App.PageModels;
@@ -37,7 +38,8 @@ namespace FleeAndCatch_App.Communication
                     Synchronization(jsonCommand);
                     return;
                 case CommandType.Szenario:
-                    throw new ArgumentOutOfRangeException();
+                    Szenario(jsonCommand);
+                    return;
                 case CommandType.Exception:
                     Exception(jsonCommand);
                     return;
@@ -85,11 +87,11 @@ namespace FleeAndCatch_App.Communication
 
             switch (type)
             {
-                case SynchronizationCommandType.All:
+                case SynchronizationCommandType.AllRobots:
                     RobotController.Robots = command.Robots;
                     RobotController.Updated = true;
                     return;
-                case SynchronizationCommandType.Current:
+                case SynchronizationCommandType.CurrentRobot:
                     for (var i = 0; i < RobotController.Robots.Count; i++)
                     {
                         foreach (var t in command.Robots)
@@ -102,6 +104,46 @@ namespace FleeAndCatch_App.Communication
                         }
                     }
                     return;
+                case SynchronizationCommandType.AllSzenarios:
+                    SzenarioController.Szenarios = command.Szenarios;
+                    SzenarioController.Updated = true;
+                    break;
+                case SynchronizationCommandType.CurrentSzenario:
+                    for (var i = 0; i < SzenarioController.Szenarios.Count; i++)
+                    {
+                        foreach (var t in command.Szenarios)
+                        {
+                            if (SzenarioController.Szenarios[i].Id != t.Id) continue;
+                            //Update szenario
+                            SzenarioController.Szenarios[i] = t;
+                        }
+                    }
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private static void Szenario(JObject pCommand)
+        {
+            if (pCommand == null) throw new ArgumentNullException(nameof(pCommand));
+            var command = JsonConvert.DeserializeObject<SzenarioCommand>(JsonConvert.SerializeObject(pCommand));
+            var type = (SzenarioCommandType)Enum.Parse(typeof(SzenarioCommandType), command.Type);
+
+            switch (type)
+            {
+                case SzenarioCommandType.Control:
+                    if (command.Szenario.Command == ControlType.Init.ToString())
+                    {
+                        //Set the id of the szenario
+                        Client.Szenario = command.Szenario;
+                        return;
+                    }
+                    throw new ArgumentOutOfRangeException();
+                case SzenarioCommandType.Synchron:
+                    throw new ArgumentOutOfRangeException();
+                case SzenarioCommandType.Follow:
+                    throw new ArgumentOutOfRangeException();
                 default:
                     throw new ArgumentOutOfRangeException();
             }

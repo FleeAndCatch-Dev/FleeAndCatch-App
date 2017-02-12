@@ -18,7 +18,6 @@ namespace FleeAndCatch_App.PageModels
     public class SzenarioInformationPageModel : FreshMvvm.FreshBasePageModel
     {
         public Szenario Szenario { get; set; }
-        public List<Group> GroupedApps { get; set; }
         public List<Group> GroupedRobots { get; set; }
         private bool accept;
 
@@ -37,10 +36,8 @@ namespace FleeAndCatch_App.PageModels
             {
                 foreach (var t in Szenario.Robots)
                     t.Active = false;
-                foreach (var t in Szenario.Apps)
-                    t.Active = false;
 
-                Szenario.SzenarioType = ControlType.End.ToString();
+                Szenario.Command = ControlType.End.ToString();
                 var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), ControlType.Control.ToString(), Client.Identification, Szenario);
                 Client.SendCmd(JsonConvert.SerializeObject(cmd));
             }
@@ -55,7 +52,7 @@ namespace FleeAndCatch_App.PageModels
                 return new Command(() =>
                 {
                     accept = true;
-                    var type = (SzenarioCommandType) Enum.Parse(typeof(SzenarioCommandType), Szenario.SzenarioId);
+                    var type = (SzenarioCommandType) Enum.Parse(typeof(SzenarioCommandType), Szenario.Type);
                     switch (type)
                     {
                         case SzenarioCommandType.Control:
@@ -78,18 +75,6 @@ namespace FleeAndCatch_App.PageModels
         /// </summary>
         private void GenerateLists()
         {
-            GroupedApps = new List<Group>();
-            foreach (var t in Szenario.Apps)
-            {
-                var app = new Group
-                {
-                    new Item { Name = "Id:", Text = Convert.ToString(t.Identification.Id)},
-                    new Item { Name = "RoleType:", Text = Convert.ToString(t.Identification.Roletype)},
-                    new Item { Name = "Active:", Text = Convert.ToString(t.Active)}
-                };
-                app.Name = "App";
-                GroupedApps.Add(app);
-            }
             GroupedRobots = new List<Group>();
             foreach (var t in Szenario.Robots)
             {
@@ -103,7 +88,7 @@ namespace FleeAndCatch_App.PageModels
                     new Item { Name = "Speed:", Text = Convert.ToString(t.Speed)}
                 };
                 robot.Name = "Robot";
-                GroupedApps.Add(robot);
+                GroupedRobots.Add(robot);
             }
         }
     }

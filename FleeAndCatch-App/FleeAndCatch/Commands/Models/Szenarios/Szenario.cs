@@ -8,10 +8,12 @@ namespace FleeAndCatch.Commands.Models.Szenarios
 {
     public abstract class Szenario
     {
-        [JsonProperty("szenarioid")]
-        protected string szenarioid;
-        [JsonProperty("szenariotype")]
-        protected string szenariotype;
+        [JsonProperty("id")]
+        protected int id;
+        [JsonProperty("type")]
+        protected string type;
+        [JsonProperty("command")]
+        protected string command;
         [JsonProperty("mode")]
         protected string mode;
         [JsonProperty("apps")]
@@ -19,21 +21,33 @@ namespace FleeAndCatch.Commands.Models.Szenarios
         [JsonProperty("robots")]
         protected List<Robot> robots;
 
-        protected Szenario(string pSzenarioId, string pSzenarioType, string pMode, List<App> pApps, List<Robot> pRobots)
+        protected Szenario(int pId, string pType, string pCommand, string pMode, List<App> pApps, List<Robot> pRobots)
         {
-            this.szenarioid = pSzenarioId;
-            this.szenariotype = pSzenarioType;
+            this.id = pId;
+            this.type = pType;
+            this.command = pCommand;
             this.mode = pMode;
             this.apps = pApps;
             this.robots = pRobots;
         }
 
-        public string SzenarioId => szenarioid;
-
-        public string SzenarioType
+        [JsonIgnore]
+        public int Id
         {
-            get { return szenariotype; }
-            set { szenariotype = value; }
+            get { return id; }
+            set { id = value; }
+        }
+        [JsonIgnore]
+        public string Type
+        {
+            get { return type; }
+            set { type = value; }
+        }
+        [JsonIgnore]
+        public string Command
+        {
+            get { return command; }
+            set { command = value; }
         }
 
         [JsonIgnore]

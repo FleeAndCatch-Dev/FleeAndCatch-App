@@ -39,7 +39,7 @@ namespace FleeAndCatch_App.PageModels
             _szenario = initData as Szenario;
             if (_szenario == null) return;
             Robot = _szenario.Robots[0];
-            _szenario.SzenarioType = ControlType.Control.ToString();
+            _szenario.Command = ControlType.Control.ToString();
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace FleeAndCatch_App.PageModels
                         Change = "Stop";
                         ChangeColor = Color.FromHex("#8B0000");
 
-                        _szenario.SzenarioType = ControlType.Start.ToString();
+                        _szenario.Command = ControlType.Start.ToString();
                     }
                     else
                     {
@@ -94,7 +94,7 @@ namespace FleeAndCatch_App.PageModels
                         Change = "Start";
                         ChangeColor = Color.FromHex("#006400");
 
-                        _szenario.SzenarioType = ControlType.Stop.ToString();
+                        _szenario.Command = ControlType.Stop.ToString();
                     }
                     var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), ControlType.Control.ToString(), Client.Identification, _szenario);
                     Client.SendCmd(cmd.ToJsonString());
@@ -129,7 +129,7 @@ namespace FleeAndCatch_App.PageModels
                 _szenario.Robots[0].Active = false;
                 Client.Device.Active = false;
 
-                _szenario.SzenarioType = ControlType.End.ToString();
+                _szenario.Command = ControlType.End.ToString();
                 var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), ControlType.Control.ToString(), Client.Identification, _szenario);
                 Client.SendCmd(JsonConvert.SerializeObject(cmd));
 
@@ -144,7 +144,7 @@ namespace FleeAndCatch_App.PageModels
                 return false;
             }
             var control = (Control)_szenario;
-            control.SzenarioType = ControlType.Control.ToString();
+            control.Command = ControlType.Control.ToString();
             control.Steering.Directiond = _direction.ToString();
             control.Steering.Speed = _speed.ToString();
             foreach (var t in RobotController.Robots)

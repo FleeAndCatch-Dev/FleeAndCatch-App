@@ -11,7 +11,7 @@ namespace FleeAndCatch.Commands.Models.Szenarios
         [JsonProperty("steering")]
         private Steering steering;
 
-        public Control(string pSzenarioId, string pSzenarioType, string pMode, List<App> pApps, List<Robot> pRobots, Steering pSteering) : base(pSzenarioId, pSzenarioType, pMode, pApps, pRobots)
+        public Control(int pId, string pType, string pCommand, string pMode, List<App> pApps, List<Robot> pRobots, Steering pSteering) : base(pId, pType, pCommand, pMode, pApps, pRobots)
         {
             this.steering = pSteering;
         }
@@ -22,6 +22,6 @@ namespace FleeAndCatch.Commands.Models.Szenarios
 
     public enum ControlType
     {
-        Begin, End, Start, Stop, Control
+        Init, Begin, End, Start, Stop, Control
     }
 }

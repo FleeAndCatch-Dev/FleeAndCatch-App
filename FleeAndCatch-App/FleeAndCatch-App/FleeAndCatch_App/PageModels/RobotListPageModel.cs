@@ -38,7 +38,7 @@ namespace FleeAndCatch_App.PageModels
             RobotGroupList = new List<RobotGroup>();
 
             RobotController.Updated = false;
-            var command = new Synchronization(CommandType.Synchronization.ToString(), SynchronizationCommandType.All.ToString(), Client.Identification, RobotController.Robots);
+            var command = new Synchronization(CommandType.Synchronization.ToString(), SynchronizationCommandType.AllRobots.ToString(), Client.Identification, SzenarioController.Szenarios, RobotController.Robots);
             Client.SendCmd(command.ToJsonString());
         }
 
@@ -119,7 +119,7 @@ namespace FleeAndCatch_App.PageModels
                                     t.Active = true;
                                 }
                                 Client.Device.Active = true;
-                                szenario = new Control(_szenarioType.ToString(), ControlType.Begin.ToString(), SzenarioMode.Single.ToString(), appList, robotList, new Steering(0, 0));
+                                szenario = new Control(-1, _szenarioType.ToString(), ControlType.Init.ToString(), SzenarioMode.Single.ToString(), appList, robotList, new Steering(0, 0));
                             }
                             break;
                         case SzenarioCommandType.Synchron:
