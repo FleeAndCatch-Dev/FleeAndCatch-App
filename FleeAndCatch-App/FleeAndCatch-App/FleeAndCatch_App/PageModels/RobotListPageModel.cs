@@ -119,7 +119,7 @@ namespace FleeAndCatch_App.PageModels
                                     t.Active = true;
                                 }
                                 Client.Device.Active = true;
-                                szenario = new Control(-1, _szenarioType.ToString(), ControlType.Init.ToString(), SzenarioMode.Single.ToString(), appList, robotList, new Steering(0, 0));
+                                szenario = new Control(-1, _szenarioType.ToString(), ControlType.Undefined.ToString(), SzenarioMode.Single.ToString(), appList, robotList, new Steering(0, 0));
                             }
                             break;
                         case SzenarioCommandType.Synchron:
@@ -133,7 +133,7 @@ namespace FleeAndCatch_App.PageModels
                     Client.Szenario = szenario;
                     if (szenario != null)
                     {
-                        var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), _szenarioType.ToString(), Client.Identification, szenario);
+                        var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), SzenarioCommandType.Init.ToString(), Client.Identification, szenario);
                         Client.SendCmd(cmd.ToJsonString());
 
                         Device.BeginInvokeOnMainThread(() =>

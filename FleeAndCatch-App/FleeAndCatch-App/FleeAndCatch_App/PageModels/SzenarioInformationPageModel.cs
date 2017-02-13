@@ -51,6 +51,9 @@ namespace FleeAndCatch_App.PageModels
             {
                 return new Command(() =>
                 {
+                    var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), Szenario.Type, Client.Identification, Szenario);
+                    Client.SendCmd(cmd.ToJsonString());
+
                     accept = true;
                     var type = (SzenarioCommandType) Enum.Parse(typeof(SzenarioCommandType), Szenario.Type);
                     switch (type)
