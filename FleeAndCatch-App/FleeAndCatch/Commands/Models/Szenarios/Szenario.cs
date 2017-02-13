@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using FleeAndCatch.Commands.Models.Devices;
 using FleeAndCatch.Commands.Models.Devices.Apps;
 using FleeAndCatch.Commands.Models.Devices.Robots;
+using FleeAndCatch.Commands.Models.Szenarios;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -61,5 +64,80 @@ namespace FleeAndCatch.Commands.Models.Szenarios
     public enum SzenarioMode
     {
         Single, Multi
+    }
+}
+
+public class SzenarioJsonConverter : JsonConverter
+{
+    private Type[] _types;
+
+    public SzenarioJsonConverter()
+    {
+
+    }
+
+    public SzenarioJsonConverter(params Type[] types)
+    {
+        _types = types;
+    }
+
+    public override bool CanConvert(Type objectType)
+    {
+        return (objectType == typeof(Device));
+    }
+
+    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    {
+        if (reader.TokenType == JsonToken.StartArray)
+        {
+            List<Szenario> szenarios = null;
+            var jsonArray = JArray.Load(reader);
+
+            foreach (var t in jsonArray)
+            {
+                if (jsonArray["type"] == null) throw new System.Exception("Devie is not implemented");
+                switch (jsonArray["type"].ToString())
+                {
+                    case "Control":
+                        szenarios.Add(t.ToObject<Control>());
+                        break;
+                }
+            }
+
+            return szenarios;
+        }
+        else if(reader.TokenType == JsonToken.StartObject)
+        {
+            Szenario szenario = null;
+            var jsonObject = JObject.Load(reader);
+
+            if (jsonObject["type"] == null) throw new System.Exception("Devie is not implemented");
+            switch (jsonObject["type"].ToString())
+            {
+                case "Control":
+                    szenario = jsonObject.ToObject<Control>();
+                    break;
+            }
+            return szenario;
+        }
+        throw new Exception("Not defined JsonToken");
+    }
+
+    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+    {
+        //refactor
+        var t = JToken.FromObject(value);
+        if (t.Type != JTokenType.Object)
+            t.WriteTo(writer);
+        else
+        {
+            //var szenario = value as Szenario;
+            var o = (JObject)t;
+            /*if (szenario == null) return;
+            if (szenario is Control)
+            {
+            }*/
+            o.WriteTo(writer);
+        }
     }
 }

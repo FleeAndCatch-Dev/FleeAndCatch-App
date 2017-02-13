@@ -14,6 +14,7 @@ namespace FleeAndCatch.Commands
     public class Synchronization : Command
     {
         [JsonProperty("szenarios")]
+        [JsonConverter(typeof(SzenarioJsonConverter))]
         private List<Szenario> szenarios;
         [JsonProperty("robots")]
         private List<Robot> robots;

@@ -128,11 +128,12 @@ namespace FleeAndCatch_App.PageModels
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
-                    }
-                    //Set the szenario in the client
-                    Client.Szenario = szenario;
+                    }                    
                     if (szenario != null)
                     {
+                        //Set the szenario in the client
+                        Client.Szenario = szenario;
+
                         var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), SzenarioCommandType.Init.ToString(), Client.Identification, szenario);
                         Client.SendCmd(cmd.ToJsonString());
 

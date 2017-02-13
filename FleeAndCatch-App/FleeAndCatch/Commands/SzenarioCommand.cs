@@ -13,6 +13,7 @@ namespace FleeAndCatch.Commands
     public class SzenarioCommand : Command
     {
         [JsonProperty("szenario")]
+        [JsonConverter(typeof(SzenarioJsonConverter))]
         private Szenario szenario;
 
         public SzenarioCommand(string pId, string pType, ClientIdentification pIdentification, Szenario pSzenario) : base(pId, pType, pIdentification)

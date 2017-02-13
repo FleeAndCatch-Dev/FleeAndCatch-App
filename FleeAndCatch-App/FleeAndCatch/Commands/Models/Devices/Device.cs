@@ -50,38 +50,65 @@ namespace FleeAndCatch.Commands.Models.Devices
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            object device = null;
-
-            //Specification for the desrialisation of the device
-            try
+            if (reader.TokenType == JsonToken.StartArray)
             {
-                device = serializer.Deserialize<App>(reader);
-            }
-            catch
-            {
-                device = serializer.Deserialize<Robot>(reader);
-            }
+                List<Device> devices = null;
+                var jsonArray = JArray.Load(reader);
 
-            return device;
+                foreach (var t in jsonArray)
+                {
+                    if (jsonArray["identification"]["type"] == null) throw new System.Exception("Szenario is not implemented");
+                    switch (jsonArray["identification"]["type"].ToString())
+                    {
+                        case "App":
+                            devices.Add(t.ToObject<App>());
+                            break;
+                        case "Robot":
+                            devices.Add(t.ToObject<Robot>());
+                            break;
+                    }
+                }
+
+                return devices;
+            }
+            else if (reader.TokenType == JsonToken.StartObject)
+            {
+                Device device = null;
+                var jsonObject = JObject.Load(reader);
+
+                if (jsonObject["identification"]["type"] == null) throw new System.Exception("Devie is not implemented");
+                switch (jsonObject["identification"]["type"].ToString())
+                {
+                    case "App":
+                        device = jsonObject.ToObject<App>();
+                        break;
+                    case "Robot":
+                        device = jsonObject.ToObject<Robot>();
+                        break;
+                }
+                return device;
+            }
+            throw new System.Exception("Not defined JsonToken");
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
+            //refactor
             var t = JToken.FromObject(value);
             if(t.Type != JTokenType.Object)
                 t.WriteTo(writer);
             else
             {
-                var device = value as Device;
+                //var device = value as Device;
                 var o = (JObject)t;
-                if (device == null) return;
+                /*if (device == null) return;
                 if (device is App)
                 {
                 }
                 else if(device is Robot)
                 {
                         
-                }
+                }*/
                 o.WriteTo(writer);
             }
         }

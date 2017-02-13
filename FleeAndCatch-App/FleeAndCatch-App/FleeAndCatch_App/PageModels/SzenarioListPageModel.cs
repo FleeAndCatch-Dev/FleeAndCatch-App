@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
 using FleeAndCatch.Commands;
+using FleeAndCatch.Commands.Models.Szenarios;
 using FleeAndCatch_App.Communication;
 using FleeAndCatch_App.Controller;
 using FleeAndCatch_App.Models;
@@ -158,37 +159,29 @@ namespace FleeAndCatch_App.PageModels
                 {
                     UserDialogs.Instance.ShowLoading();
                 });
-
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    UserDialogs.Instance.HideLoading();
-                });
                 
                 while (!SzenarioController.Updated)
                     await Task.Delay(TimeSpan.FromMilliseconds(10));
 
                 SzenarioGroupList.Clear();
-/*
-                SzenarioGroupList.Clear();
-                var tempList = new List<RobotGroup>();
-                for (var i = 0; i < Enum.GetNames(typeof(ComponentType.RobotType)).Length; i++)
+                var tempList = new List<SzenarioGroup>();
+                for (var i = 0; i < Enum.GetNames(typeof(SzenarioCommandType)).Length; i++)
                 {
-                    var counter = 0;
-                    foreach (var t in RobotController.Robots)
+                    foreach (var t in SzenarioController.Szenarios)
                     {
-                        if (t.Identification.Subtype == Enum.GetNames(typeof(ComponentType.RobotType))[i] && !t.Active)
-                            counter++;
+                        if (t.Type == Enum.GetNames(typeof(SzenarioCommandType))[i])
+                        {
+                            tempList.Add(new SzenarioGroup(Enum.GetNames(typeof(SzenarioCommandType))[i], t.Id));
+                        }
                     }
-                    tempList.Add(new RobotGroup(Enum.GetNames(typeof(ComponentType.RobotType))[i], counter));
                 }
-                RobotGroupList = tempList;
-
+                SzenarioGroupList = tempList;
 
                 Device.BeginInvokeOnMainThread(() =>
                 {
                     UserDialogs.Instance.HideLoading();
                 });
-                return;*/
+                return;
             }
             Device.BeginInvokeOnMainThread(async () =>
             {

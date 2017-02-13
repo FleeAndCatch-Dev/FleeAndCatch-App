@@ -128,18 +128,14 @@ namespace FleeAndCatch_App.Communication
         {
             if (pCommand == null) throw new ArgumentNullException(nameof(pCommand));
             var command = JsonConvert.DeserializeObject<SzenarioCommand>(JsonConvert.SerializeObject(pCommand));
-            var type = (SzenarioCommandType)Enum.Parse(typeof(SzenarioCommandType), command.Szenario.Type);
+            var type = (SzenarioCommandType)Enum.Parse(typeof(SzenarioCommandType), command.Type);
 
             switch (type)
             {
                 case SzenarioCommandType.Init:
-                    if (command.Szenario.Type == SzenarioCommandType.Init.ToString())
-                    {
-                        //Set the id of the szenario
-                        Client.Szenario = command.Szenario;
-                        return;
-                    }
-                    throw new ArgumentOutOfRangeException();
+                    //Set the id of the szenario
+                    Client.Szenario = command.Szenario;
+                    return;
                 case SzenarioCommandType.Control:
                     throw new ArgumentOutOfRangeException();
                 case SzenarioCommandType.Synchron:

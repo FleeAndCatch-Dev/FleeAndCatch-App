@@ -30,6 +30,13 @@ namespace FleeAndCatch_App.PageModels
             GenerateLists();
         }
 
+        protected override void ViewIsAppearing(object sender, EventArgs e)
+        {
+            base.ViewIsAppearing(sender, e);
+
+            Szenario = Client.Szenario;
+        }
+
         protected override void ViewIsDisappearing(object sender, EventArgs e)
         {
             if (!accept)
@@ -51,14 +58,15 @@ namespace FleeAndCatch_App.PageModels
             {
                 return new Command(() =>
                 {
-                    var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), Szenario.Type, Client.Identification, Szenario);
-                    Client.SendCmd(cmd.ToJsonString());
-
                     accept = true;
                     var type = (SzenarioCommandType) Enum.Parse(typeof(SzenarioCommandType), Szenario.Type);
                     switch (type)
                     {
                         case SzenarioCommandType.Control:
+                            Szenario.Command = ControlType.Begin.ToString();
+                            var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), Szenario.Type, Client.Identification, Szenario);
+                            Client.SendCmd(cmd.ToJsonString());
+
                             CoreMethods.PushPageModel<ControlPageModel>(Szenario);
                             break;
                         case SzenarioCommandType.Synchron:
