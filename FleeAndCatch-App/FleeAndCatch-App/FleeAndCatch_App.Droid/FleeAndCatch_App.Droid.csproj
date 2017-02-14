@@ -234,7 +234,7 @@
     <AndroidResource Include="Resources\drawable\ic_expand_more_black_48dp.png" />
     <AndroidResource Include="Resources\drawable\SplashScreen.png" />
     <AndroidResource Include="Resources\drawable\FleeAndCatch_Logo.png" />
-    <AndroidResource Include="Resources\drawable\Scale_icon" />
+    <AndroidResource Include="Resources\drawable\Scale_icon.png" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
