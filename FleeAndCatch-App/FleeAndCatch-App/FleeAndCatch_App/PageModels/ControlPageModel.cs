@@ -109,7 +109,7 @@ namespace FleeAndCatch_App.PageModels
         private bool NewControlCmd()
         {
             //Change the user interface
-            if (SzenarioController.ChangedPosition)
+            if (SzenarioController.Changed)
             {
                 foreach (var t in RobotController.Robots)
                 {
@@ -117,7 +117,7 @@ namespace FleeAndCatch_App.PageModels
                     Robot = t;
                     break;
                 }
-                SzenarioController.ChangedPosition = false;
+                SzenarioController.Changed = false;
             }
 
             if (!SzenarioController.Refresh)
@@ -128,6 +128,8 @@ namespace FleeAndCatch_App.PageModels
                 //set object active -> false
                 _szenario.Robots[0].Active = false;
                 Client.Device.Active = false;
+                //remove the szenario
+                SzenarioController.Szenarios.Remove(_szenario);
 
                 _szenario.Command = ControlType.End.ToString();
                 var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), ControlType.Control.ToString(), Client.Identification, _szenario);
@@ -177,8 +179,8 @@ namespace FleeAndCatch_App.PageModels
                         y = Convert.ToDouble(((MotionVector)e.Value).Y.ToString("F"));
                         break;
                     case TargetPlatform.Android:
-                        x = Convert.ToDouble(((MotionVector)e.Value).X.ToString("F")) / 10;
-                        y = Convert.ToDouble(((MotionVector)e.Value).Y.ToString("F")) / 10;
+                        x = (Convert.ToDouble(((MotionVector)e.Value).X.ToString("F")) / 10) * (-1);
+                        y = (Convert.ToDouble(((MotionVector)e.Value).Y.ToString("F")) / 10) * (-1);
                         break;
                     case TargetPlatform.iOS:
                         await CoreMethods.DisplayAlert("Error", "Not supported OS", "OK");

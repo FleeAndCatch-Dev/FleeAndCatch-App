@@ -12,7 +12,7 @@ namespace FleeAndCatch_App.Controller
     {
         private static bool updated;
         private static List<Szenario> szenarios = new List<Szenario>();
-        public static bool ChangedPosition { get; set; }
+        public static bool Changed { get; set; }
         public static bool Refresh { get; set; }
 
         public static bool Updated

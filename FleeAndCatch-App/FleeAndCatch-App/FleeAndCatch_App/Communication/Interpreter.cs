@@ -99,7 +99,7 @@ namespace FleeAndCatch_App.Communication
                             if (RobotController.Robots[i].Identification.Id != t.Identification.Id) continue;
                             //Update robot object instances
                             RobotController.Robots[i] = t;
-                            SzenarioController.ChangedPosition = true;
+                            SzenarioController.Changed = true;
                             break;
                         }
                     }
@@ -116,6 +116,7 @@ namespace FleeAndCatch_App.Communication
                             if (SzenarioController.Szenarios[i].Id != t.Id) continue;
                             //Update szenario
                             SzenarioController.Szenarios[i] = t;
+                            SzenarioController.Changed = true;
                         }
                     }
                     break;

@@ -90,13 +90,13 @@ public class SzenarioJsonConverter : JsonConverter
     {
         if (reader.TokenType == JsonToken.StartArray)
         {
-            List<Szenario> szenarios = null;
+            List<Szenario> szenarios = new List<Szenario>();
             var jsonArray = JArray.Load(reader);
 
             foreach (var t in jsonArray)
             {
-                if (jsonArray["type"] == null) throw new System.Exception("Devie is not implemented");
-                switch (jsonArray["type"].ToString())
+                if (t["type"] == null) throw new System.Exception("Devie is not implemented");
+                switch (t["type"].ToString())
                 {
                     case "Control":
                         szenarios.Add(t.ToObject<Control>());

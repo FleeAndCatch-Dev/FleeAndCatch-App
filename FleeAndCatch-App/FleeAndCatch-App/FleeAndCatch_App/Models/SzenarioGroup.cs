@@ -13,7 +13,6 @@ namespace FleeAndCatch_App.Models
         public string Name { get; set; }
         public int Number { get; set; }
         public List<int> Items { get; set; }
-        public int Choosen { get; set; }
 
         public SzenarioGroup(string pName, int pNumber)
         {

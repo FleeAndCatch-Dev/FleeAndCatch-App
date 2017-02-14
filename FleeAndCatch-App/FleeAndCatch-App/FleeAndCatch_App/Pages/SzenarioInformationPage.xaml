@@ -11,19 +11,6 @@
           <Label Text="{Binding Szenario.SzenarioId}" FontSize="20" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center"/>
         </StackLayout>
           <StackLayout Orientation="Vertical" Padding="20, 0, 0, 20" Spacing="30" HorizontalOptions="CenterAndExpand">
-            <!--
-            <ListView ItemsSource="{Binding GroupedApps}" HasUnevenRows="True" GroupDisplayBinding="{Binding Name}" IsGroupingEnabled="True">
-              <ListView.ItemTemplate>
-                <DataTemplate>
-                  <ViewCell>
-                    <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                      <Label Text="{Binding Name}" FontSize="16" VerticalTextAlignment="Center" HorizontalTextAlignment="Start"/>
-                      <Label Text="{Binding Text}" FontSize="16" VerticalTextAlignment="Center" HorizontalTextAlignment="End"/>
-                    </StackLayout>
-                  </ViewCell>
-                </DataTemplate>
-              </ListView.ItemTemplate>
-            </ListView>-->
             <ListView ItemsSource="{Binding GroupedRobots}" HasUnevenRows="True" GroupDisplayBinding="{Binding Name}" IsGroupingEnabled="True">
               <ListView.ItemTemplate>
                 <DataTemplate>

@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FleeAndCatch_App.Pages.SpectatorPage"
+             Title="FleeAndCatch">
+  
+  <StackLayout Orientation="Vertical">
+    <ScrollView>
+      <StackLayout Orientation="Vertical" Spacing="10">
+        <StackLayout Orientation="Horizontal" Padding="5" VerticalOptions="Start" HorizontalOptions="CenterAndExpand">
+          <Label Text="{Binding Szenario.Type}" FontSize="20" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center"/>
+        </StackLayout>
+        <StackLayout Orientation="Vertical" Padding="20, 0, 0, 20" Spacing="30" HorizontalOptions="CenterAndExpand">
+          <ListView ItemsSource="{Binding Robots}" HasUnevenRows="True">
+            <ListView.ItemTemplate>
+              <DataTemplate>
+                <ViewCell>
+                  <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="Center" Padding="10, 0">
+                    <Label Text="Identification:"/>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10">
+                      <Label Text="{Binding Identification.Id}"/>
+                      <Label Text="{Binding Identification.Type}"/>
+                      <Label Text="{Binding Identification.Subtype}"/>
+                      <Label Text="{Binding Identification.Roletype}"/>
+                    </StackLayout>
+                    <Label Text="Position:"/>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10">
+                      <Label Text="{Binding Position.X}"/>
+                      <Label Text="{Binding Position.Y}"/>
+                      <Label Text="{Binding Position.Orientation}"/>
+                    </StackLayout>
+                    <Label Text="Speed:"/>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10">
+                      <Label Text="{Binding Speed}"/>
+                    </StackLayout>
+                  </StackLayout>
+                </ViewCell>
+              </DataTemplate>
+            </ListView.ItemTemplate>
+          </ListView>
+        </StackLayout>
+      </StackLayout>
+    </ScrollView>
+  </StackLayout>
+</ContentPage>
