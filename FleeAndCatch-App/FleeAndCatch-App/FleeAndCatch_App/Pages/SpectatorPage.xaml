@@ -5,12 +5,12 @@
              Title="FleeAndCatch">
   
   <StackLayout Orientation="Vertical">
-    <ScrollView>
+    
       <StackLayout Orientation="Vertical" Spacing="10">
-        <StackLayout Orientation="Horizontal" Padding="5" VerticalOptions="Start" HorizontalOptions="CenterAndExpand">
+        <StackLayout Orientation="Horizontal" Padding="5" VerticalOptions="Start" HorizontalOptions="Center">
           <Label Text="{Binding Szenario.Type}" FontSize="20" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center"/>
         </StackLayout>
-        <StackLayout Orientation="Vertical" Padding="20, 0, 0, 20" Spacing="30" HorizontalOptions="CenterAndExpand">
+        <StackLayout Orientation="Vertical" Padding="20, 0, 0, 20" Spacing="30" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
           <ListView ItemsSource="{Binding Robots}" HasUnevenRows="True">
             <ListView.ItemTemplate>
               <DataTemplate>
@@ -40,6 +40,5 @@
           </ListView>
         </StackLayout>
       </StackLayout>
-    </ScrollView>
   </StackLayout>
 </ContentPage>

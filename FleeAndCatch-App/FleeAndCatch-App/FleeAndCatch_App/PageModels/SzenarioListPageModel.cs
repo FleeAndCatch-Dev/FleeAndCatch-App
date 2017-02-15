@@ -18,7 +18,6 @@ namespace FleeAndCatch_App.PageModels
     {
         public List<SzenarioGroup> SzenarioGroupList { get; set; }
         private SzenarioGroup _szenarioGroup;
-        //private SzenarioCommandType _szenarioType;
 
         public SzenarioListPageModel()
         {
@@ -29,7 +28,6 @@ namespace FleeAndCatch_App.PageModels
         {
             base.Init(initData);
 
-            //_szenarioType = (SzenarioCommandType)initData;
             SzenarioGroupList = new List<SzenarioGroup>();
 
             //Get all current szenarios
@@ -47,7 +45,7 @@ namespace FleeAndCatch_App.PageModels
         {
             base.ViewIsAppearing(sender, e);
 
-            UserDialogs.Instance.ShowLoading();
+            SzenarioController.Updated = false;
             var connectionTask = new Task(UpdateSzenarioList);
             connectionTask.Start();
         }
@@ -102,10 +100,27 @@ namespace FleeAndCatch_App.PageModels
                 {
                     UserDialogs.Instance.ShowLoading();
                 });
-                
-                while (!SzenarioController.Updated)
-                    await Task.Delay(TimeSpan.FromMilliseconds(10));
 
+                var counter = 0;
+                while (!SzenarioController.Updated && counter <= 300)
+                {
+                    await Task.Delay(TimeSpan.FromMilliseconds(10));
+                    counter++;
+                }
+
+                //Show exception, when there aren't any szanrios alive
+                if (SzenarioController.Szenarios.Count == 0)
+                {
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        UserDialogs.Instance.HideLoading();
+                        await CoreMethods.DisplayAlert("Error", "There aren't any szenarios alive", "OK");
+                        await CoreMethods.PopPageModel();
+                    });
+                    return;
+                }                   
+
+                //Update the list with sorting of the szenario types
                 SzenarioGroupList.Clear();
                 var tempList = new List<SzenarioGroup>();
                 for (var i = 0; i < Enum.GetNames(typeof(SzenarioCommandType)).Length; i++)

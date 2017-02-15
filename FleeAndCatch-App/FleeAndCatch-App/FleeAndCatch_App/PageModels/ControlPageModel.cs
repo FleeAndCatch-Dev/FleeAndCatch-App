@@ -54,9 +54,11 @@ namespace FleeAndCatch_App.PageModels
             Change = "Stop";
             ChangeColor = Color.FromHex("#8B0000");
 
+            //Start the sensors on the current device
             CrossDeviceMotion.Current.Start(MotionSensorType.Accelerometer, MotionSensorDelay.Ui);
             CrossDeviceMotion.Current.SensorValueChanged += RefreshView;
 
+            //Start timer for the control commands
             SzenarioController.Refresh = true;
             Device.StartTimer(TimeSpan.FromMilliseconds(50), NewControlCmd);
         }
@@ -68,6 +70,7 @@ namespace FleeAndCatch_App.PageModels
         /// <param name="e"></param>
         protected override void ViewIsDisappearing(object sender, EventArgs e)
         {
+            //Stop the timer and navigate to the home page
             SzenarioController.Refresh = false;
         }
 
@@ -131,6 +134,7 @@ namespace FleeAndCatch_App.PageModels
                 //remove the szenario
                 SzenarioController.Szenarios.Remove(_szenario);
 
+                //Send the control end command
                 _szenario.Command = ControlType.End.ToString();
                 var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), ControlType.Control.ToString(), Client.Identification, _szenario);
                 Client.SendCmd(JsonConvert.SerializeObject(cmd));
@@ -154,7 +158,7 @@ namespace FleeAndCatch_App.PageModels
                 if (t.Identification == Robot.Identification)
                     Robot = t;
             }
-
+            //Send the control command
             var cmdCtrl = new SzenarioCommand(CommandType.Szenario.ToString(), ControlType.Control.ToString(), Client.Identification, control);
             Client.SendCmd(cmdCtrl.ToJsonString());
             return true;

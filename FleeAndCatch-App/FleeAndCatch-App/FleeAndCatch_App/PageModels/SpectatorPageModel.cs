@@ -30,6 +30,7 @@ namespace FleeAndCatch_App.PageModels
         {
             base.ViewIsAppearing(sender, e);
 
+            //Start timer for synchronization commands
             SzenarioController.Refresh = true;
             Device.StartTimer(TimeSpan.FromMilliseconds(100), NewSpectatorCmd);
         }
@@ -58,7 +59,7 @@ namespace FleeAndCatch_App.PageModels
             if (!SzenarioController.Refresh)
                 return false;
 
-            //do something
+            //Send synchronization command to get current szenario
             var szenarios = new List<Szenario> {Szenario};
             var cmdSync = new Synchronization(CommandType.Synchronization.ToString(), SynchronizationCommandType.CurrentSzenario.ToString(), Client.Identification, szenarios, new List<Robot>());
             Client.SendCmd(cmdSync.ToJsonString());

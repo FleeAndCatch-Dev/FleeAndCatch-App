@@ -29,6 +29,7 @@ namespace FleeAndCatch_App.PageModels
             {
                 return new Command(() =>
                 {
+                    CoreMethods.DisplayAlert("Error", "Sorry, this isn't implemented", "OK");
                     /*CoreMethods.PushPageModel<SzenarioOptionsPageModel>();
                     RaisePropertyChanged();*/
                 });
@@ -51,6 +52,7 @@ namespace FleeAndCatch_App.PageModels
             {
                 return new Command(() =>
                 {
+                    CoreMethods.DisplayAlert("Error", "Sorry, this isn't implemented", "OK");
                     //await Application.Current.MainPage.Navigation.PushAsync(new Szenario());
                 });
             }

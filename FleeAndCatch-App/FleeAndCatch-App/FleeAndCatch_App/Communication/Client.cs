@@ -16,14 +16,19 @@ namespace FleeAndCatch_App.Communication
 {
     public static class Client
     {
+        //Represents the socket for communication
         private static TcpSocketClient tcpSocketClient;
+        //Represents the status of the connection
         private static bool connected;
+        //Represents the identification
         private static ClientIdentification identification;
+        //Represents the current device
         private static Device device;
+        //Represents the running szenario
         private static Szenario szenario;
 
         /// <summary>
-        /// Create a new task with a new communication.
+        /// Create a new task with a new communication. Set the device and the status.
         /// </summary>
         public static void Connect(string pAddress)
         {
@@ -47,13 +52,13 @@ namespace FleeAndCatch_App.Communication
             await tcpSocketClient.ConnectAsync(identification.Address, identification.Port);
             connected = true;
 
+            //Send a connection command to transfer the current device
             var command = new ConnectionCommand(CommandType.Connection.ToString(), ConnectionCommandType.Connect.ToString(), identification, Device);
             SendCmd(command.ToJsonString());
 
+            //Receive the packages and put them to the parser
             while (connected)
-            {
                 Interpreter.Parse(ReceiveCmd());
-            }
         }
 
         /// <summary>
@@ -62,7 +67,6 @@ namespace FleeAndCatch_App.Communication
         /// <returns>String: Json command</returns>
         private static string ReceiveCmd()
         {
-
             var size = new byte[4];
 
             tcpSocketClient.ReadStream.Read(size, 0, size.Length);
@@ -116,6 +120,7 @@ namespace FleeAndCatch_App.Communication
         public static void Close()
         {
             if (!Connected) throw new System.Exception("There is no connection to the server");
+            //Send connection command to close the connection
             var command = new ConnectionCommand(CommandType.Connection.ToString(), ConnectionCommandType.Disconnect.ToString(), identification, Device);
             SendCmd(command.ToJsonString());
         }

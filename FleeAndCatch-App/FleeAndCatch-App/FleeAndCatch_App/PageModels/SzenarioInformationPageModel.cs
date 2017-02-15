@@ -44,6 +44,7 @@ namespace FleeAndCatch_App.PageModels
                 foreach (var t in Szenario.Robots)
                     t.Active = false;
 
+                //Send control end command 
                 Szenario.Command = ControlType.End.ToString();
                 var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), ControlType.Control.ToString(), Client.Identification, Szenario);
                 Client.SendCmd(JsonConvert.SerializeObject(cmd));
@@ -63,6 +64,7 @@ namespace FleeAndCatch_App.PageModels
                     switch (type)
                     {
                         case SzenarioCommandType.Control:
+                            //Send control begin command to start the szenario
                             Szenario.Command = ControlType.Begin.ToString();
                             var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), Szenario.Type, Client.Identification, Szenario);
                             Client.SendCmd(cmd.ToJsonString());

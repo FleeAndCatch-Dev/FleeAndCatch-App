@@ -37,6 +37,7 @@ namespace FleeAndCatch_App.PageModels
             _szenarioType = (SzenarioCommandType) initData;
             RobotGroupList = new List<RobotGroup>();
 
+            //Send synchronization command to get all robots
             RobotController.Updated = false;
             var command = new Synchronization(CommandType.Synchronization.ToString(), SynchronizationCommandType.AllRobots.ToString(), Client.Identification, SzenarioController.Szenarios, RobotController.Robots);
             Client.SendCmd(command.ToJsonString());
