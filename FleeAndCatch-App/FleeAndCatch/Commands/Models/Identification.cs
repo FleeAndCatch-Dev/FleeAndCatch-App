@@ -16,8 +16,6 @@ namespace FleeAndCatch.Commands.Models
         [JsonProperty("type")]
         protected string type;
 
-        public abstract JObject GetJObject();
-
         public int Id
         {
             get { return id; }
@@ -47,19 +45,9 @@ namespace FleeAndCatch.Commands.Models
             address = pAddress;
         }
 
-        public override JObject GetJObject()
-        {
-            var jsonIdentification = new JObject
-            {
-                {"id", id},
-                {"type", type},
-                {"address", address},
-                {"port", port}
-            };
-            return jsonIdentification;
-        }
-
+        [JsonIgnore]
         public string Address => address;
+        [JsonIgnore]
         public int Port => port;
     }
 
@@ -83,19 +71,9 @@ namespace FleeAndCatch.Commands.Models
             roletype = Enum.GetName(typeof(ComponentType.RoleType), ((ComponentType.RoleType)Enum.Parse(typeof(ComponentType.RoleType), pRoleType)));
         }
 
-        public override JObject GetJObject()
-        {
-            var jsonIdentification = new JObject
-            {
-                {"id", id},
-                {"type", type},
-                {"subtype", subtype},
-                {"roletype", roletype}
-            };
-            return jsonIdentification;
-        }
-
+        [JsonIgnore]
         public string Subtype => subtype;
+        [JsonIgnore]
         public string Roletype => roletype;
     }
 
@@ -116,17 +94,7 @@ namespace FleeAndCatch.Commands.Models
             roletype = Enum.GetName(typeof(ComponentType.RoleType), ((ComponentType.RoleType)Enum.Parse(typeof(ComponentType.RoleType), pRoleType)));
         }
 
-        public override JObject GetJObject()
-        {
-            var jsonIdentification = new JObject
-            {
-                {"id", id},
-                {"type", type},
-                {"roletype", roletype}
-            };
-            return jsonIdentification;
-        }
-
+        [JsonIgnore]
         public string Roletype => roletype;
     }
 

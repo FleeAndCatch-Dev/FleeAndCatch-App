@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FleeAndCatch.Commands.Models;
 using FleeAndCatch.Commands.Models.Devices.Robots;
+using FleeAndCatch.Commands.Models.Szenarios;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -12,6 +13,9 @@ namespace FleeAndCatch.Commands
 {
     public class Synchronization : Command
     {
+        [JsonProperty("szenarios")]
+        [JsonConverter(typeof(SzenarioJsonConverter))]
+        private List<Szenario> szenarios;
         [JsonProperty("robots")]
         private List<Robot> robots;
 
@@ -21,39 +25,20 @@ namespace FleeAndCatch.Commands
         /// <param name="pId">Id as command type.</param>
         /// <param name="pType">Type as synchronisation type.</param>
         /// <param name="pClient">Client of represeenting the device.</param>
-        public Synchronization(string pId, string pType, ClientIdentification pIdentification, List<Robot> pRobots) : base(pId, pType, pIdentification)
+        public Synchronization(string pId, string pType, ClientIdentification pIdentification, List<Szenario> pSzenarios , List<Robot> pRobots) : base(pId, pType, pIdentification)
         {
+            szenarios = pSzenarios;
             robots = pRobots;
         }
 
-        /// <summary>
-        /// Get json string of the command.
-        /// </summary>
-        /// <returns>Json string.</returns>
-        public override string GetCommand()
-        {
-            var array = new JArray();
-            foreach (var t in robots)
-                array.Add(t.GetJObject());
-
-            var command = new JObject
-            {
-                {"id", id},
-                {"type", type},
-                {"apiid", apiid},
-                {"errorhandling", errorhandling},
-                {"identification", identification.GetJObject()},
-                {"robots", array}
-            };
-
-            return JsonConvert.SerializeObject(command);
-        }
-
+        [JsonIgnore]
+        public List<Szenario> Szenarios => szenarios;
+        [JsonIgnore]
         public List<Robot> Robots => robots;
     }
 
     public enum SynchronizationCommandType
     {
-        All, Current
+        AllRobots, CurrentRobot, AllSzenarios, CurrentSzenario
     }
 }

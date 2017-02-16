@@ -7,13 +7,14 @@ using FleeAndCatch.Commands.Models;
 using FleeAndCatch.Commands.Models.Devices;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Serialization;
 
 namespace FleeAndCatch.Commands
 {
     public class ConnectionCommand : Command
     {
         [JsonProperty("device")]
-        [JsonConverter(typeof(DeviceConverter))]
+        [JsonConverter(typeof(DeviceJsonConverter))]
         private Device device;
 
         /// <summary>
@@ -25,25 +26,6 @@ namespace FleeAndCatch.Commands
         public ConnectionCommand(string pId, string pType, ClientIdentification pIdentification, Device pDevice) : base(pId, pType, pIdentification)
         {
             this.device = pDevice;
-        }
-
-        /// <summary>
-        /// Get the command as json string.
-        /// </summary>
-        /// <returns>Json string.</returns>
-        public override string GetCommand()
-        {
-            var command = new JObject
-            {
-                {"id", id},
-                {"type", type},
-                {"apiid", apiid},
-                {"errorhandling", errorhandling},
-                {"identification", identification.GetJObject()},
-                {"device", device.GetJObject()}
-            };
-
-            return JsonConvert.SerializeObject(command);
         }
     }
 

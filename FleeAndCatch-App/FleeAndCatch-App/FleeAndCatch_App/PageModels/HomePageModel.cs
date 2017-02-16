@@ -28,9 +28,9 @@ namespace FleeAndCatch_App.PageModels
         {
             get
             {
-                return new Command(() =>
+                return new Command(async () =>
                 {
-                    
+                    await CoreMethods.DisplayAlert("Error", "Sorry, this isn't implemented", "OK");
                 });
             }
         }

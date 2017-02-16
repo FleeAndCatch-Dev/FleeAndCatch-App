@@ -46,12 +46,15 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\Connection.cs" />
+    <Compile Include="Models\SzenarioGroup.cs" />
     <Compile Include="Models\RobotGroup.cs" />
     <Compile Include="PageModels\ControlPageModel.cs" />
     <Compile Include="PageModels\HomePageModel.cs" />
     <Compile Include="PageModels\RobotListPageModel.cs" />
     <Compile Include="PageModels\SignInPageModel.cs" />
+    <Compile Include="PageModels\SpectatorPageModel.cs" />
     <Compile Include="PageModels\SzenarioInformationPageModel.cs" />
+    <Compile Include="PageModels\SzenarioListPageModel.cs" />
     <Compile Include="PageModels\SzenarioOptionsPageModel.cs" />
     <Compile Include="PageModels\SzenarioPageModel.cs" />
     <Compile Include="Pages\ControlPage.xaml.cs">
@@ -66,8 +69,14 @@
     <Compile Include="Pages\SignInPage.xaml.cs">
       <DependentUpon>SignInPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\SpectatorPage.xaml.cs">
+      <DependentUpon>SpectatorPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\SzenarioInformationPage.xaml.cs">
       <DependentUpon>SzenarioInformationPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SzenarioListPage.xaml.cs">
+      <DependentUpon>SzenarioListPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\SzenarioOptionsPage.xaml.cs">
       <DependentUpon>SzenarioOptionsPage.xaml</DependentUpon>
@@ -181,29 +190,51 @@
     <Content Include="Images\Direction\ic_chevron_right_black_48dp.png" />
     <Content Include="Images\Direction\ic_expand_less_black_48dp.png" />
     <Content Include="Images\Direction\ic_expand_more_black_48dp.png" />
-    <Content Include="Images\Logo\FleeAndCatch_Logo.png" />
-    <Content Include="Images\Logo\Scale_88x88.png" />
-    <Content Include="Images\Logo\SplashScreen_1240x600.png" />
-    <Content Include="Images\Logo\SplashScreen_2480x1200.png" />
-    <Content Include="Images\Logo\SplashScreen_620x300.png" />
-    <Content Include="Images\Logo\SplashScreen_775x375.png" />
-    <Content Include="Images\Logo\SplashScreen_930x450.png" />
-    <Content Include="Images\Logo\Square_150x150.png" />
-    <Content Include="Images\Logo\Square_188x188.png" />
-    <Content Include="Images\Logo\Square_225x225.png" />
-    <Content Include="Images\Logo\Square_300x300.png" />
-    <Content Include="Images\Logo\Square_600x600.png" />
-    <Content Include="Images\Logo\StoreLogo_100x100.png" />
-    <Content Include="Images\Logo\StoreLogo_200x200.png" />
-    <Content Include="Images\Logo\StoreLogo_50x50.png" />
-    <Content Include="Images\Logo\StoreLogo_63x63.png" />
-    <Content Include="Images\Logo\StoreLogo_75x75.png" />
-    <Content Include="Images\Logo\UnplatedTargetSize_24x24.png" />
-    <Content Include="Images\Logo\Wide_1240x600.png" />
-    <Content Include="Images\Logo\Wide_310x150.png" />
-    <Content Include="Images\Logo\Wide_388x188.png" />
-    <Content Include="Images\Logo\Wide_465x225.png" />
-    <Content Include="Images\Logo\Wide_620x300.png" />
+    <Content Include="Images\UWP\Badge\Badge24x24.png" />
+    <Content Include="Images\UWP\Badge\Badge30x30.png" />
+    <Content Include="Images\UWP\Badge\Badge36x36.png" />
+    <Content Include="Images\UWP\Badge\Badge48x48.png" />
+    <Content Include="Images\UWP\Badge\Badge96x96.png" />
+    <Content Include="Images\UWP\FleeAndCatch_Logo.png" />
+    <Content Include="Images\UWP\Splash\Splash1240x600.png" />
+    <Content Include="Images\UWP\Splash\Splash2480x1200.png" />
+    <Content Include="Images\UWP\Splash\Splash620x300.png" />
+    <Content Include="Images\UWP\Splash\Splash775x375.png" />
+    <Content Include="Images\UWP\Splash\Splash930x450.png" />
+    <Content Include="Images\UWP\Square150x150\Square150x150.png" />
+    <Content Include="Images\UWP\Square150x150\Square188x188.png" />
+    <Content Include="Images\UWP\Square150x150\Square225x225.png" />
+    <Content Include="Images\UWP\Square150x150\Square300x300.png" />
+    <Content Include="Images\UWP\Square150x150\Square600x600.png" />
+    <Content Include="Images\UWP\Square310x310\Square1240x1240.png" />
+    <Content Include="Images\UWP\Square310x310\Square310x310.png" />
+    <Content Include="Images\UWP\Square310x310\Square388x388.png" />
+    <Content Include="Images\UWP\Square310x310\Square465x465.png" />
+    <Content Include="Images\UWP\Square310x310\Square620x620.png" />
+    <Content Include="Images\UWP\Square44x44\Square16x16.png" />
+    <Content Include="Images\UWP\Square44x44\Square176x176.png" />
+    <Content Include="Images\UWP\Square44x44\Square24x24.png" />
+    <Content Include="Images\UWP\Square44x44\Square256x256.png" />
+    <Content Include="Images\UWP\Square44x44\Square44x44.png" />
+    <Content Include="Images\UWP\Square44x44\Square48x48.png" />
+    <Content Include="Images\UWP\Square44x44\Square55x55.png" />
+    <Content Include="Images\UWP\Square44x44\Square66x66.png" />
+    <Content Include="Images\UWP\Square44x44\Square88x88.png" />
+    <Content Include="Images\UWP\Square71x71\Square107x107.png" />
+    <Content Include="Images\UWP\Square71x71\Square142x142.png" />
+    <Content Include="Images\UWP\Square71x71\Square284x284.png" />
+    <Content Include="Images\UWP\Square71x71\Square71x71.png" />
+    <Content Include="Images\UWP\Square71x71\Square89x89.png" />
+    <Content Include="Images\UWP\Store\Store100x100.png" />
+    <Content Include="Images\UWP\Store\Store200x200.png" />
+    <Content Include="Images\UWP\Store\Store50x50.png" />
+    <Content Include="Images\UWP\Store\Store63x63.png" />
+    <Content Include="Images\UWP\Store\Store75x75.png" />
+    <Content Include="Images\UWP\Wide310x150\Wide1240x600.png" />
+    <Content Include="Images\UWP\Wide310x150\Wide310x150.png" />
+    <Content Include="Images\UWP\Wide310x150\Wide388x188.png" />
+    <Content Include="Images\UWP\Wide310x150\Wide465x225.png" />
+    <Content Include="Images\UWP\Wide310x150\Wide620x300.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Pages\SignInPage.xaml">
@@ -243,6 +274,21 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Pages\ControlPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Pages\SzenarioListPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Images\Android\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Pages\SpectatorPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

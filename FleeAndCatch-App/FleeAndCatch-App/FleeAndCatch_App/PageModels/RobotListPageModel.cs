@@ -37,9 +37,10 @@ namespace FleeAndCatch_App.PageModels
             _szenarioType = (SzenarioCommandType) initData;
             RobotGroupList = new List<RobotGroup>();
 
+            //Send synchronization command to get all robots
             RobotController.Updated = false;
-            var command = new Synchronization(CommandType.Synchronization.ToString(), SynchronizationCommandType.All.ToString(), Client.Identification, RobotController.Robots);
-            Client.SendCmd(command.GetCommand());
+            var command = new Synchronization(CommandType.Synchronization.ToString(), SynchronizationCommandType.AllRobots.ToString(), Client.Identification, SzenarioController.Szenarios, RobotController.Robots);
+            Client.SendCmd(command.ToJsonString());
         }
 
         /// <summary>
@@ -119,7 +120,7 @@ namespace FleeAndCatch_App.PageModels
                                     t.Active = true;
                                 }
                                 Client.Device.Active = true;
-                                szenario = new Control(_szenarioType.ToString(), ControlType.Begin.ToString(), SzenarioMode.Single.ToString(), appList, robotList, new Steering(0, 0));
+                                szenario = new Control(-1, _szenarioType.ToString(), ControlType.Undefined.ToString(), SzenarioMode.Single.ToString(), appList, robotList, new Steering(0, 0));
                             }
                             break;
                         case SzenarioCommandType.Synchron:
@@ -128,13 +129,14 @@ namespace FleeAndCatch_App.PageModels
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
-                    }
-                    //Set the szenario in the client
-                    Client.Szenario = szenario;
+                    }                    
                     if (szenario != null)
                     {
-                        var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), _szenarioType.ToString(), Client.Identification, szenario);
-                        Client.SendCmd(cmd.GetCommand());
+                        //Set the szenario in the client
+                        Client.Szenario = szenario;
+
+                        var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), SzenarioCommandType.Init.ToString(), Client.Identification, szenario);
+                        Client.SendCmd(cmd.ToJsonString());
 
                         Device.BeginInvokeOnMainThread(() =>
                         {

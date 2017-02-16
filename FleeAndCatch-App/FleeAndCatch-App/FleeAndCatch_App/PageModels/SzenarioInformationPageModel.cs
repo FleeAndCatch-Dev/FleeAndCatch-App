@@ -18,7 +18,6 @@ namespace FleeAndCatch_App.PageModels
     public class SzenarioInformationPageModel : FreshMvvm.FreshBasePageModel
     {
         public Szenario Szenario { get; set; }
-        public List<Group> GroupedApps { get; set; }
         public List<Group> GroupedRobots { get; set; }
         private bool accept;
 
@@ -31,16 +30,22 @@ namespace FleeAndCatch_App.PageModels
             GenerateLists();
         }
 
+        protected override void ViewIsAppearing(object sender, EventArgs e)
+        {
+            base.ViewIsAppearing(sender, e);
+
+            Szenario = Client.Szenario;
+        }
+
         protected override void ViewIsDisappearing(object sender, EventArgs e)
         {
             if (!accept)
             {
                 foreach (var t in Szenario.Robots)
                     t.Active = false;
-                foreach (var t in Szenario.Apps)
-                    t.Active = false;
 
-                Szenario.SzenarioType = ControlType.End.ToString();
+                //Send control end command 
+                Szenario.Command = ControlType.End.ToString();
                 var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), ControlType.Control.ToString(), Client.Identification, Szenario);
                 Client.SendCmd(JsonConvert.SerializeObject(cmd));
             }
@@ -55,10 +60,15 @@ namespace FleeAndCatch_App.PageModels
                 return new Command(() =>
                 {
                     accept = true;
-                    var type = (SzenarioCommandType) Enum.Parse(typeof(SzenarioCommandType), Szenario.SzenarioId);
+                    var type = (SzenarioCommandType) Enum.Parse(typeof(SzenarioCommandType), Szenario.Type);
                     switch (type)
                     {
                         case SzenarioCommandType.Control:
+                            //Send control begin command to start the szenario
+                            Szenario.Command = ControlType.Begin.ToString();
+                            var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), Szenario.Type, Client.Identification, Szenario);
+                            Client.SendCmd(cmd.ToJsonString());
+
                             CoreMethods.PushPageModel<ControlPageModel>(Szenario);
                             break;
                         case SzenarioCommandType.Synchron:
@@ -78,18 +88,6 @@ namespace FleeAndCatch_App.PageModels
         /// </summary>
         private void GenerateLists()
         {
-            GroupedApps = new List<Group>();
-            foreach (var t in Szenario.Apps)
-            {
-                var app = new Group
-                {
-                    new Item { Name = "Id:", Text = Convert.ToString(t.Identification.Id)},
-                    new Item { Name = "RoleType:", Text = Convert.ToString(t.Identification.Roletype)},
-                    new Item { Name = "Active:", Text = Convert.ToString(t.Active)}
-                };
-                app.Name = "App";
-                GroupedApps.Add(app);
-            }
             GroupedRobots = new List<Group>();
             foreach (var t in Szenario.Robots)
             {
@@ -103,7 +101,7 @@ namespace FleeAndCatch_App.PageModels
                     new Item { Name = "Speed:", Text = Convert.ToString(t.Speed)}
                 };
                 robot.Name = "Robot";
-                GroupedApps.Add(robot);
+                GroupedRobots.Add(robot);
             }
         }
     }

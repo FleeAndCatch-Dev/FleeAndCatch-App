@@ -11,38 +11,17 @@ namespace FleeAndCatch.Commands.Models.Szenarios
         [JsonProperty("steering")]
         private Steering steering;
 
-        public Control(string pSzenarioId, string pSzenarioType, string pMode, List<App> pApps, List<Robot> pRobots, Steering pSteering) : base(pSzenarioId, pSzenarioType, pMode, pApps, pRobots)
+        public Control(int pId, string pType, string pCommand, string pMode, List<App> pApps, List<Robot> pRobots, Steering pSteering) : base(pId, pType, pCommand, pMode, pApps, pRobots)
         {
             this.steering = pSteering;
         }
 
-        public override JObject GetJObject()
-        {
-            var appArray = new JArray();
-            foreach (var t in apps)
-                appArray.Add(t.GetJObject());
-
-            var robotArray = new JArray();
-            foreach (var t in robots)
-                robotArray.Add(t.GetJObject());
-
-            var jsonControl = new JObject
-            {
-                {"szenarioid", szenarioid},
-                {"szenariotype", szenariotype},
-                {"mode", mode},
-                {"apps", appArray},
-                {"robots", robotArray},
-                {"steering", steering.GetJObject()}
-            };
-            return jsonControl;
-        }
-
+        [JsonIgnore]
         public Steering Steering => steering;
     }
 
     public enum ControlType
     {
-        Begin, End, Start, Stop, Control
+        Undefined, Begin, End, Start, Stop, Control
     }
 }

@@ -13,6 +13,7 @@ namespace FleeAndCatch.Commands
     public class SzenarioCommand : Command
     {
         [JsonProperty("szenario")]
+        [JsonConverter(typeof(SzenarioJsonConverter))]
         private Szenario szenario;
 
         public SzenarioCommand(string pId, string pType, ClientIdentification pIdentification, Szenario pSzenario) : base(pId, pType, pIdentification)
@@ -20,25 +21,12 @@ namespace FleeAndCatch.Commands
             this.szenario = pSzenario;
         }
 
-        public override string GetCommand()
-        {
-            var jsonSzenario = new JObject
-            {
-                {"id", id},
-                {"type", type},
-                {"apiid", apiid},
-                {"errorhandling", errorhandling},
-                {"identification", identification.GetJObject()},
-                {"szenario", szenario.GetJObject()}
-            };
-            return JsonConvert.SerializeObject(jsonSzenario);
-        }
-
+        [JsonIgnore]
         public Szenario Szenario => szenario;
     }
 
     public enum SzenarioCommandType
     {
-        Control, Synchron, Follow
+        Init, Control, Synchron, Follow
     }
 }

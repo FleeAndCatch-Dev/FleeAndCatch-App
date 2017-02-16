@@ -19,21 +19,7 @@ namespace FleeAndCatch.Commands
             this.exception = pException;
         }
 
-        public override string GetCommand()
-        {
-            var command = new JObject
-            {
-                {"id", id},
-                {"type", type},
-                {"apiid", apiid},
-                {"errorhandling", errorhandling},
-                {"identification", identification.GetJObject()},
-                {"exception", exception.GetJObject()}
-            };
-
-            return JsonConvert.SerializeObject(command);
-        }
-
+        [JsonIgnore]
         public Models.Exception Exception => exception;
     }
 
