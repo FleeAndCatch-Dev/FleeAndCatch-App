@@ -45,8 +45,8 @@ namespace FleeAndCatch_App.PageModels
                     t.Active = false;
 
                 //Send control end command 
-                Szenario.Command = ControlType.End.ToString();
-                var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), ControlType.Control.ToString(), Client.Identification, Szenario);
+                Szenario.Command = ControlType.Undefined.ToString();
+                var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), SzenarioCommandType.End.ToString(), Client.Identification, Szenario);
                 Client.SendCmd(JsonConvert.SerializeObject(cmd));
             }
 
@@ -97,8 +97,8 @@ namespace FleeAndCatch_App.PageModels
                     new Item { Name = "SubType:", Text = Convert.ToString(t.Identification.Subtype)},
                     new Item { Name = "RoleType:", Text = Convert.ToString(t.Identification.Roletype)},
                     new Item { Name = "Active:", Text = Convert.ToString(t.Active)},
-                    new Item { Name = "Position:", Text = Convert.ToString(t.Position.X) + " " + Convert.ToString(t.Position.Y) + " " + Convert.ToString(t.Position.Orientation)},
-                    new Item { Name = "Speed:", Text = Convert.ToString(t.Speed)}
+                    new Item { Name = "Position: X:", Text = Convert.ToString(t.Position.X) + " mm  Y:" + Convert.ToString(t.Position.Y) + " mm O:" + Convert.ToString(t.Position.Orientation) + " °"},
+                    new Item { Name = "Speed:", Text = Convert.ToString(t.Speed) + " cm/s"}
                 };
                 robot.Name = "Robot";
                 GroupedRobots.Add(robot);

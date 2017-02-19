@@ -135,8 +135,8 @@ namespace FleeAndCatch_App.PageModels
                 SzenarioController.Szenarios.Remove(_szenario);
 
                 //Send the control end command
-                _szenario.Command = ControlType.End.ToString();
-                var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), ControlType.Control.ToString(), Client.Identification, _szenario);
+                _szenario.Command = ControlType.Undefined.ToString();
+                var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), SzenarioCommandType.End.ToString(), Client.Identification, _szenario);
                 Client.SendCmd(JsonConvert.SerializeObject(cmd));
 
                 var page = FreshMvvm.FreshPageModelResolver.ResolvePageModel<HomePageModel>();
