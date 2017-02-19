@@ -45,9 +45,10 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Models\Connection.cs" />
-    <Compile Include="Models\SzenarioGroup.cs" />
-    <Compile Include="Models\RobotGroup.cs" />
+    <Compile Include="Models\ConnectionModel.cs" />
+    <Compile Include="Models\RobotModel.cs" />
+    <Compile Include="Models\SzenarioGroupModel.cs" />
+    <Compile Include="Models\RobotGroupModel.cs" />
     <Compile Include="PageModels\ControlPageModel.cs" />
     <Compile Include="PageModels\HomePageModel.cs" />
     <Compile Include="PageModels\RobotListPageModel.cs" />

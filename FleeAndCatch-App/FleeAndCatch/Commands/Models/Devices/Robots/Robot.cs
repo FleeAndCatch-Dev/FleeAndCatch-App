@@ -52,17 +52,6 @@ namespace FleeAndCatch.Commands.Models.Devices.Robots
             orientation = pOrientation;
         }
 
-        public JObject GetJObject()
-        {
-            var jsonPosition = new JObject
-            {
-                {"x", x},
-                {"y", y},
-                {"orientation", orientation}
-            };
-            return jsonPosition;
-        }
-
         [JsonIgnore]
         public double X => x;
         [JsonIgnore]
@@ -84,18 +73,8 @@ namespace FleeAndCatch.Commands.Models.Devices.Robots
             this.speed = ((SpeedType)pSpeed).ToString();
         }
 
-        public JObject GetJObject()
-        {
-            var jsonIdentification = new JObject
-            {
-                {"direction", direction},
-                {"speed", speed}
-            };
-            return jsonIdentification;
-        }
-
         [JsonIgnore]
-        public string Directiond
+        public string Direction
         {
             get { return direction; }
             set { direction = value; }

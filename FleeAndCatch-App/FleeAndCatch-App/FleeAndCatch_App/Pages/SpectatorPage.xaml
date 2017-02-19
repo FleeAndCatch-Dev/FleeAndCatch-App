@@ -19,7 +19,6 @@
                     <Label Text="Identification:"/>
                     <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10">
                       <Label Text="{Binding Identification.Id}"/>
-                      <Label Text="{Binding Identification.Type}"/>
                       <Label Text="{Binding Identification.Subtype}"/>
                       <Label Text="{Binding Identification.Roletype}"/>
                     </StackLayout>

@@ -16,12 +16,13 @@ namespace FleeAndCatch.Commands.Models
         [JsonProperty("type")]
         protected string type;
 
+        [JsonIgnore]
         public int Id
         {
             get { return id; }
             set { id = value; }
         }
-
+        [JsonIgnore]
         public string Type => type;
     }
 

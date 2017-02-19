@@ -8,7 +8,7 @@ using PropertyChanged;
 namespace FleeAndCatch_App.Models
 {
     [ImplementPropertyChanged]
-    public class Connection
+    public class ConnectionModel
     {
         public string Address { get; set; }
         public bool Save { get; set; }

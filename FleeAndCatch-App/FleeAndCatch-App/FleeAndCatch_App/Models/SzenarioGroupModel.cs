@@ -8,14 +8,13 @@ using PropertyChanged;
 namespace FleeAndCatch_App.Models
 {
     [ImplementPropertyChanged]
-    public class RobotGroup
+    public class SzenarioGroupModel
     {
         public string Name { get; set; }
         public int Number { get; set; }
         public List<int> Items { get; set; }
-        public int Choosen { get; set; }
 
-        public RobotGroup(string pName, int pNumber)
+        public SzenarioGroupModel(string pName, int pNumber)
         {
             this.Name = pName;
             this.Number = pNumber;

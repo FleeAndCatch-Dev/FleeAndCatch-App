@@ -15,14 +15,14 @@ namespace FleeAndCatch_App.PageModels
     [ImplementPropertyChanged]
     public class SignInPageModel : FreshMvvm.FreshBasePageModel
     {
-        public Connection Connection { get; set; }
+        public ConnectionModel Connection { get; set; }
         public bool Visible { get; set; }
 
         public override void Init(object initData)
         {
             base.Init(initData);
 
-            Connection = new Connection();
+            Connection = new ConnectionModel();
         }
 
         /// <summary>

@@ -13,7 +13,6 @@
         <Label Text="Identification:"/>
         <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10">
           <Label Text="{Binding Robot.Identification.Id}"/>
-          <Label Text="{Binding Robot.Identification.Type}"/>
           <Label Text="{Binding Robot.Identification.Subtype}"/>
           <Label Text="{Binding Robot.Identification.Roletype}"/>
         </StackLayout>

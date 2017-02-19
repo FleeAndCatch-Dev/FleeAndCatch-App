@@ -53,7 +53,7 @@ namespace FleeAndCatch_App.SQLite.Database
         }
     }
 
-    public class Connection : Models.Connection
+    public class Connection : Models.ConnectionModel
     {
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }

@@ -22,12 +22,12 @@ namespace FleeAndCatch_App.PageModels
     [ImplementPropertyChanged]
     public class RobotListPageModel : FreshMvvm.FreshBasePageModel
     {
-        public List<RobotGroup> RobotGroupList { get; set; }
+        public List<RobotGroupModel> RobotGroupList { get; set; }
         private SzenarioCommandType _szenarioType;
 
         public RobotListPageModel()
         {
-            RobotGroupList = new List<RobotGroup>();
+            RobotGroupList = new List<RobotGroupModel>();
         }
 
         public override void Init(object initData)
@@ -35,7 +35,7 @@ namespace FleeAndCatch_App.PageModels
             base.Init(initData);
 
             _szenarioType = (SzenarioCommandType) initData;
-            RobotGroupList = new List<RobotGroup>();
+            RobotGroupList = new List<RobotGroupModel>();
 
             //Send synchronization command to get all robots
             RobotController.Updated = false;
@@ -171,7 +171,7 @@ namespace FleeAndCatch_App.PageModels
                     await Task.Delay(TimeSpan.FromMilliseconds(10));
 
                 RobotGroupList.Clear();
-                var tempList = new List<RobotGroup>();
+                var tempList = new List<RobotGroupModel>();
                 for (var i = 0; i < Enum.GetNames(typeof(ComponentType.RobotType)).Length; i++)
                 {
                     var counter = 0;
@@ -180,7 +180,7 @@ namespace FleeAndCatch_App.PageModels
                         if (t.Identification.Subtype == Enum.GetNames(typeof(ComponentType.RobotType))[i] && !t.Active)
                             counter++;
                     }
-                    tempList.Add(new RobotGroup(Enum.GetNames(typeof(ComponentType.RobotType))[i], counter));
+                    tempList.Add(new RobotGroupModel(Enum.GetNames(typeof(ComponentType.RobotType))[i], counter));
                 }
                 RobotGroupList = tempList;
                 Device.BeginInvokeOnMainThread(() =>

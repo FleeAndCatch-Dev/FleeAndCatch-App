@@ -10,6 +10,7 @@ using FleeAndCatch.Commands.Models.Devices.Robots;
 using FleeAndCatch.Commands.Models.Szenarios;
 using FleeAndCatch_App.Communication;
 using FleeAndCatch_App.Controller;
+using FleeAndCatch_App.Models;
 using Newtonsoft.Json;
 using PropertyChanged;
 using Xamarin.Forms;
@@ -20,11 +21,12 @@ namespace FleeAndCatch_App.PageModels
     [ImplementPropertyChanged]
     public class ControlPageModel : FreshMvvm.FreshBasePageModel
     {
-        public Robot Robot { get; set; }
+        public RobotModel Robot { get; set; }
         public string Change { get; set; }
         public Color ChangeColor { get; set; }
         public ImageSource ImageSource { get; set; }
         private Szenario _szenario;
+        private Robot _robot;
         private Steering.SpeedType _speed;
         private Steering.DirectionType _direction;
 
@@ -38,7 +40,8 @@ namespace FleeAndCatch_App.PageModels
 
             _szenario = initData as Szenario;
             if (_szenario == null) return;
-            Robot = _szenario.Robots[0];
+            _robot = _szenario.Robots[0];
+            Robot = new RobotModel(_robot);
             _szenario.Command = ControlType.Control.ToString();
         }
 
@@ -83,7 +86,7 @@ namespace FleeAndCatch_App.PageModels
             {
                 return new Command(() =>
                 {
-                    if (Math.Abs(Robot.Speed) < 1)
+                    if (Math.Abs(_robot.Speed) < 1)
                     {
                         //Start
                         Change = "Stop";
@@ -116,8 +119,8 @@ namespace FleeAndCatch_App.PageModels
             {
                 foreach (var t in RobotController.Robots)
                 {
-                    if (Robot.Identification.Id != t.Identification.Id) continue;
-                    Robot = t;
+                    if (_robot.Identification.Id != t.Identification.Id) continue;
+                    Robot = new RobotModel(t);
                     break;
                 }
                 SzenarioController.Changed = false;
@@ -151,13 +154,8 @@ namespace FleeAndCatch_App.PageModels
             }
             var control = (Control)_szenario;
             control.Command = ControlType.Control.ToString();
-            control.Steering.Directiond = _direction.ToString();
+            control.Steering.Direction = _direction.ToString();
             control.Steering.Speed = _speed.ToString();
-            foreach (var t in RobotController.Robots)
-            {
-                if (t.Identification == Robot.Identification)
-                    Robot = t;
-            }
             //Send the control command
             var cmdCtrl = new SzenarioCommand(CommandType.Szenario.ToString(), ControlType.Control.ToString(), Client.Identification, control);
             Client.SendCmd(cmdCtrl.ToJsonString());
