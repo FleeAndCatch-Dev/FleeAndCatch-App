@@ -16,16 +16,22 @@ namespace FleeAndCatch.Commands.Models.Devices.Robots
         protected Position position;
         [JsonProperty("speed")]
         protected double speed;
+        [JsonProperty("ultrasonic")]
+        protected double ultrasonic;
+        [JsonProperty("gyro")]
+        protected double gyro;
 
         /// <summary>
         /// Create an object of an robot for a json command.
         /// </summary>
         /// <param name="pId">Id of the robot in communication.</param>
-        public Robot(RobotIdentification pIdentification, bool pActive, Position pPosition, double pSpeed) : base(pActive)
+        public Robot(RobotIdentification pIdentification, bool pActive, Position pPosition, double pSpeed, double pUltrasonic, double pGyro) : base(pActive)
         {
             identification = pIdentification;
             position = pPosition;
             speed = pSpeed;
+            ultrasonic = pUltrasonic;
+            gyro = pGyro;
         }
 
         [JsonIgnore]
@@ -34,6 +40,10 @@ namespace FleeAndCatch.Commands.Models.Devices.Robots
         public Position Position => position;
         [JsonIgnore]
         public double Speed => speed;
+        [JsonIgnore]
+        public double Ultrasonic => ultrasonic;
+        [JsonIgnore]
+        public double Gyro => gyro;
     }
 
     public class Position
