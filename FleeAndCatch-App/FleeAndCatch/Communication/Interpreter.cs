@@ -1,21 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Acr.UserDialogs;
 using FleeAndCatch.Commands;
-using FleeAndCatch.Commands.Models;
-using FleeAndCatch.Commands.Models.Devices.Robots;
-using FleeAndCatch.Commands.Models.Szenarios;
-using FleeAndCatch.Components;
-using FleeAndCatch_App.Controller;
-using FleeAndCatch_App.PageModels;
+using FleeAndCatch.Controller;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Xamarin.Forms;
 
-namespace FleeAndCatch_App.Communication
+namespace FleeAndCatch.Communication
 {
     public static class Interpreter
     {

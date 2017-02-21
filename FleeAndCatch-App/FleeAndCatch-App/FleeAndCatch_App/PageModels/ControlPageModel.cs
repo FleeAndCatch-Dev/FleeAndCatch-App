@@ -8,8 +8,8 @@ using DeviceMotion.Plugin.Abstractions;
 using FleeAndCatch.Commands;
 using FleeAndCatch.Commands.Models.Devices.Robots;
 using FleeAndCatch.Commands.Models.Szenarios;
-using FleeAndCatch_App.Communication;
-using FleeAndCatch_App.Controller;
+using FleeAndCatch.Communication;
+using FleeAndCatch.Controller;
 using FleeAndCatch_App.Models;
 using Newtonsoft.Json;
 using PropertyChanged;
@@ -63,7 +63,7 @@ namespace FleeAndCatch_App.PageModels
 
             //Start timer for the control commands
             SzenarioController.Refresh = true;
-            Device.StartTimer(TimeSpan.FromMilliseconds(50), NewControlCmd);
+            Device.StartTimer(TimeSpan.FromMilliseconds(40), NewControlCmd);
         }
 
         /// <summary>

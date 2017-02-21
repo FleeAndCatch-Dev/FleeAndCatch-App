@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FleeAndCatch.Commands;
 using FleeAndCatch.Commands.Models;
 using FleeAndCatch.Commands.Models.Devices.Robots;
-using FleeAndCatch.Components;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using PropertyChanged;
 
 namespace FleeAndCatch_App.Models
 {
+    [ImplementPropertyChanged]
     public class RobotModel
     {
         private RobotIdentificationModel identification;
@@ -46,6 +48,7 @@ namespace FleeAndCatch_App.Models
         public string Speed => speed;
     }
 
+    [ImplementPropertyChanged]
     public class RobotIdentificationModel
     {
         protected string id;
@@ -74,6 +77,7 @@ namespace FleeAndCatch_App.Models
         public string Roletype => roletype;
     }
 
+    [ImplementPropertyChanged]
     public class PositionModel
     {
         private string x;

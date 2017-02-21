@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using FleeAndCatch.Commands;
 using FleeAndCatch.Commands.Models.Devices.Robots;
 using FleeAndCatch.Commands.Models.Szenarios;
-using FleeAndCatch_App.Communication;
+using FleeAndCatch.Communication;
 using Newtonsoft.Json;
 using PropertyChanged;
 using Command = Xamarin.Forms.Command;

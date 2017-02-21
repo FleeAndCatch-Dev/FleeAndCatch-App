@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
+using FleeAndCatch.Communication;
 using FleeAndCatch_App.Models;
 using FleeAndCatch_App.SQLite;
 using Xamarin.Forms;
-using FleeAndCatch_App.Communication;
 using PropertyChanged;
 
 namespace FleeAndCatch_App.PageModels

@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FleeAndCatch.Commands.Models.Devices.Robots;
+﻿using System.Collections.Generic;
 using FleeAndCatch.Commands.Models.Szenarios;
 
-namespace FleeAndCatch_App.Controller
+namespace FleeAndCatch.Controller
 {
     public static class SzenarioController
     {

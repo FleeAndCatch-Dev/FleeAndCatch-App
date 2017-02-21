@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FleeAndCatch_App.Communication;
 using FleeAndCatch_App.Pages;
 using PropertyChanged;
 using Xamarin.Forms;
+using FleeAndCatch.Communication;
 
 namespace FleeAndCatch_App.PageModels
 {
