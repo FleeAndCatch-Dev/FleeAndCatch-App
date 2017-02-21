@@ -63,7 +63,7 @@ namespace FleeAndCatch_App.PageModels
 
             //Start timer for the control commands
             SzenarioController.Refresh = true;
-            Device.StartTimer(TimeSpan.FromMilliseconds(40), NewControlCmd);
+            Device.StartTimer(TimeSpan.FromMilliseconds(50), NewControlCmd);
         }
 
         /// <summary>
@@ -195,20 +195,19 @@ namespace FleeAndCatch_App.PageModels
                 }
 
                 if (Device.Idiom == TargetIdiom.Phone)
-                {
-                    if (x <= 0.25 && x >= -0.25)
+                    if (x <= 0.2 && x >= -0.2)
                     {
                         //Gerade aus
-                        if (y >= 0.25)
+                        if (y >= 0.2)
                         {
                             _speed = Steering.SpeedType.Faster;
                             ImageSource = ImageSource.FromFile("ic_expand_less_black_48dp.png");
-                        } 
-                        else if (y <= -0.25)
+                        }
+                        else if (y <= -0.2)
                         {
                             _speed = Steering.SpeedType.Slower;
                             ImageSource = ImageSource.FromFile("ic_expand_more_black_48dp.png");
-                        } 
+                        }
                         else
                         {
                             _direction = Steering.DirectionType.StraightOn;
@@ -219,27 +218,41 @@ namespace FleeAndCatch_App.PageModels
                     else
                     {
                         //Drehen
-                        if (x >= 0.25)
+                        if (x >= 0.2)
                         {
-                            _direction = Steering.DirectionType.Right;
-                            ImageSource = ImageSource.FromFile("ic_chevron_right_black_48dp.png");
-                        }                            
-                        else if (x <= -0.25)
-                        {
-                            _direction = Steering.DirectionType.Left;
-                            ImageSource = ImageSource.FromFile("ic_chevron_left_black_48dp.png");
+                            if (_direction == Steering.DirectionType.Left)
+                            {
+                                _direction = Steering.DirectionType.StraightOn;
+                                ImageSource = ImageSource.FromFile("");
+                            }
+                            else
+                            {
+                                _direction = Steering.DirectionType.Right;
+                                ImageSource = ImageSource.FromFile("ic_chevron_right_black_48dp.png");
+                            }
                         }
-                            
+                        else if (x <= -0.2)
+                        {
+                            if (_direction == Steering.DirectionType.Right)
+                            {
+                                _direction = Steering.DirectionType.StraightOn;
+                                ImageSource = ImageSource.FromFile("");
+                            }
+                            else
+                            {
+                                _direction = Steering.DirectionType.Left;
+                                ImageSource = ImageSource.FromFile("ic_chevron_left_black_48dp.png");
+                            }
+                        }
                     }
-                }
                 else if (Device.Idiom == TargetIdiom.Tablet)
                 {
-                    if (y <= 0.25 && y >= -0.25)
+                    if (y <= 0.2 && y >= -0.2)
                     {
                         //Gerade aus
-                        if (x >= 0.25)
+                        if (x >= 0.2)
                             _speed = Steering.SpeedType.Faster;
-                        else if (x <= -0.25)
+                        else if (x <= -0.2)
                             _speed = Steering.SpeedType.Slower;
                         else
                         {
@@ -250,9 +263,9 @@ namespace FleeAndCatch_App.PageModels
                     else
                     {
                         //Drehen
-                        if (y >= 0.25)
+                        if (y >= 0.2)
                             _direction = Steering.DirectionType.Right;
-                        else if (y <= -0.25)
+                        else if (y <= -0.2)
                             _direction = Steering.DirectionType.Left;
                     }
                 }

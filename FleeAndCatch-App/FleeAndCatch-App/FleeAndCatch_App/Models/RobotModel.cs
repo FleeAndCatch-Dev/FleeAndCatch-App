@@ -19,18 +19,24 @@ namespace FleeAndCatch_App.Models
         protected string active;
         protected PositionModel position;
         protected string speed;
+        protected string ultrasonic;
+        protected string gyro;
 
         /// <summary>
         /// Create an object of an robot for a json command.
         /// </summary>
         /// <param name="pId">Id of the robot in communication.</param>
-        public RobotModel(RobotIdentificationModel pIdentification, bool pActive, PositionModel pPosition, double pSpeed)
+        public RobotModel(RobotIdentificationModel pIdentification, bool pActive, PositionModel pPosition, double pSpeed, double pUltrasonic, double pGyro)
         {
             identification = pIdentification;
             active = Convert.ToString(pActive);
             position = pPosition;
             var tempSpeed = (int)(pSpeed * 100);
             speed = Convert.ToString(((double)tempSpeed) / 100) + " cm/s";
+            var tempUltrasonic = (int)(pUltrasonic * 100);
+            ultrasonic = Convert.ToString("U: " + ((double)tempUltrasonic) / 100) + " m";
+            var tempGyro = (int)(pGyro * 100);
+            gyro = Convert.ToString("G: " + ((double)tempGyro) / 100) + " °";
         }
 
         public RobotModel(Robot pRobot)
@@ -40,12 +46,18 @@ namespace FleeAndCatch_App.Models
             position = new PositionModel(pRobot.Position);
             var tempSpeed = (int)(pRobot.Speed * 100);
             speed = Convert.ToString(((double)tempSpeed) / 100) + " cm/s";
+            var tempUltrasonic = (int)(pRobot.Ultrasonic * 100);
+            ultrasonic = Convert.ToString("U: " + ((double)tempUltrasonic) / 100) + " m";
+            var tempGyro = (int)(pRobot.Gyro * 100);
+            gyro = Convert.ToString("G: " + ((double)tempGyro) / 100) + " °";
         }
 
         public RobotIdentificationModel Identification => identification;
         public string Active => active;
         public PositionModel Position => position;
         public string Speed => speed;
+        public string Ultrasonic => ultrasonic;
+        public string Gyro => gyro;
     }
 
     [ImplementPropertyChanged]
