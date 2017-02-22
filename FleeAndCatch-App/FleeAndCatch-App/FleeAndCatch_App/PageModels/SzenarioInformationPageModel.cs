@@ -4,10 +4,12 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Acr.UserDialogs;
 using FleeAndCatch.Commands;
 using FleeAndCatch.Commands.Models.Devices.Robots;
 using FleeAndCatch.Commands.Models.Szenarios;
 using FleeAndCatch.Communication;
+using FleeAndCatch.Controller;
 using Newtonsoft.Json;
 using PropertyChanged;
 using Command = Xamarin.Forms.Command;
@@ -57,10 +59,10 @@ namespace FleeAndCatch_App.PageModels
         {
             get
             {
-                return new Command(() =>
+                return new Command(async () =>
                 {
                     accept = true;
-                    var type = (SzenarioCommandType) Enum.Parse(typeof(SzenarioCommandType), Szenario.Type);
+                    var type = (SzenarioCommandType)Enum.Parse(typeof(SzenarioCommandType), Szenario.Type);
                     switch (type)
                     {
                         case SzenarioCommandType.Control:
@@ -69,7 +71,7 @@ namespace FleeAndCatch_App.PageModels
                             var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), Szenario.Type, Client.Identification, Szenario);
                             Client.SendCmd(cmd.ToJsonString());
 
-                            CoreMethods.PushPageModel<ControlPageModel>(Szenario);
+                            await CoreMethods.PushPageModel<ControlPageModel>(Szenario);
                             break;
                         case SzenarioCommandType.Synchron:
                             break;
@@ -77,7 +79,7 @@ namespace FleeAndCatch_App.PageModels
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
-                    }                
+                    }
                     RaisePropertyChanged();
                 });
             }

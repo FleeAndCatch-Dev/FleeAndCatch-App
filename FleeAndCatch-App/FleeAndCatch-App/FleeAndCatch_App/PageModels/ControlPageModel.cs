@@ -86,7 +86,7 @@ namespace FleeAndCatch_App.PageModels
             {
                 return new Command(() =>
                 {
-                    if (Math.Abs(Convert.ToDouble(_robot.Speed)) < 1)
+                    if (Math.Abs(Convert.ToDouble(_robot.Speed)) < 0.1)
                     {
                         //Start
                         Change = "Stop";
@@ -251,22 +251,35 @@ namespace FleeAndCatch_App.PageModels
                     {
                         //Gerade aus
                         if (x >= 0.2)
+                        {
                             _speed = Steering.SpeedType.Faster;
+                            ImageSource = ImageSource.FromFile("ic_expand_less_black_48dp.png");
+                        }
                         else if (x <= -0.2)
+                        {
                             _speed = Steering.SpeedType.Slower;
+                            ImageSource = ImageSource.FromFile("ic_expand_more_black_48dp.png");
+                        }
                         else
                         {
                             _direction = Steering.DirectionType.StraightOn;
                             _speed = Steering.SpeedType.Equal;
+                            ImageSource = ImageSource.FromFile("");
                         }
                     }
                     else
                     {
                         //Drehen
                         if (y >= 0.2)
+                        {
                             _direction = Steering.DirectionType.Right;
+                            ImageSource = ImageSource.FromFile("ic_chevron_right_black_48dp.png");
+                        }                           
                         else if (y <= -0.2)
+                        {
                             _direction = Steering.DirectionType.Left;
+                            ImageSource = ImageSource.FromFile("ic_chevron_left_black_48dp.png");
+                        }           
                     }
                 }
                 else

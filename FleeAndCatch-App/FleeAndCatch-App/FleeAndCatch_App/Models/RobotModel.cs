@@ -31,12 +31,9 @@ namespace FleeAndCatch_App.Models
             identification = pIdentification;
             active = Convert.ToString(pActive);
             position = pPosition;
-            var tempSpeed = (int)(pSpeed * 100);
-            speed = Convert.ToString(((double)tempSpeed) / 100) + " cm/s";
-            var tempUltrasonic = (int)(pUltrasonic * 100);
-            ultrasonic = Convert.ToString("U: " + ((double)tempUltrasonic) / 100) + " m";
-            var tempGyro = (int)(pGyro * 100);
-            gyro = Convert.ToString("G: " + ((double)tempGyro) / 100) + " °";
+            speed = Convert.ToString(pSpeed) + " cm/s";
+            ultrasonic = "U: " + Convert.ToString(pUltrasonic) + " m";
+            gyro = "G: " + Convert.ToString(pGyro) + " °";
         }
 
         public RobotModel(Robot pRobot)
@@ -44,12 +41,9 @@ namespace FleeAndCatch_App.Models
             identification = new RobotIdentificationModel(pRobot.Identification);
             active = Convert.ToString(pRobot.Active);
             position = new PositionModel(pRobot.Position);
-            var tempSpeed = (int)(Convert.ToDouble(pRobot.Speed) * 100);
-            speed = Convert.ToString(((double)tempSpeed) / 100) + " cm/s";
-            var tempUltrasonic = (int)(Convert.ToDouble(pRobot.Ultrasonic) * 100);
-            ultrasonic = Convert.ToString("U: " + ((double)tempUltrasonic) / 100) + " m";
-            var tempGyro = (int)(Convert.ToDouble(pRobot.Gyro) * 100);
-            gyro = Convert.ToString("G: " + ((double)tempGyro) / 100) + " °";
+            speed = pRobot.Speed + " cm/s";
+            ultrasonic = pRobot.Ultrasonic+ " m";
+            gyro = pRobot.Gyro + " °";
         }
 
         public RobotIdentificationModel Identification => identification;

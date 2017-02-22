@@ -11,7 +11,6 @@ namespace FleeAndCatch.Commands.Models.Devices.Apps
     public class App : Device
     {
         [JsonProperty("identification")]
-        [JsonConverter(typeof(IdentificationJsonConverter))]
         private AppIdentification identification;
 
         public App(AppIdentification pAppIdentification) : base(false)

@@ -21,7 +21,6 @@ namespace FleeAndCatch.Commands
         [JsonProperty("errorhandling")]
         protected string errorhandling;
         [JsonProperty("identification")]
-        [JsonConverter(typeof(IdentificationJsonConverter))]
         protected ClientIdentification identification;
 
         /// <summary>
