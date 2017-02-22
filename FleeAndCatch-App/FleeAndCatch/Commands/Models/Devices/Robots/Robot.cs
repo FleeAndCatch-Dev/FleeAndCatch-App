@@ -11,6 +11,7 @@ namespace FleeAndCatch.Commands.Models.Devices.Robots
     public class Robot : Device
     {
         [JsonProperty("identification")]
+        [JsonConverter(typeof(IdentificationJsonConverter))]
         protected RobotIdentification identification;
         [JsonProperty("position")]
         protected Position position;
