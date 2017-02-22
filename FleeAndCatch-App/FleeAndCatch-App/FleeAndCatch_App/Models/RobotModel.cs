@@ -44,11 +44,11 @@ namespace FleeAndCatch_App.Models
             identification = new RobotIdentificationModel(pRobot.Identification);
             active = Convert.ToString(pRobot.Active);
             position = new PositionModel(pRobot.Position);
-            var tempSpeed = (int)(pRobot.Speed * 100);
+            var tempSpeed = (int)(Convert.ToDouble(pRobot.Speed) * 100);
             speed = Convert.ToString(((double)tempSpeed) / 100) + " cm/s";
-            var tempUltrasonic = (int)(pRobot.Ultrasonic * 100);
+            var tempUltrasonic = (int)(Convert.ToDouble(pRobot.Ultrasonic) * 100);
             ultrasonic = Convert.ToString("U: " + ((double)tempUltrasonic) / 100) + " m";
-            var tempGyro = (int)(pRobot.Gyro * 100);
+            var tempGyro = (int)(Convert.ToDouble(pRobot.Gyro) * 100);
             gyro = Convert.ToString("G: " + ((double)tempGyro) / 100) + " °";
         }
 

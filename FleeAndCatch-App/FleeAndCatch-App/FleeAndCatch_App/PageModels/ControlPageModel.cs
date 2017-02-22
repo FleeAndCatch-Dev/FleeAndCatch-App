@@ -86,7 +86,7 @@ namespace FleeAndCatch_App.PageModels
             {
                 return new Command(() =>
                 {
-                    if (Math.Abs(_robot.Speed) < 1)
+                    if (Math.Abs(Convert.ToDouble(_robot.Speed)) < 1)
                     {
                         //Start
                         Change = "Stop";
