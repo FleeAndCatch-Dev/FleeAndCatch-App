@@ -101,6 +101,15 @@ namespace FleeAndCatch_App.PageModels
                     UserDialogs.Instance.ShowLoading();
                 });
 
+                if (!Client.Connected)
+                {
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        await CoreMethods.DisplayAlert("Error: 323", "No connection to the backend", "OK");
+                    });
+                    return;
+                }
+
                 var counter = 0;
                 while (!SzenarioController.Updated && counter <= 300)
                 {

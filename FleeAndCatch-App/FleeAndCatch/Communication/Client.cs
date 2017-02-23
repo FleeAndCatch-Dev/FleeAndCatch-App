@@ -36,7 +36,7 @@ namespace FleeAndCatch.Communication
             Device = new FleeAndCatch.Commands.Models.Devices.Apps.App(new AppIdentification(-1, ComponentType.IdentificationType.App.ToString(), ComponentType.RoleType.Undefined.ToString()));
             connected = false;
 
-            if (connected) throw new System.Exception("Connection to the server is already exist");
+            if (connected) throw new Exception(309, "Connection to the server is already exist");
             var listenTask = new Task(Listen);
             listenTask.Start();
         }
@@ -46,16 +46,28 @@ namespace FleeAndCatch.Communication
         /// </summary>
         private static async void Listen()
         {
-            await tcpSocketClient.ConnectAsync(identification.Address, identification.Port);
-            connected = true;
+            try
+            {
+                await tcpSocketClient.ConnectAsync(identification.Address, identification.Port);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(301, "The connection could not established");
+            }
+            if (tcpSocketClient != null)
+            {
+                connected = true;
 
-            //Send a connection command to transfer the current device
-            var command = new ConnectionCommand(CommandType.Connection.ToString(), ConnectionCommandType.Connect.ToString(), identification, Device);
-            SendCmd(command.ToJsonString());
+                //Send a connection command to transfer the current device
+                var command = new ConnectionCommand(CommandType.Connection.ToString(), ConnectionCommandType.Connect.ToString(), identification, Device);
+                SendCmd(command.ToJsonString());
 
-            //Receive the packages and put them to the parser
-            while (connected)
-                Interpreter.Parse(ReceiveCmd());
+                //Receive the packages and put them to the parser
+                while (connected)
+                    Interpreter.Parse(ReceiveCmd());
+                return;
+            }
+            throw new Exception(302, "The created socket doesn't exist");
         }
 
         /// <summary>
@@ -65,13 +77,21 @@ namespace FleeAndCatch.Communication
         private static string ReceiveCmd()
         {
             var size = new byte[4];
+            byte[] data = null;
 
-            tcpSocketClient.ReadStream.Read(size, 0, size.Length);
+            try
+            {
+                tcpSocketClient.ReadStream.Read(size, 0, size.Length);
 
-            var length = size.Select((t, i) => (int)(t * Math.Pow(128, i))).Sum();
-            var data = new byte[length];
+                var length = size.Select((t, i) => (int)(t * Math.Pow(128, i))).Sum();
+                data = new byte[length];
 
-            tcpSocketClient.ReadStream.Read(data, 0, data.Length);
+                tcpSocketClient.ReadStream.Read(data, 0, data.Length);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(303, "The json command could not receive");
+            }          
 
             return Encoding.UTF8.GetString(data, 0, data.Length);
         }
@@ -94,11 +114,18 @@ namespace FleeAndCatch.Communication
                 rest = (int)(rest % Math.Pow(128, size.Length - (i + 1)));
             }
 
-            tcpSocketClient.WriteStream.Write(size, 0, size.Length);
-            await tcpSocketClient.WriteStream.FlushAsync();
+            try
+            {
+                tcpSocketClient.WriteStream.Write(size, 0, size.Length);
+                await tcpSocketClient.WriteStream.FlushAsync();
 
-            tcpSocketClient.WriteStream.Write(command, 0, command.Length);
-            await tcpSocketClient.WriteStream.FlushAsync();
+                tcpSocketClient.WriteStream.Write(command, 0, command.Length);
+                await tcpSocketClient.WriteStream.FlushAsync();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(304, "The json command could not send");
+            }
         }
 
         /// <summary>
@@ -107,8 +134,15 @@ namespace FleeAndCatch.Communication
         public static async void Disconnect()
         {
             connected = false;
-            await tcpSocketClient.DisconnectAsync();
-            tcpSocketClient.Dispose();
+            try
+            {
+                await tcpSocketClient.DisconnectAsync();
+                tcpSocketClient.Dispose();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(305, "The device could not disconnect");
+            }
         }
 
         /// <summary>
@@ -116,7 +150,7 @@ namespace FleeAndCatch.Communication
         /// </summary>
         public static void Close()
         {
-            if (!Connected) throw new System.Exception("There is no connection to the server");
+            if (!Connected) throw new Exception(306, "There is no connection to the server");
             //Send connection command to close the connection
             var command = new ConnectionCommand(CommandType.Connection.ToString(), ConnectionCommandType.Disconnect.ToString(), identification, Device);
             SendCmd(command.ToJsonString());
@@ -129,7 +163,7 @@ namespace FleeAndCatch.Communication
         private static void ParseAddress(string pAddress)
         {
             var adressPart = pAddress.Split(new string[] { "." }, StringSplitOptions.None);
-            if (adressPart.Length != 4) throw new System.Exception("The Address could not parse into an ip adress");
+            if (adressPart.Length != 4) throw new Exception(307, "The Address could not parse into an ip adress");
             var result = true;
             foreach (var t in adressPart)
             {
@@ -139,7 +173,7 @@ namespace FleeAndCatch.Communication
             }
             if (result)
                 return;
-            throw new System.Exception("The Address could not parse into an ip adress");
+            throw new Exception(307, "The Address could not parse into an ip adress");
         }
 
         /// <summary>
@@ -154,7 +188,7 @@ namespace FleeAndCatch.Communication
             }
             catch (System.Exception)
             {
-                throw new System.Exception("The command could not parse into json");
+                throw new Exception(308, "The command could not parse into json");
             }
         }
 

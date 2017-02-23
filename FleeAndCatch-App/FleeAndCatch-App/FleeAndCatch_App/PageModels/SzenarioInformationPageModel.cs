@@ -74,11 +74,14 @@ namespace FleeAndCatch_App.PageModels
                             await CoreMethods.PushPageModel<ControlPageModel>(Szenario);
                             break;
                         case SzenarioCommandType.Synchron:
+                            await CoreMethods.DisplayAlert("Error: 399", "Sorry, this isn't implemented", "OK");
                             break;
                         case SzenarioCommandType.Follow:
+                            await CoreMethods.DisplayAlert("Error: 399", "Sorry, this isn't implemented", "OK");
                             break;
                         default:
-                            throw new ArgumentOutOfRangeException();
+                            await CoreMethods.DisplayAlert("Error: 319", "Wrong szenario type", "OK");
+                            return;
                     }
                     RaisePropertyChanged();
                 });

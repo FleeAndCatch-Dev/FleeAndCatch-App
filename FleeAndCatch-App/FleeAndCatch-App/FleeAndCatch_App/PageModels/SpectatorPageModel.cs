@@ -26,6 +26,13 @@ namespace FleeAndCatch_App.PageModels
             base.Init(initData);
 
             _szenario = initData as Szenario;
+            if(_szenario != null)
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    await CoreMethods.DisplayAlert("Error: 321", "The szenario doesn't exist", "OK");
+                });
+            }
         }
 
         protected override void ViewIsAppearing(object sender, EventArgs e)

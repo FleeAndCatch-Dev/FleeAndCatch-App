@@ -39,7 +39,14 @@ namespace FleeAndCatch_App.PageModels
             base.Init(initData);
 
             _szenario = initData as Szenario;
-            if (_szenario == null) return;
+            if (_szenario == null)
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    await CoreMethods.DisplayAlert("Error: 320", "The szenario doesn't exist", "OK");
+                });
+                return;
+            }
             _robot = _szenario.Robots[0];
             Robot = new RobotModel(_robot);
             _szenario.Command = ControlType.Control.ToString();

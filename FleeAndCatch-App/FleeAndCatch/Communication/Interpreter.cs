@@ -34,7 +34,7 @@ namespace FleeAndCatch.Communication
                     Exception(jsonCommand);
                     return;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new Exception(310, "Wrong command type of json command");
             }
         }
 
@@ -44,7 +44,7 @@ namespace FleeAndCatch.Communication
         /// <param name="pCommand"></param>
         private static void Connection(JObject pCommand)
         {
-            if (pCommand == null) throw new ArgumentNullException(nameof(pCommand));
+            if (pCommand == null) throw new Exception(311, "There doesn't exist a json command");
             var command = JsonConvert.DeserializeObject<ConnectionCommand>(JsonConvert.SerializeObject(pCommand));
             var type = (ConnectionCommandType) Enum.Parse(typeof(ConnectionCommandType), command.Type);
             
@@ -61,7 +61,7 @@ namespace FleeAndCatch.Communication
                     Client.Disconnect();
                     return;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new Exception(312, "Wrong connection type of json command");
             }
         }
 
@@ -71,7 +71,7 @@ namespace FleeAndCatch.Communication
         /// <param name="pCommand"></param>
         private static void Synchronization(JObject pCommand)
         {
-            if (pCommand == null) throw new ArgumentNullException(nameof(pCommand));            
+            if (pCommand == null) throw new Exception(311, "There doesn't exist a json command");
             var command = JsonConvert.DeserializeObject<Synchronization>(JsonConvert.SerializeObject(pCommand));
             var type = (SynchronizationCommandType)Enum.Parse(typeof(SynchronizationCommandType), command.Type);
 
@@ -111,13 +111,13 @@ namespace FleeAndCatch.Communication
                     }
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new Exception(313, "Wrong synchronization type of json command");
             }
         }
 
         private static void Szenario(JObject pCommand)
         {
-            if (pCommand == null) throw new ArgumentNullException(nameof(pCommand));
+            if (pCommand == null) throw new Exception(311, "There doesn't exist a json command");
             var command = JsonConvert.DeserializeObject<SzenarioCommand>(JsonConvert.SerializeObject(pCommand));
             var type = (SzenarioCommandType)Enum.Parse(typeof(SzenarioCommandType), command.Type);
 
@@ -128,13 +128,13 @@ namespace FleeAndCatch.Communication
                     Client.Szenario = command.Szenario;
                     return;
                 case SzenarioCommandType.Control:
-                    throw new ArgumentOutOfRangeException();
+                    throw new Exception(314, "Wrong szenario type of json command");
                 case SzenarioCommandType.Synchron:
-                    throw new ArgumentOutOfRangeException();
+                    throw new Exception(314, "Wrong szenario type of json command");
                 case SzenarioCommandType.Follow:
-                    throw new ArgumentOutOfRangeException();
+                    throw new Exception(314, "Wrong szenario type of json command");
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new Exception(314, "Wrong szenario type of json command");
             }
         }
 
@@ -145,7 +145,7 @@ namespace FleeAndCatch.Communication
         private static void Exception(JObject pCommand)
         {
             //Need to test
-            if (pCommand == null) throw new ArgumentNullException(nameof(pCommand));
+            if (pCommand == null) throw new Exception(311, "There doesn't exist a json command");
             var command = JsonConvert.DeserializeObject<ExceptionCommand>(JsonConvert.SerializeObject(pCommand));
             var type = (ExceptionCommandType)Enum.Parse(typeof(ExceptionCommandType), command.Type);        
 
@@ -164,7 +164,7 @@ namespace FleeAndCatch.Communication
                     }
                     return;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new Exception(315, "Wrong exception type of json command");
             }
         }
     }

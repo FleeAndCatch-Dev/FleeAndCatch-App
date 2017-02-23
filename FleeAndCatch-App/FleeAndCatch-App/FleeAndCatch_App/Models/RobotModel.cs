@@ -92,21 +92,15 @@ namespace FleeAndCatch_App.Models
 
         public PositionModel(double pX, double pY, double pOrientation)
         {
-            var tempX = (int) (pX * 100);
-            x = "X: " + Convert.ToString(((double) tempX) / 100) + " mm";
-            var tempY = (int)(pY * 100);
-            y = "Y: " + Convert.ToString(((double)tempY) / 100) + " mm";
-            var tempO = (int)(pOrientation * 100);
-            orientation = "O: " + Convert.ToString(((double)tempO) / 100) + " °";
+            x = "X: " + Convert.ToString(((double) pX) / 100) + " mm";
+            y = "Y: " + Convert.ToString(((double) pY) / 100) + " mm";
+            orientation = "O: " + Convert.ToString(pOrientation) + " °";
         }
         public PositionModel(Position pPosition)
         {
-            var tempX = (int)(pPosition.X * 100);
-            x = "X: " + Convert.ToString(((double)tempX) / 100) + " mm";
-            var tempY = (int)(pPosition.Y * 100);
-            y = "Y: " + Convert.ToString(((double)tempY) / 100) + " mm";
-            var tempO = (int)(pPosition.Orientation * 100);
-            orientation = "O: " + Convert.ToString(((double)tempO) / 100) + " °";
+            x = "X: " + Convert.ToString(pPosition.X) + " mm";
+            y = "Y: " + Convert.ToString(pPosition.Y) + " mm";
+            orientation = "O: " + Convert.ToString(pPosition.Orientation) + " °";
         }
 
         public string X => x;

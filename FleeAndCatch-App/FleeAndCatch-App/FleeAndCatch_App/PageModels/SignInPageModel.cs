@@ -9,6 +9,7 @@ using FleeAndCatch_App.Models;
 using FleeAndCatch_App.SQLite;
 using Xamarin.Forms;
 using PropertyChanged;
+using Exception = FleeAndCatch.Exception;
 
 namespace FleeAndCatch_App.PageModels
 {
@@ -57,7 +58,7 @@ namespace FleeAndCatch_App.PageModels
                         connectionTask.Start();
                     }
                     else
-                        await CoreMethods.DisplayAlert("Error", "The address for the communication is empty", "OK");
+                        await CoreMethods.DisplayAlert("Error: 315", "The address for the communication is empty", "OK");
                 });
             }
         }
@@ -113,14 +114,14 @@ namespace FleeAndCatch_App.PageModels
                 }
                 Device.BeginInvokeOnMainThread(async () => {
                     UserDialogs.Instance.HideLoading();
-                    await CoreMethods.DisplayAlert("Error", "Connection timeout, try again", "OK");
+                    await CoreMethods.DisplayAlert("Error: 315", "Connection timeout", "OK");
                 });
             }
             catch (Exception ex)
             {
                 Device.BeginInvokeOnMainThread(async () => {
                     UserDialogs.Instance.HideLoading();
-                    await CoreMethods.DisplayAlert("Error", ex.Message, "OK");
+                    await CoreMethods.DisplayAlert("Error: " + Convert.ToString(ex.Id), ex.Message, "OK");
                 });
             }
         }

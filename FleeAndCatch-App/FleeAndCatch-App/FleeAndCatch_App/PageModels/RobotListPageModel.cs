@@ -15,6 +15,7 @@ using Newtonsoft.Json;
 using PropertyChanged;
 using Xamarin.Forms;
 using Command = Xamarin.Forms.Command;
+using Exception = FleeAndCatch.Exception;
 
 namespace FleeAndCatch_App.PageModels
 {
@@ -79,7 +80,7 @@ namespace FleeAndCatch_App.PageModels
         {
             get
             {
-                return new Command(() =>
+                return new Command( () =>
                 {
                     if (RobotGroupList.Count <= 0) return;
                     Szenario szenario = null;
@@ -90,7 +91,7 @@ namespace FleeAndCatch_App.PageModels
                     foreach (var t1 in RobotGroupList)
                     {
                         var value = t1.Choosen;
-                        var type = (ComponentType.RobotType) Enum.Parse(typeof(ComponentType.RobotType), t1.Name);
+                        var type = (ComponentType.RobotType)Enum.Parse(typeof(ComponentType.RobotType), t1.Name);
                         while (value > 0)
                         {
                             foreach (var t in RobotController.Robots)
@@ -128,7 +129,7 @@ namespace FleeAndCatch_App.PageModels
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
-                    }                    
+                    }
                     if (szenario != null)
                     {
                         //Set the szenario in the client
@@ -148,7 +149,7 @@ namespace FleeAndCatch_App.PageModels
                     Device.BeginInvokeOnMainThread(async () =>
                     {
                         UserDialogs.Instance.HideLoading();
-                        await CoreMethods.DisplayAlert("Error", "This inputs aren't correct", "OK");
+                        await CoreMethods.DisplayAlert("Error: 317", "The szenario could not generate", "OK");
                     });
                 });
             }
@@ -159,40 +160,65 @@ namespace FleeAndCatch_App.PageModels
         /// </summary>
         private async void UpdateRobotList()
         {
-            if (Client.Connected)
+            try
             {
-                Device.BeginInvokeOnMainThread( () =>
+                Device.BeginInvokeOnMainThread(() =>
                 {
                     UserDialogs.Instance.ShowLoading();
                 });
 
-                while (!RobotController.Updated)
-                    await Task.Delay(TimeSpan.FromMilliseconds(10));
-
-                RobotGroupList.Clear();
-                var tempList = new List<RobotGroupModel>();
-                for (var i = 0; i < Enum.GetNames(typeof(ComponentType.RobotType)).Length; i++)
+                if (!Client.Connected)
                 {
-                    var counter = 0;
-                    foreach (var t in RobotController.Robots)
+                    Device.BeginInvokeOnMainThread(async () =>
                     {
-                        if (t.Identification.Subtype == Enum.GetNames(typeof(ComponentType.RobotType))[i] && !t.Active)
-                            counter++;
-                    }
-                    tempList.Add(new RobotGroupModel(Enum.GetNames(typeof(ComponentType.RobotType))[i], counter));
+                        await CoreMethods.DisplayAlert("Error: 322", "No connection to the backend", "OK");
+                    });
+                    return;
                 }
-                RobotGroupList = tempList;
-                Device.BeginInvokeOnMainThread(() =>
+
+                var updateCounter = 0;
+                while (!SzenarioController.Updated && updateCounter <= 300)
+                {
+                    await Task.Delay(TimeSpan.FromMilliseconds(10));
+                    updateCounter++;
+                }
+
+                if (RobotController.Updated)
+                {
+                    RobotGroupList.Clear();
+                    var tempList = new List<RobotGroupModel>();
+                    for (var i = 0; i < Enum.GetNames(typeof(ComponentType.RobotType)).Length; i++)
+                    {
+                        var counter = 0;
+                        foreach (var t in RobotController.Robots)
+                        {
+                            if (t.Identification.Subtype == Enum.GetNames(typeof(ComponentType.RobotType))[i] && !t.Active)
+                                counter++;
+                        }
+                        tempList.Add(new RobotGroupModel(Enum.GetNames(typeof(ComponentType.RobotType))[i], counter));
+                    }
+                    RobotGroupList = tempList;
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        UserDialogs.Instance.HideLoading();
+                    });
+                    return;
+                }
+                Device.BeginInvokeOnMainThread(async () =>
                 {
                     UserDialogs.Instance.HideLoading();
+                    await CoreMethods.DisplayAlert("Error: 318", "The robot could not be update", "OK");
                 });
-                return;
             }
-            Device.BeginInvokeOnMainThread(async () =>
+            catch (Exception ex)
             {
-                UserDialogs.Instance.HideLoading();
-                await CoreMethods.DisplayAlert("Error", "Ups, there is something wrong, please start the application again", "OK");
-            });
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    UserDialogs.Instance.HideLoading();
+                    await CoreMethods.DisplayAlert("Error: " + Convert.ToString(ex.Id), ex.Message, "OK");
+                });
+                throw;
+            }
         }
     }
 }
