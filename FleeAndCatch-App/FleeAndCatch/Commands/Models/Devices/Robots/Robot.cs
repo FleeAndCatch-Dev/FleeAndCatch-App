@@ -15,7 +15,7 @@ namespace FleeAndCatch.Commands.Models.Devices.Robots
         [JsonProperty("position")]
         protected Position position;
         [JsonProperty("speed")]
-        protected string speed;
+        protected double speed;
         [JsonProperty("ultrasonic")]
         protected string ultrasonic;
         [JsonProperty("gyro")]
@@ -29,7 +29,7 @@ namespace FleeAndCatch.Commands.Models.Devices.Robots
         {
             identification = pIdentification;
             position = pPosition;
-            speed = Convert.ToString(pSpeed);
+            speed = pSpeed;
             ultrasonic = Convert.ToString(pUltrasonic);
             gyro = Convert.ToString(pGyro);
         }
@@ -39,7 +39,7 @@ namespace FleeAndCatch.Commands.Models.Devices.Robots
         [JsonIgnore]
         public Position Position => position;
         [JsonIgnore]
-        public string Speed => speed;
+        public double Speed => speed;
         [JsonIgnore]
         public string Ultrasonic => ultrasonic;
         [JsonIgnore]

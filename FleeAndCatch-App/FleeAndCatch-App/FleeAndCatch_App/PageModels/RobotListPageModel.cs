@@ -177,7 +177,7 @@ namespace FleeAndCatch_App.PageModels
                 }
 
                 var updateCounter = 0;
-                while (!SzenarioController.Updated && updateCounter <= 300)
+                while (!RobotController.Updated && updateCounter <= 300)
                 {
                     await Task.Delay(TimeSpan.FromMilliseconds(10));
                     updateCounter++;
