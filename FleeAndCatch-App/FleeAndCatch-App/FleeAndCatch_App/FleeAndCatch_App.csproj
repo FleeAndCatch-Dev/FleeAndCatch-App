@@ -38,16 +38,13 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Communication\Client.cs" />
-    <Compile Include="Communication\Interpreter.cs" />
-    <Compile Include="Controller\RobotController.cs" />
-    <Compile Include="Controller\SzenarioController.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Models\Connection.cs" />
-    <Compile Include="Models\SzenarioGroup.cs" />
-    <Compile Include="Models\RobotGroup.cs" />
+    <Compile Include="Models\ConnectionModel.cs" />
+    <Compile Include="Models\RobotModel.cs" />
+    <Compile Include="Models\SzenarioGroupModel.cs" />
+    <Compile Include="Models\RobotGroupModel.cs" />
     <Compile Include="PageModels\ControlPageModel.cs" />
     <Compile Include="PageModels\HomePageModel.cs" />
     <Compile Include="PageModels\RobotListPageModel.cs" />
@@ -186,6 +183,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="FodyWeavers.xml" />
+    <Content Include="Images\Android\FleeAndCatch_Logo.png" />
+    <Content Include="Images\Android\ic_chevron_left_black_48dp.png" />
+    <Content Include="Images\Android\ic_chevron_right_black_48dp.png" />
+    <Content Include="Images\Android\ic_expand_less_black_48dp.png" />
+    <Content Include="Images\Android\ic_expand_more_black_48dp.png" />
+    <Content Include="Images\Android\Scale_icon.png" />
+    <Content Include="Images\Android\SplashScreen.png" />
     <Content Include="Images\Direction\ic_chevron_left_black_48dp.png" />
     <Content Include="Images\Direction\ic_chevron_right_black_48dp.png" />
     <Content Include="Images\Direction\ic_expand_less_black_48dp.png" />
@@ -284,9 +288,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Images\Android\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Pages\SpectatorPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>

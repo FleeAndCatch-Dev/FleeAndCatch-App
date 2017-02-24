@@ -28,11 +28,9 @@ namespace FleeAndCatch_App.PageModels
         {
             get
             {
-                return new Command(() =>
+                return new Command(async () =>
                 {
-                    CoreMethods.DisplayAlert("Error", "Sorry, this isn't implemented", "OK");
-                    /*CoreMethods.PushPageModel<RobotListPageModel>(SzenarioType.Synchron);
-                    RaisePropertyChanged();*/
+                    await CoreMethods.DisplayAlert("Error: 399", "Sorry, this isn't implemented", "OK");
                 });
             }
         }
@@ -40,11 +38,9 @@ namespace FleeAndCatch_App.PageModels
         {
             get
             {
-                return new Command(() =>
+                return new Command(async () =>
                 {
-                    CoreMethods.DisplayAlert("Error", "Sorry, this isn't implemented", "OK");
-                    /*CoreMethods.PushPageModel<RobotListPageModel>(SzenarioType.Follow);
-                    RaisePropertyChanged();*/
+                    await CoreMethods.DisplayAlert("Error: 399", "Sorry, this isn't implemented", "OK");
                 });
             }
         }

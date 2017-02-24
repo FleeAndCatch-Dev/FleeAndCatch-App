@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 using FleeAndCatch.Commands;
 using FleeAndCatch.Commands.Models.Devices.Robots;
 using FleeAndCatch.Commands.Models.Szenarios;
-using FleeAndCatch_App.Communication;
-using FleeAndCatch_App.Controller;
+using FleeAndCatch.Communication;
+using FleeAndCatch.Controller;
+using FleeAndCatch_App.Models;
 using PropertyChanged;
 using Xamarin.Forms;
 
@@ -16,14 +17,22 @@ namespace FleeAndCatch_App.PageModels
     [ImplementPropertyChanged]
     public class SpectatorPageModel : FreshMvvm.FreshBasePageModel
     {
-        public Szenario Szenario { get; set; }
-        public List<Robot> Robots { get; set; }
+        public List<RobotModel> Robots { get; set; }
+
+        private Szenario _szenario;
 
         public override void Init(object initData)
         {
             base.Init(initData);
 
-            Szenario = initData as Szenario;
+            _szenario = initData as Szenario;
+            if(_szenario != null)
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    await CoreMethods.DisplayAlert("Error: 321", "The szenario doesn't exist", "OK");
+                });
+            }
         }
 
         protected override void ViewIsAppearing(object sender, EventArgs e)
@@ -48,9 +57,11 @@ namespace FleeAndCatch_App.PageModels
             {
                 foreach (var t in SzenarioController.Szenarios)
                 {
-                    if (Szenario.Id != t.Id) continue;
-                    Szenario = t;
-                    Robots = t.Robots;
+                    if (_szenario.Id != t.Id) continue;
+                    _szenario = t;
+                    Robots = new List<RobotModel>();
+                    foreach (var t1 in _szenario.Robots)
+                        Robots.Add(new RobotModel(t1));
                     break;
                 }
                 SzenarioController.Changed = false;
@@ -60,7 +71,7 @@ namespace FleeAndCatch_App.PageModels
                 return false;
 
             //Send synchronization command to get current szenario
-            var szenarios = new List<Szenario> {Szenario};
+            var szenarios = new List<Szenario> {_szenario};
             var cmdSync = new Synchronization(CommandType.Synchronization.ToString(), SynchronizationCommandType.CurrentSzenario.ToString(), Client.Identification, szenarios, new List<Robot>());
             Client.SendCmd(cmdSync.ToJsonString());
             return true;

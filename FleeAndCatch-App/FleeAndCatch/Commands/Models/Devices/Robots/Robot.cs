@@ -16,16 +16,22 @@ namespace FleeAndCatch.Commands.Models.Devices.Robots
         protected Position position;
         [JsonProperty("speed")]
         protected double speed;
+        [JsonProperty("ultrasonic")]
+        protected string ultrasonic;
+        [JsonProperty("gyro")]
+        protected string gyro;
 
         /// <summary>
         /// Create an object of an robot for a json command.
         /// </summary>
         /// <param name="pId">Id of the robot in communication.</param>
-        public Robot(RobotIdentification pIdentification, bool pActive, Position pPosition, double pSpeed) : base(pActive)
+        public Robot(RobotIdentification pIdentification, bool pActive, Position pPosition, double pSpeed, double pUltrasonic, double pGyro) : base(pActive)
         {
             identification = pIdentification;
             position = pPosition;
             speed = pSpeed;
+            ultrasonic = Convert.ToString(pUltrasonic);
+            gyro = Convert.ToString(pGyro);
         }
 
         [JsonIgnore]
@@ -34,6 +40,10 @@ namespace FleeAndCatch.Commands.Models.Devices.Robots
         public Position Position => position;
         [JsonIgnore]
         public double Speed => speed;
+        [JsonIgnore]
+        public string Ultrasonic => ultrasonic;
+        [JsonIgnore]
+        public string Gyro => gyro;
     }
 
     public class Position
@@ -50,17 +60,6 @@ namespace FleeAndCatch.Commands.Models.Devices.Robots
             x = pX;
             y = pY;
             orientation = pOrientation;
-        }
-
-        public JObject GetJObject()
-        {
-            var jsonPosition = new JObject
-            {
-                {"x", x},
-                {"y", y},
-                {"orientation", orientation}
-            };
-            return jsonPosition;
         }
 
         [JsonIgnore]
@@ -84,18 +83,8 @@ namespace FleeAndCatch.Commands.Models.Devices.Robots
             this.speed = ((SpeedType)pSpeed).ToString();
         }
 
-        public JObject GetJObject()
-        {
-            var jsonIdentification = new JObject
-            {
-                {"direction", direction},
-                {"speed", speed}
-            };
-            return jsonIdentification;
-        }
-
         [JsonIgnore]
-        public string Directiond
+        public string Direction
         {
             get { return direction; }
             set { direction = value; }

@@ -17,21 +17,24 @@
                 <ViewCell>
                   <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="Center" Padding="10, 0">
                     <Label Text="Identification:"/>
-                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10">
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Padding="5,0" Spacing="10">
                       <Label Text="{Binding Identification.Id}"/>
-                      <Label Text="{Binding Identification.Type}"/>
                       <Label Text="{Binding Identification.Subtype}"/>
                       <Label Text="{Binding Identification.Roletype}"/>
                     </StackLayout>
                     <Label Text="Position:"/>
-                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10">
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Padding="5,0" Spacing="10">
                       <Label Text="{Binding Position.X}"/>
                       <Label Text="{Binding Position.Y}"/>
                       <Label Text="{Binding Position.Orientation}"/>
                     </StackLayout>
                     <Label Text="Speed:"/>
-                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10">
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Padding="5,0" Spacing="10">
                       <Label Text="{Binding Speed}"/>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Padding="5,0" Spacing="10">
+                      <Label Text="{Binding Robot.Ultrasonic}"/>
+                      <Label Text="{Binding Robot.Gyro}"/>
                     </StackLayout>
                   </StackLayout>
                 </ViewCell>

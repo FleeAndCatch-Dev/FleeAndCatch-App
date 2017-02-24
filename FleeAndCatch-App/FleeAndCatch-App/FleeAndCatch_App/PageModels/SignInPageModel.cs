@@ -4,25 +4,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
+using FleeAndCatch.Communication;
 using FleeAndCatch_App.Models;
 using FleeAndCatch_App.SQLite;
 using Xamarin.Forms;
-using FleeAndCatch_App.Communication;
 using PropertyChanged;
+using Exception = FleeAndCatch.Exception;
 
 namespace FleeAndCatch_App.PageModels
 {
     [ImplementPropertyChanged]
     public class SignInPageModel : FreshMvvm.FreshBasePageModel
     {
-        public Connection Connection { get; set; }
+        public ConnectionModel Connection { get; set; }
         public bool Visible { get; set; }
 
         public override void Init(object initData)
         {
             base.Init(initData);
 
-            Connection = new Connection();
+            Connection = new ConnectionModel();
         }
 
         /// <summary>
@@ -57,7 +58,7 @@ namespace FleeAndCatch_App.PageModels
                         connectionTask.Start();
                     }
                     else
-                        await CoreMethods.DisplayAlert("Error", "The address for the communication is empty", "OK");
+                        await CoreMethods.DisplayAlert("Error: 315", "The address for the communication is empty", "OK");
                 });
             }
         }
@@ -113,14 +114,14 @@ namespace FleeAndCatch_App.PageModels
                 }
                 Device.BeginInvokeOnMainThread(async () => {
                     UserDialogs.Instance.HideLoading();
-                    await CoreMethods.DisplayAlert("Error", "Connection timeout, try again", "OK");
+                    await CoreMethods.DisplayAlert("Error: 315", "Connection timeout", "OK");
                 });
             }
             catch (Exception ex)
             {
                 Device.BeginInvokeOnMainThread(async () => {
                     UserDialogs.Instance.HideLoading();
-                    await CoreMethods.DisplayAlert("Error", ex.Message, "OK");
+                    await CoreMethods.DisplayAlert("Error: " + Convert.ToString(ex.Id), ex.Message, "OK");
                 });
             }
         }

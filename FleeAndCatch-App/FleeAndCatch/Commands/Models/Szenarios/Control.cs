@@ -22,6 +22,6 @@ namespace FleeAndCatch.Commands.Models.Szenarios
 
     public enum ControlType
     {
-        Undefined, Begin, End, Start, Stop, Control
+        Undefined, Begin, Start, Stop, Control
     }
 }

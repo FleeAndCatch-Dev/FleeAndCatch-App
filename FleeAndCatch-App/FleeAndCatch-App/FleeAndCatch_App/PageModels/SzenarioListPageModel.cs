@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using Acr.UserDialogs;
 using FleeAndCatch.Commands;
 using FleeAndCatch.Commands.Models.Szenarios;
-using FleeAndCatch_App.Communication;
-using FleeAndCatch_App.Controller;
+using FleeAndCatch.Communication;
+using FleeAndCatch.Controller;
 using FleeAndCatch_App.Models;
 using Xamarin.Forms;
 using Command = Xamarin.Forms.Command;
@@ -16,19 +16,19 @@ namespace FleeAndCatch_App.PageModels
 {
     public class SzenarioListPageModel : FreshMvvm.FreshBasePageModel
     {
-        public List<SzenarioGroup> SzenarioGroupList { get; set; }
-        private SzenarioGroup _szenarioGroup;
+        public List<SzenarioGroupModel> SzenarioGroupList { get; set; }
+        private SzenarioGroupModel _szenarioGroup;
 
         public SzenarioListPageModel()
         {
-            SzenarioGroupList = new List<SzenarioGroup>();
+            SzenarioGroupList = new List<SzenarioGroupModel>();
         }
 
         public override void Init(object initData)
         {
             base.Init(initData);
 
-            SzenarioGroupList = new List<SzenarioGroup>();
+            SzenarioGroupList = new List<SzenarioGroupModel>();
 
             //Get all current szenarios
             RobotController.Updated = false;
@@ -66,7 +66,7 @@ namespace FleeAndCatch_App.PageModels
             }
         }
 
-        public SzenarioGroup SelectedItem
+        public SzenarioGroupModel SelectedItem
         {
             get { return _szenarioGroup; }
             set
@@ -101,6 +101,15 @@ namespace FleeAndCatch_App.PageModels
                     UserDialogs.Instance.ShowLoading();
                 });
 
+                if (!Client.Connected)
+                {
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        await CoreMethods.DisplayAlert("Error: 323", "No connection to the backend", "OK");
+                    });
+                    return;
+                }
+
                 var counter = 0;
                 while (!SzenarioController.Updated && counter <= 300)
                 {
@@ -122,14 +131,14 @@ namespace FleeAndCatch_App.PageModels
 
                 //Update the list with sorting of the szenario types
                 SzenarioGroupList.Clear();
-                var tempList = new List<SzenarioGroup>();
+                var tempList = new List<SzenarioGroupModel>();
                 for (var i = 0; i < Enum.GetNames(typeof(SzenarioCommandType)).Length; i++)
                 {
                     foreach (var t in SzenarioController.Szenarios)
                     {
                         if (t.Type == Enum.GetNames(typeof(SzenarioCommandType))[i])
                         {
-                            tempList.Add(new SzenarioGroup(Enum.GetNames(typeof(SzenarioCommandType))[i], t.Id));
+                            tempList.Add(new SzenarioGroupModel(Enum.GetNames(typeof(SzenarioCommandType))[i], t.Id));
                         }
                     }
                 }

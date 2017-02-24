@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FleeAndCatch_App.Communication;
 using FleeAndCatch_App.Pages;
 using PropertyChanged;
 using Xamarin.Forms;
+using FleeAndCatch.Communication;
+using Exception = FleeAndCatch.Exception;
 
 namespace FleeAndCatch_App.PageModels
 {
@@ -30,7 +31,7 @@ namespace FleeAndCatch_App.PageModels
             {
                 return new Command(async () =>
                 {
-                    await CoreMethods.DisplayAlert("Error", "Sorry, this isn't implemented", "OK");
+                    await CoreMethods.DisplayAlert("Error: 399", "Sorry, this isn't implemented", "OK");
                 });
             }
         }
@@ -40,8 +41,9 @@ namespace FleeAndCatch_App.PageModels
             {
                 return new Command(async () =>
                 {
-                    if (Client.Connected)
+                    try
                     {
+                        if (!Client.Connected) return;
                         Client.Close();
 
                         var page = FreshMvvm.FreshPageModelResolver.ResolvePageModel<SignInPageModel>();
@@ -51,9 +53,11 @@ namespace FleeAndCatch_App.PageModels
                             BarTextColor = Color.White
                         };
                         Application.Current.MainPage = navigation;
-                        return;
                     }
-                    await CoreMethods.DisplayAlert("Error", "Ups, that should not happen, please start the application again", "OK");
+                    catch (Exception ex)
+                    {
+                        await CoreMethods.DisplayAlert("Error: " + Convert.ToString(ex.Id), ex.Message, "OK");
+                    }
                 });
             }
         }

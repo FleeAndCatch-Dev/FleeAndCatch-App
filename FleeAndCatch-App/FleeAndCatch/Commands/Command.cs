@@ -60,9 +60,8 @@ namespace FleeAndCatch.Commands
             }
             catch (System.Exception ex)
             {
-                // ignored
+                throw new Exception(300, "The object could not parse into a json object");
             }
-            return null;
         }
 
         [JsonIgnore]

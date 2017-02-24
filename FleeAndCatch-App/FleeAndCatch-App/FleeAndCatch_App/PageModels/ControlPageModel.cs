@@ -8,8 +8,9 @@ using DeviceMotion.Plugin.Abstractions;
 using FleeAndCatch.Commands;
 using FleeAndCatch.Commands.Models.Devices.Robots;
 using FleeAndCatch.Commands.Models.Szenarios;
-using FleeAndCatch_App.Communication;
-using FleeAndCatch_App.Controller;
+using FleeAndCatch.Communication;
+using FleeAndCatch.Controller;
+using FleeAndCatch_App.Models;
 using Newtonsoft.Json;
 using PropertyChanged;
 using Xamarin.Forms;
@@ -20,11 +21,12 @@ namespace FleeAndCatch_App.PageModels
     [ImplementPropertyChanged]
     public class ControlPageModel : FreshMvvm.FreshBasePageModel
     {
-        public Robot Robot { get; set; }
+        public RobotModel Robot { get; set; }
         public string Change { get; set; }
         public Color ChangeColor { get; set; }
         public ImageSource ImageSource { get; set; }
         private Szenario _szenario;
+        private Robot _robot;
         private Steering.SpeedType _speed;
         private Steering.DirectionType _direction;
 
@@ -37,8 +39,16 @@ namespace FleeAndCatch_App.PageModels
             base.Init(initData);
 
             _szenario = initData as Szenario;
-            if (_szenario == null) return;
-            Robot = _szenario.Robots[0];
+            if (_szenario == null)
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    await CoreMethods.DisplayAlert("Error: 320", "The szenario doesn't exist", "OK");
+                });
+                return;
+            }
+            _robot = _szenario.Robots[0];
+            Robot = new RobotModel(_robot);
             _szenario.Command = ControlType.Control.ToString();
         }
 
@@ -83,7 +93,7 @@ namespace FleeAndCatch_App.PageModels
             {
                 return new Command(() =>
                 {
-                    if (Math.Abs(Robot.Speed) < 1)
+                    if (Math.Abs(Convert.ToDouble(_robot.Speed)) < 0.1)
                     {
                         //Start
                         Change = "Stop";
@@ -116,8 +126,8 @@ namespace FleeAndCatch_App.PageModels
             {
                 foreach (var t in RobotController.Robots)
                 {
-                    if (Robot.Identification.Id != t.Identification.Id) continue;
-                    Robot = t;
+                    if (_robot.Identification.Id != t.Identification.Id) continue;
+                    Robot = new RobotModel(t);
                     break;
                 }
                 SzenarioController.Changed = false;
@@ -135,8 +145,8 @@ namespace FleeAndCatch_App.PageModels
                 SzenarioController.Szenarios.Remove(_szenario);
 
                 //Send the control end command
-                _szenario.Command = ControlType.End.ToString();
-                var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), ControlType.Control.ToString(), Client.Identification, _szenario);
+                _szenario.Command = ControlType.Undefined.ToString();
+                var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), SzenarioCommandType.End.ToString(), Client.Identification, _szenario);
                 Client.SendCmd(JsonConvert.SerializeObject(cmd));
 
                 var page = FreshMvvm.FreshPageModelResolver.ResolvePageModel<HomePageModel>();
@@ -151,13 +161,8 @@ namespace FleeAndCatch_App.PageModels
             }
             var control = (Control)_szenario;
             control.Command = ControlType.Control.ToString();
-            control.Steering.Directiond = _direction.ToString();
+            control.Steering.Direction = _direction.ToString();
             control.Steering.Speed = _speed.ToString();
-            foreach (var t in RobotController.Robots)
-            {
-                if (t.Identification == Robot.Identification)
-                    Robot = t;
-            }
             //Send the control command
             var cmdCtrl = new SzenarioCommand(CommandType.Szenario.ToString(), ControlType.Control.ToString(), Client.Identification, control);
             Client.SendCmd(cmdCtrl.ToJsonString());
@@ -197,20 +202,19 @@ namespace FleeAndCatch_App.PageModels
                 }
 
                 if (Device.Idiom == TargetIdiom.Phone)
-                {
-                    if (x <= 0.25 && x >= -0.25)
+                    if (x <= 0.2 && x >= -0.2)
                     {
                         //Gerade aus
-                        if (y >= 0.25)
+                        if (y >= 0.2)
                         {
                             _speed = Steering.SpeedType.Faster;
                             ImageSource = ImageSource.FromFile("ic_expand_less_black_48dp.png");
-                        } 
-                        else if (y <= -0.25)
+                        }
+                        else if (y <= -0.2)
                         {
                             _speed = Steering.SpeedType.Slower;
                             ImageSource = ImageSource.FromFile("ic_expand_more_black_48dp.png");
-                        } 
+                        }
                         else
                         {
                             _direction = Steering.DirectionType.StraightOn;
@@ -221,41 +225,68 @@ namespace FleeAndCatch_App.PageModels
                     else
                     {
                         //Drehen
-                        if (x >= 0.25)
+                        if (x >= 0.2)
                         {
-                            _direction = Steering.DirectionType.Right;
-                            ImageSource = ImageSource.FromFile("ic_chevron_right_black_48dp.png");
-                        }                            
-                        else if (x <= -0.25)
-                        {
-                            _direction = Steering.DirectionType.Left;
-                            ImageSource = ImageSource.FromFile("ic_chevron_left_black_48dp.png");
+                            if (_direction == Steering.DirectionType.Left)
+                            {
+                                _direction = Steering.DirectionType.StraightOn;
+                                ImageSource = ImageSource.FromFile("");
+                            }
+                            else
+                            {
+                                _direction = Steering.DirectionType.Right;
+                                ImageSource = ImageSource.FromFile("ic_chevron_right_black_48dp.png");
+                            }
                         }
-                            
+                        else if (x <= -0.2)
+                        {
+                            if (_direction == Steering.DirectionType.Right)
+                            {
+                                _direction = Steering.DirectionType.StraightOn;
+                                ImageSource = ImageSource.FromFile("");
+                            }
+                            else
+                            {
+                                _direction = Steering.DirectionType.Left;
+                                ImageSource = ImageSource.FromFile("ic_chevron_left_black_48dp.png");
+                            }
+                        }
                     }
-                }
                 else if (Device.Idiom == TargetIdiom.Tablet)
                 {
-                    if (y <= 0.25 && y >= -0.25)
+                    if (y <= 0.2 && y >= -0.2)
                     {
                         //Gerade aus
-                        if (x >= 0.25)
+                        if (x >= 0.2)
+                        {
                             _speed = Steering.SpeedType.Faster;
-                        else if (x <= -0.25)
+                            ImageSource = ImageSource.FromFile("ic_expand_less_black_48dp.png");
+                        }
+                        else if (x <= -0.2)
+                        {
                             _speed = Steering.SpeedType.Slower;
+                            ImageSource = ImageSource.FromFile("ic_expand_more_black_48dp.png");
+                        }
                         else
                         {
                             _direction = Steering.DirectionType.StraightOn;
                             _speed = Steering.SpeedType.Equal;
+                            ImageSource = ImageSource.FromFile("");
                         }
                     }
                     else
                     {
                         //Drehen
-                        if (y >= 0.25)
+                        if (y >= 0.2)
+                        {
                             _direction = Steering.DirectionType.Right;
-                        else if (y <= -0.25)
+                            ImageSource = ImageSource.FromFile("ic_chevron_right_black_48dp.png");
+                        }                           
+                        else if (y <= -0.2)
+                        {
                             _direction = Steering.DirectionType.Left;
+                            ImageSource = ImageSource.FromFile("ic_chevron_left_black_48dp.png");
+                        }           
                     }
                 }
                 else

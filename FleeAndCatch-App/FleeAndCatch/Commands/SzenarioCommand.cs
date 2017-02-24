@@ -27,6 +27,6 @@ namespace FleeAndCatch.Commands
 
     public enum SzenarioCommandType
     {
-        Init, Control, Synchron, Follow
+        Init, Control, Synchron, Follow, End
     }
 }

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FleeAndCatch.Components;
 using Newtonsoft.Json.Linq;
 
 namespace FleeAndCatch.Commands.Models
@@ -16,12 +15,13 @@ namespace FleeAndCatch.Commands.Models
         [JsonProperty("type")]
         protected string type;
 
+        [JsonIgnore]
         public int Id
         {
             get { return id; }
             set { id = value; }
         }
-
+        [JsonIgnore]
         public string Type => type;
     }
 
@@ -98,30 +98,60 @@ namespace FleeAndCatch.Commands.Models
         public string Roletype => roletype;
     }
 
-    public class IdentificationConverter : JsonConverter
+    public class IdentificationJsonConverter : JsonConverter
     {
-        private readonly Type[] _types;
+        private Type[] _types;
 
-        public IdentificationConverter(params Type[] types)
+        public IdentificationJsonConverter()
+        {
+
+        }
+
+        public IdentificationJsonConverter(params Type[] types)
         {
             _types = types;
         }
 
         public override bool CanConvert(Type objectType)
         {
-            return _types.Any(t => t == objectType);
+            return (objectType == typeof(Identification));
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            object device = null;
+            Identification identification = null;
+            var jsonObject = JObject.Load(reader);
 
-            return device;
+            if (objectType == typeof(ClientIdentification))
+                identification = jsonObject.ToObject<ClientIdentification>();
+            else if (objectType == typeof(AppIdentification))
+                identification = jsonObject.ToObject<AppIdentification>();
+            else if (objectType == typeof(RobotIdentification))
+                identification = jsonObject.ToObject<RobotIdentification>();
+
+            return identification;
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            throw new NotImplementedException();
+            //refactor
+            var t = JToken.FromObject(value);
+            if (t.Type != JTokenType.Object)
+                t.WriteTo(writer);
+            else
+            {
+                //var device = value as Device;
+                var o = (JObject)t;
+                /*if (device == null) return;
+                if (device is App)
+                {
+                }
+                else if(device is Robot)
+                {
+                        
+                }*/
+                o.WriteTo(writer);
+            }
         }
     }
 }
