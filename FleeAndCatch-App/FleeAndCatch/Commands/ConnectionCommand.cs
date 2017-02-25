@@ -31,6 +31,6 @@ namespace FleeAndCatch.Commands
 
     public enum ConnectionCommandType
     {
-        Connect, Disconnect
+        Connect, Disconnect, Init
     }
 }

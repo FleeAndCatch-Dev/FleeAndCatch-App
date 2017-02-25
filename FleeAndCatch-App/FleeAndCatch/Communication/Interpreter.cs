@@ -60,6 +60,11 @@ namespace FleeAndCatch.Communication
                 case ConnectionCommandType.Disconnect:
                     Client.Disconnect();
                     return;
+                case ConnectionCommandType.Init:
+                    //Send a connection command for initialization
+                    var cmd = new ConnectionCommand(CommandType.Connection.ToString(), ConnectionCommandType.Init.ToString(), Client.Identification, Client.Device);
+                    Client.SendCmd(cmd.ToJsonString());
+                    return;
                 default:
                     throw new Exception(312, "Wrong connection type of json command");
             }
