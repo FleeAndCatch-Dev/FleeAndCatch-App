@@ -50,6 +50,8 @@ namespace FleeAndCatch_App.PageModels
             _robot = _szenario.Robots[0];
             Robot = new RobotModel(_robot);
             _szenario.Command = ControlType.Control.ToString();
+            _speed = 0;
+            _direction = 0;
         }
 
         /// <summary>
@@ -163,6 +165,7 @@ namespace FleeAndCatch_App.PageModels
             control.Command = ControlType.Control.ToString();
             control.Steering.Direction = _direction.ToString();
             control.Steering.Speed = _speed.ToString();
+
             //Send the control command
             var cmdCtrl = new SzenarioCommand(CommandType.Szenario.ToString(), ControlType.Control.ToString(), Client.Identification, control);
             Client.SendCmd(cmdCtrl.ToJsonString());
