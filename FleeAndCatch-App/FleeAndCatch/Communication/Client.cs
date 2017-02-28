@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using FleeAndCatch.Commands;
 using FleeAndCatch.Commands.Models;
 using FleeAndCatch.Commands.Models.Devices;
+using FleeAndCatch.Commands.Models.Devices.Apps;
 using FleeAndCatch.Commands.Models.Devices.Robots;
 using FleeAndCatch.Commands.Models.Szenarios;
 using Newtonsoft.Json.Linq;
@@ -21,7 +22,7 @@ namespace FleeAndCatch.Communication
         //Represents the identification
         private static ClientIdentification identification;
         //Represents the current device
-        private static Device device;
+        private static App device;
         //Represents the running szenario
         private static Szenario szenario;
 
@@ -34,7 +35,7 @@ namespace FleeAndCatch.Communication
 
             tcpSocketClient = new TcpSocketClient();
             identification = new ClientIdentification(0, IdentificationType.App.ToString(), pAddress, Default.Port);
-            Device = new FleeAndCatch.Commands.Models.Devices.Apps.App(new AppIdentification(-1, IdentificationType.App.ToString(), RoleType.Undefined.ToString()));
+            Device = new FleeAndCatch.Commands.Models.Devices.Apps.App(new AppIdentification(-1, IdentificationType.App.ToString(), RoleType.Undefined.ToString()), -1);
             connected = false;
 
             if (connected) throw new Exception(309, "Connection to the server is already exist");
@@ -195,7 +196,7 @@ namespace FleeAndCatch.Communication
 
         public static bool Connected => connected;
         public static ClientIdentification Identification => identification;
-        public static Device Device
+        public static App Device
         {
             get { return device; }
             set { device = value; }

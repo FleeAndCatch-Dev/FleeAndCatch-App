@@ -25,6 +25,6 @@ namespace FleeAndCatch.Commands
 
     public enum ExceptionCommandType
     {
-        Undefined, UnhandeldDisconnection
+        Undefined, UnhandeldDisconnection, CreateSzenario
     }
 }

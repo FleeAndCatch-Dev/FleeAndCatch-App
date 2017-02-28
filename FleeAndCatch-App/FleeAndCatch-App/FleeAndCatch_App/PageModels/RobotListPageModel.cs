@@ -80,7 +80,7 @@ namespace FleeAndCatch_App.PageModels
         {
             get
             {
-                return new Command( () =>
+                return new Command(async () =>
                 {
                     if (RobotGroupList.Count <= 0) return;
                     Szenario szenario = null;
@@ -96,11 +96,13 @@ namespace FleeAndCatch_App.PageModels
                         {
                             foreach (var t in RobotController.Robots)
                             {
-                                if (t.Identification.Subtype != type.ToString()) continue;
+                                if (t.Identification.Subtype != type.ToString() || t.Active) continue;
                                 t.Active = true;
                                 robotList.Add(t);
                                 value--;
                                 break;
+                                /*if (t.Identification.Subtype != type.ToString()) continue;
+                                if(t.Active) continue;*/
                             }
                         }
                     }
@@ -120,6 +122,7 @@ namespace FleeAndCatch_App.PageModels
                                     t.Active = true;
                                 }
                                 Client.Device.Active = true;
+                                Client.Device.RobotId = robotList[0].Identification.Id;
                                 szenario = new Control(-1, _szenarioType.ToString(), ControlType.Undefinied.ToString(), SzenarioMode.Single.ToString(), appList, robotList, new Steering(0, 0));
                             }
                             break;
@@ -134,15 +137,30 @@ namespace FleeAndCatch_App.PageModels
                     {
                         //Set the szenario in the client
                         Client.Szenario = szenario;
+                        SzenarioController.Exist = false;
 
                         var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), SzenarioCommandType.Init.ToString(), Client.Identification, szenario);
                         Client.SendCmd(cmd.ToJsonString());
 
+                        var updateCounter = 0;
+                        while (!SzenarioController.Exist && updateCounter <= 300)
+                        {
+                            await Task.Delay(TimeSpan.FromMilliseconds(10));
+                            updateCounter++;
+                        }
+
                         Device.BeginInvokeOnMainThread(() =>
                         {
                             UserDialogs.Instance.HideLoading();
-                            CoreMethods.PushPageModel<SzenarioInformationPageModel>(szenario);
-                            RaisePropertyChanged();
+                            if (Client.Szenario.Id != -1)
+                            {
+                                CoreMethods.PushPageModel<SzenarioInformationPageModel>(szenario);
+                                RaisePropertyChanged();
+                            }
+                            else
+                            {
+                                CoreMethods.DisplayAlert("Error: 3new", "The szenario could not generate", "OK");
+                            }                          
                         });
                         return;
                     }
