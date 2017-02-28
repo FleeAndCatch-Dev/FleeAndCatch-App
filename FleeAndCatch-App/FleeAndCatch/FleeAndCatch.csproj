@@ -50,7 +50,6 @@
     <Compile Include="Commands\Models\Szenarios\Szenario.cs" />
     <Compile Include="Commands\SynchronizationCommand.cs" />
     <Compile Include="Commands\SzenarioCommand.cs" />
-    <Compile Include="Commands\ComponentType.cs" />
     <Compile Include="Communication\Client.cs" />
     <Compile Include="Communication\Interpreter.cs" />
     <Compile Include="Controller\RobotController.cs" />

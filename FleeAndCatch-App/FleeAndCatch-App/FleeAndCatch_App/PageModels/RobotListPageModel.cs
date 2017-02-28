@@ -91,7 +91,7 @@ namespace FleeAndCatch_App.PageModels
                     foreach (var t1 in RobotGroupList)
                     {
                         var value = t1.Choosen;
-                        var type = (ComponentType.RobotType)Enum.Parse(typeof(ComponentType.RobotType), t1.Name);
+                        var type = (RobotType)Enum.Parse(typeof(RobotType), t1.Name);
                         while (value > 0)
                         {
                             foreach (var t in RobotController.Robots)
@@ -120,7 +120,7 @@ namespace FleeAndCatch_App.PageModels
                                     t.Active = true;
                                 }
                                 Client.Device.Active = true;
-                                szenario = new Control(-1, _szenarioType.ToString(), ControlType.Undefined.ToString(), SzenarioMode.Single.ToString(), appList, robotList, new Steering(0, 0));
+                                szenario = new Control(-1, _szenarioType.ToString(), ControlType.Undefinied.ToString(), SzenarioMode.Single.ToString(), appList, robotList, new Steering(0, 0));
                             }
                             break;
                         case SzenarioCommandType.Synchron:
@@ -187,15 +187,15 @@ namespace FleeAndCatch_App.PageModels
                 {
                     RobotGroupList.Clear();
                     var tempList = new List<RobotGroupModel>();
-                    for (var i = 0; i < Enum.GetNames(typeof(ComponentType.RobotType)).Length; i++)
+                    for (var i = 0; i < Enum.GetNames(typeof(RobotType)).Length; i++)
                     {
                         var counter = 0;
                         foreach (var t in RobotController.Robots)
                         {
-                            if (t.Identification.Subtype == Enum.GetNames(typeof(ComponentType.RobotType))[i] && !t.Active)
+                            if (t.Identification.Subtype == Enum.GetNames(typeof(RobotType))[i] && !t.Active)
                                 counter++;
                         }
-                        tempList.Add(new RobotGroupModel(Enum.GetNames(typeof(ComponentType.RobotType))[i], counter));
+                        tempList.Add(new RobotGroupModel(Enum.GetNames(typeof(RobotType))[i], counter));
                     }
                     RobotGroupList = tempList;
                     Device.BeginInvokeOnMainThread(() =>

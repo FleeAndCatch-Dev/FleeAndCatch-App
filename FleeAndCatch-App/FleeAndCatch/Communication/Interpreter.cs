@@ -132,6 +132,10 @@ namespace FleeAndCatch.Communication
                     //Set the id of the szenario
                     Client.Szenario = command.Szenario;
                     return;
+                case SzenarioCommandType.End:
+                    //Set the szenario to false and return to home page
+                    SzenarioController.Refresh = false;
+                    return;
                 case SzenarioCommandType.Control:
                     throw new Exception(314, "Wrong szenario type of json command");
                 case SzenarioCommandType.Synchron:

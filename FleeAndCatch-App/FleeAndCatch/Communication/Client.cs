@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using FleeAndCatch.Commands;
 using FleeAndCatch.Commands.Models;
 using FleeAndCatch.Commands.Models.Devices;
+using FleeAndCatch.Commands.Models.Devices.Robots;
 using FleeAndCatch.Commands.Models.Szenarios;
 using Newtonsoft.Json.Linq;
 using Sockets.Plugin;
@@ -32,8 +33,8 @@ namespace FleeAndCatch.Communication
             ParseAddress(pAddress);
 
             tcpSocketClient = new TcpSocketClient();
-            identification = new ClientIdentification(0, ComponentType.IdentificationType.App.ToString(), pAddress, Default.Port);
-            Device = new FleeAndCatch.Commands.Models.Devices.Apps.App(new AppIdentification(-1, ComponentType.IdentificationType.App.ToString(), ComponentType.RoleType.Undefined.ToString()));
+            identification = new ClientIdentification(0, IdentificationType.App.ToString(), pAddress, Default.Port);
+            Device = new FleeAndCatch.Commands.Models.Devices.Apps.App(new AppIdentification(-1, IdentificationType.App.ToString(), RoleType.Undefined.ToString()));
             connected = false;
 
             if (connected) throw new Exception(309, "Connection to the server is already exist");

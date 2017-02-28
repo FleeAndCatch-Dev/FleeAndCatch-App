@@ -65,16 +65,16 @@ namespace FleeAndCatch_App.Models
         public RobotIdentificationModel(int pId, string pType, string pSubType, string pRoleType)
         {
             id = Convert.ToString(pId);
-            type = Enum.GetName(typeof(ComponentType.IdentificationType), ((ComponentType.IdentificationType)Enum.Parse(typeof(ComponentType.IdentificationType), pType)));
-            subtype = Enum.GetName(typeof(ComponentType.RobotType), ((ComponentType.RobotType)Enum.Parse(typeof(ComponentType.RobotType), pSubType)));
-            roletype = Enum.GetName(typeof(ComponentType.RoleType), ((ComponentType.RoleType)Enum.Parse(typeof(ComponentType.RoleType), pRoleType)));
+            type = Enum.GetName(typeof(IdentificationType), ((IdentificationType)Enum.Parse(typeof(IdentificationType), pType)));
+            subtype = Enum.GetName(typeof(RobotType), ((RobotType)Enum.Parse(typeof(RobotType), pSubType)));
+            roletype = Enum.GetName(typeof(RoleType), ((RoleType)Enum.Parse(typeof(RoleType), pRoleType)));
         }
         public RobotIdentificationModel(RobotIdentification pIdentification)
         {
             id = Convert.ToString(pIdentification.Id);
-            type = Enum.GetName(typeof(ComponentType.IdentificationType), ((ComponentType.IdentificationType)Enum.Parse(typeof(ComponentType.IdentificationType), pIdentification.Type)));
-            subtype = Enum.GetName(typeof(ComponentType.RobotType), ((ComponentType.RobotType)Enum.Parse(typeof(ComponentType.RobotType), pIdentification.Subtype)));
-            roletype = Enum.GetName(typeof(ComponentType.RoleType), ((ComponentType.RoleType)Enum.Parse(typeof(ComponentType.RoleType), pIdentification.Roletype)));
+            type = Enum.GetName(typeof(IdentificationType), ((IdentificationType)Enum.Parse(typeof(IdentificationType), pIdentification.Type)));
+            subtype = Enum.GetName(typeof(RobotType), ((RobotType)Enum.Parse(typeof(RobotType), pIdentification.Subtype)));
+            roletype = Enum.GetName(typeof(RoleType), ((RoleType)Enum.Parse(typeof(RoleType), pIdentification.Roletype)));
         }
 
         public string Id => id;

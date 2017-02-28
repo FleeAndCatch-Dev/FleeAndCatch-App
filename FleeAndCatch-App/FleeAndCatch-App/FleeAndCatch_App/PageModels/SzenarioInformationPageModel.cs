@@ -47,7 +47,7 @@ namespace FleeAndCatch_App.PageModels
                     t.Active = false;
 
                 //Send control end command 
-                Szenario.Command = ControlType.Undefined.ToString();
+                Szenario.Command = ControlType.Undefinied.ToString();
                 var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), SzenarioCommandType.End.ToString(), Client.Identification, Szenario);
                 Client.SendCmd(JsonConvert.SerializeObject(cmd));
             }

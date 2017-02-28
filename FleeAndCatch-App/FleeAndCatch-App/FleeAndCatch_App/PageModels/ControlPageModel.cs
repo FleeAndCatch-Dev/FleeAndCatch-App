@@ -138,7 +138,6 @@ namespace FleeAndCatch_App.PageModels
             if (!SzenarioController.Refresh)
             {
                 //stop sensors
-                //navigate to startpage
                 CrossDeviceMotion.Current.Stop(MotionSensorType.Accelerometer);
                 //set object active -> false
                 _szenario.Robots[0].Active = false;
@@ -147,10 +146,10 @@ namespace FleeAndCatch_App.PageModels
                 SzenarioController.Szenarios.Remove(_szenario);
 
                 //Send the control end command
-                _szenario.Command = ControlType.Undefined.ToString();
+                _szenario.Command = ControlType.Undefinied.ToString();
                 var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), SzenarioCommandType.End.ToString(), Client.Identification, _szenario);
                 Client.SendCmd(JsonConvert.SerializeObject(cmd));
-
+                //navigate to startpage
                 var page = FreshMvvm.FreshPageModelResolver.ResolvePageModel<HomePageModel>();
                 var navigation = new FreshMvvm.FreshNavigationContainer(page)
                 {
