@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{BF44464C-6AF1-4E31-894B-FC182DAA1954}</ProjectGuid>
+    <ProjectGuid>{B0F6440B-6ACA-49E1-AE87-F04D8B495BBB}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>FleeAndCatch_App.UWP</RootNamespace>
@@ -18,10 +18,6 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <PackageCertificateKeyFile>FleeAndCatch_App.UWP_TemporaryKey.pfx</PackageCertificateKeyFile>
-    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
-    <AppxBundle>Always</AppxBundle>
-    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
-    <PackageCertificateThumbprint>928952303F8656CC23B13DA26177276EF87FDE55</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
@@ -94,7 +90,6 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <None Include="FleeAndCatch_App.UWP_TemporaryKey.pfx" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
@@ -111,7 +106,7 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="Windows_TemporaryKey.pfx" />
+    <None Include="FleeAndCatch_App.UWP_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Badge96x96.scale-100.png" />
@@ -119,35 +114,11 @@
     <Content Include="Assets\Badge96x96.scale-150.png" />
     <Content Include="Assets\Badge96x96.scale-200.png" />
     <Content Include="Assets\Badge96x96.scale-400.png" />
-    <Content Include="Assets\SplashScreen.scale-100.png" />
-    <Content Include="Assets\SplashScreen.scale-125.png" />
-    <Content Include="Assets\SplashScreen.scale-150.png" />
-    <Content Include="Assets\SplashScreen.scale-200.png" />
-    <Content Include="Assets\SplashScreen.scale-400.png" />
-    <Content Include="Assets\Square1240x1240.scale-100.png" />
-    <Content Include="Assets\Square1240x1240.scale-125.png" />
-    <Content Include="Assets\Square1240x1240.scale-150.png" />
-    <Content Include="Assets\Square1240x1240.scale-200.png" />
-    <Content Include="Assets\Square1240x1240.scale-400.png" />
-    <Content Include="Assets\Square150x150Logo.scale-100.png" />
-    <Content Include="Assets\Square150x150Logo.scale-125.png" />
-    <Content Include="Assets\Square150x150Logo.scale-150.png" />
-    <Content Include="Assets\Square150x150Logo.scale-200.png" />
-    <Content Include="Assets\Square150x150Logo.scale-400.png" />
     <Content Include="Assets\Square310x310.scale-100.png" />
     <Content Include="Assets\Square310x310.scale-125.png" />
     <Content Include="Assets\Square310x310.scale-150.png" />
     <Content Include="Assets\Square310x310.scale-200.png" />
     <Content Include="Assets\Square310x310.scale-400.png" />
-    <Content Include="Assets\Square44x44Logo.scale-100.png" />
-    <Content Include="Assets\Square44x44Logo.scale-125.png" />
-    <Content Include="Assets\Square44x44Logo.scale-150.png" />
-    <Content Include="Assets\Square44x44Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.scale-400.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-16_altform-unplated.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-256_altform-unplated.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-48_altform-unplated.png" />
     <Content Include="Assets\Square71x71.scale-100.png" />
     <Content Include="Assets\Square71x71.scale-125.png" />
     <Content Include="Assets\Square71x71.scale-150.png" />
@@ -158,67 +129,88 @@
     <Content Include="Assets\StoreLogo.scale-150.png" />
     <Content Include="Assets\StoreLogo.scale-200.png" />
     <Content Include="Assets\StoreLogo.scale-400.png" />
-    <Content Include="Assets\Wide310x150Logo.scale-100.png" />
-    <Content Include="Assets\Wide310x150Logo.scale-125.png" />
-    <Content Include="Assets\Wide310x150Logo.scale-150.png" />
-    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
-    <Content Include="Assets\Wide310x150Logo.scale-400.png" />
     <Content Include="FleeAndCatch_Logo.png" />
     <Content Include="FodyWeavers.xml" />
     <Content Include="ic_chevron_left_black_48dp.png" />
     <Content Include="ic_chevron_right_black_48dp.png" />
     <Content Include="ic_expand_less_black_48dp.png" />
     <Content Include="ic_expand_more_black_48dp.png" />
-    <Content Include="Images\Direction\ic_chevron_left_black_48dp.png" />
-    <Content Include="Images\Direction\ic_chevron_right_black_48dp.png" />
-    <Content Include="Images\Direction\ic_expand_less_black_48dp.png" />
-    <Content Include="Images\Direction\ic_expand_more_black_48dp.png" />
-    <Content Include="Images\UWP\Badge\Badge24x24.png" />
-    <Content Include="Images\UWP\Badge\Badge30x30.png" />
-    <Content Include="Images\UWP\Badge\Badge36x36.png" />
-    <Content Include="Images\UWP\Badge\Badge48x48.png" />
-    <Content Include="Images\UWP\Badge\Badge96x96.png" />
-    <Content Include="Images\UWP\Splash\Splash1240x600.png" />
-    <Content Include="Images\UWP\Splash\Splash2480x1200.png" />
-    <Content Include="Images\UWP\Splash\Splash620x300.png" />
-    <Content Include="Images\UWP\Splash\Splash775x375.png" />
-    <Content Include="Images\UWP\Splash\Splash930x450.png" />
-    <Content Include="Images\UWP\Square150x150\Square150x150.png" />
-    <Content Include="Images\UWP\Square150x150\Square188x188.png" />
-    <Content Include="Images\UWP\Square150x150\Square225x225.png" />
-    <Content Include="Images\UWP\Square150x150\Square300x300.png" />
-    <Content Include="Images\UWP\Square150x150\Square600x600.png" />
-    <Content Include="Images\UWP\Square310x310\Square1240x1240.png" />
-    <Content Include="Images\UWP\Square310x310\Square310x310.png" />
-    <Content Include="Images\UWP\Square310x310\Square388x388.png" />
-    <Content Include="Images\UWP\Square310x310\Square465x465.png" />
-    <Content Include="Images\UWP\Square310x310\Square620x620.png" />
-    <Content Include="Images\UWP\Square44x44\Square16x16.png" />
-    <Content Include="Images\UWP\Square44x44\Square176x176.png" />
-    <Content Include="Images\UWP\Square44x44\Square24x24.png" />
-    <Content Include="Images\UWP\Square44x44\Square256x256.png" />
-    <Content Include="Images\UWP\Square44x44\Square44x44.png" />
-    <Content Include="Images\UWP\Square44x44\Square48x48.png" />
-    <Content Include="Images\UWP\Square44x44\Square55x55.png" />
-    <Content Include="Images\UWP\Square44x44\Square66x66.png" />
-    <Content Include="Images\UWP\Square44x44\Square88x88.png" />
-    <Content Include="Images\UWP\Square71x71\Square107x107.png" />
-    <Content Include="Images\UWP\Square71x71\Square142x142.png" />
-    <Content Include="Images\UWP\Square71x71\Square284x284.png" />
-    <Content Include="Images\UWP\Square71x71\Square71x71.png" />
-    <Content Include="Images\UWP\Square71x71\Square89x89.png" />
-    <Content Include="Images\UWP\Store\Store100x100.png" />
-    <Content Include="Images\UWP\Store\Store200x200.png" />
-    <Content Include="Images\UWP\Store\Store50x50.png" />
-    <Content Include="Images\UWP\Store\Store63x63.png" />
-    <Content Include="Images\UWP\Store\Store75x75.png" />
-    <Content Include="Images\UWP\Wide310x150\Wide1240x600.png" />
-    <Content Include="Images\UWP\Wide310x150\Wide310x150.png" />
-    <Content Include="Images\UWP\Wide310x150\Wide388x188.png" />
-    <Content Include="Images\UWP\Wide310x150\Wide465x225.png" />
-    <Content Include="Images\UWP\Wide310x150\Wide620x300.png" />
+    <Content Include="Images\Badge\Badge24x24.png" />
+    <Content Include="Images\Badge\Badge30x30.png" />
+    <Content Include="Images\Badge\Badge36x36.png" />
+    <Content Include="Images\Badge\Badge48x48.png" />
+    <Content Include="Images\Badge\Badge96x96.png" />
+    <Content Include="Images\FleeAndCatch_Logo.png" />
+    <Content Include="Images\Splash\Splash1240x600.png" />
+    <Content Include="Images\Splash\Splash2480x1200.png" />
+    <Content Include="Images\Splash\Splash620x300.png" />
+    <Content Include="Images\Splash\Splash775x375.png" />
+    <Content Include="Images\Splash\Splash930x450.png" />
+    <Content Include="Images\Square150x150\Square150x150.png" />
+    <Content Include="Images\Square150x150\Square188x188.png" />
+    <Content Include="Images\Square150x150\Square225x225.png" />
+    <Content Include="Images\Square150x150\Square300x300.png" />
+    <Content Include="Images\Square150x150\Square600x600.png" />
+    <Content Include="Images\Square310x310\Square1240x1240.png" />
+    <Content Include="Images\Square310x310\Square310x310.png" />
+    <Content Include="Images\Square310x310\Square388x388.png" />
+    <Content Include="Images\Square310x310\Square465x465.png" />
+    <Content Include="Images\Square310x310\Square620x620.png" />
+    <Content Include="Images\Square44x44\Square16x16.png" />
+    <Content Include="Images\Square44x44\Square176x176.png" />
+    <Content Include="Images\Square44x44\Square24x24.png" />
+    <Content Include="Images\Square44x44\Square256x256.png" />
+    <Content Include="Images\Square44x44\Square44x44.png" />
+    <Content Include="Images\Square44x44\Square48x48.png" />
+    <Content Include="Images\Square44x44\Square55x55.png" />
+    <Content Include="Images\Square44x44\Square66x66.png" />
+    <Content Include="Images\Square44x44\Square88x88.png" />
+    <Content Include="Images\Square71x71\Square107x107.png" />
+    <Content Include="Images\Square71x71\Square142x142.png" />
+    <Content Include="Images\Square71x71\Square284x284.png" />
+    <Content Include="Images\Square71x71\Square71x71.png" />
+    <Content Include="Images\Square71x71\Square89x89.png" />
+    <Content Include="Images\Store\Store100x100.png" />
+    <Content Include="Images\Store\Store200x200.png" />
+    <Content Include="Images\Store\Store50x50.png" />
+    <Content Include="Images\Store\Store63x63.png" />
+    <Content Include="Images\Store\Store75x75.png" />
+    <Content Include="Images\Wide310x150\Wide1240x600.png" />
+    <Content Include="Images\Wide310x150\Wide310x150.png" />
+    <Content Include="Images\Wide310x150\Wide388x188.png" />
+    <Content Include="Images\Wide310x150\Wide465x225.png" />
+    <Content Include="Images\Wide310x150\Wide620x300.png" />
     <Content Include="Properties\Default.rd.xml" />
+    <Content Include="Assets\LockScreenLogo.scale-100.png" />
+    <Content Include="Assets\LockScreenLogo.scale-125.png" />
+    <Content Include="Assets\LockScreenLogo.scale-150.png" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
+    <Content Include="Assets\LockScreenLogo.scale-400.png" />
+    <Content Include="Assets\SplashScreen.scale-100.png" />
+    <Content Include="Assets\SplashScreen.scale-125.png" />
+    <Content Include="Assets\SplashScreen.scale-150.png" />
+    <Content Include="Assets\SplashScreen.scale-200.png" />
+    <Content Include="Assets\SplashScreen.scale-400.png" />
+    <Content Include="Assets\Square150x150Logo.scale-100.png" />
+    <Content Include="Assets\Square150x150Logo.scale-125.png" />
+    <Content Include="Assets\Square150x150Logo.scale-150.png" />
+    <Content Include="Assets\Square150x150Logo.scale-200.png" />
+    <Content Include="Assets\Square150x150Logo.scale-400.png" />
+    <Content Include="Assets\Square44x44Logo.scale-100.png" />
+    <Content Include="Assets\Square44x44Logo.scale-125.png" />
+    <Content Include="Assets\Square44x44Logo.scale-150.png" />
+    <Content Include="Assets\Square44x44Logo.scale-200.png" />
+    <Content Include="Assets\Square44x44Logo.scale-400.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-16_altform-unplated.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-32_altform-unplated.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-48_altform-unplated.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-256_altform-unplated.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-100.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-125.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-150.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-400.png" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -232,7 +224,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FleeAndCatch_App\FleeAndCatch_App.csproj">
-      <Project>{b7f10ef2-964d-4f77-8af9-e60b41bcfb93}</Project>
+      <Project>{dbee2617-0bbd-40f4-8199-03fb92911b4b}</Project>
       <Name>FleeAndCatch_App</Name>
     </ProjectReference>
   </ItemGroup>
