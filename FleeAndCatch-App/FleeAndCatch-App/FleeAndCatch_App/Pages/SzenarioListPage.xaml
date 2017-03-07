@@ -4,18 +4,18 @@
              x:Class="FleeAndCatch_App.Pages.SzenarioListPage"
              Title="FleeAndCatch">
 
-  <StackLayout Orientation="Vertical">
-    <ListView ItemsSource="{Binding SzenarioGroupList}" HasUnevenRows="True" VerticalOptions="StartAndExpand" SelectedItem="{Binding SelectedItem}">
-      <ListView.ItemTemplate>
-        <DataTemplate>
-          <ViewCell>
-            <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand" Spacing="10" Padding="20,10">
-              <Label Text="{Binding Name}" FontSize="18" VerticalTextAlignment="Center" HorizontalTextAlignment="Start"/>
-              <Label Text="{Binding Number}" FontSize="18" VerticalTextAlignment="Center" HorizontalTextAlignment="End"/>
-            </StackLayout>
-          </ViewCell>
-        </DataTemplate>
-      </ListView.ItemTemplate>
-    </ListView>
-  </StackLayout>
+    <StackLayout Orientation="Vertical">
+        <ListView ItemsSource="{Binding SzenarioGroupList}" HasUnevenRows="True" VerticalOptions="StartAndExpand" SelectedItem="{Binding SelectedItem}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand" Spacing="10" Padding="20,10">
+                            <Label Text="{Binding Name}" FontSize="18" VerticalTextAlignment="Center" HorizontalTextAlignment="Start"/>
+                            <Label Text="{Binding Number}" FontSize="18" VerticalTextAlignment="Center" HorizontalTextAlignment="End"/>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
 </ContentPage>

@@ -46,6 +46,22 @@ namespace FleeAndCatch.Commands.Models.Devices.Robots
         public string Gyro => gyro;
     }
 
+    /// <summary>
+    /// Enumeration for the different robot types
+    /// </summary>
+    public enum RobotType
+    {
+        Undefined, ThreeWheelDrive, FourWheelDrive, ChainDrive
+    }
+
+    /// <summary>
+    /// Enumeration for the different role types
+    /// </summary>
+    public enum RoleType
+    {
+        Undefined, Catcher, Fugitive
+    }
+
     public class Position
     {
         [JsonProperty("x")]

@@ -39,6 +39,6 @@ namespace FleeAndCatch.Commands
 
     public enum SynchronizationCommandType
     {
-        AllRobots, CurrentRobot, AllSzenarios, CurrentSzenario
+        Undefined, AllRobots, CurrentRobot, AllSzenarios, CurrentSzenario
     }
 }

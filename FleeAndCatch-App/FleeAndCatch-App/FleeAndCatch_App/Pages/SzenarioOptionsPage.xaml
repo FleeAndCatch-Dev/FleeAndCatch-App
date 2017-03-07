@@ -3,18 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FleeAndCatch_App.Pages.SzenarioOptionsPage"
              Title="FleeAndCatch">
-  
-  <StackLayout Orientation="Vertical">
-    <StackLayout x:Name="ViewOrientation" Orientation="Vertical" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
-      <StackLayout Padding="20" HorizontalOptions="Center" VerticalOptions="Center">
-        <Image Source="FleeAndCatch_Logo.png" HeightRequest="200" WidthRequest="200"/>
-      </StackLayout>
-      <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="Center">
-        <Label Text="Choose a szenario" FontAttributes="Bold" FontSize="20" TextColor="#000080"/>
-      </StackLayout>
+
+    <StackLayout Orientation="Vertical">
+        <StackLayout x:Name="ViewOrientation" Orientation="Vertical" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+            <StackLayout Padding="20" HorizontalOptions="Center" VerticalOptions="Center">
+                <Image Source="FleeAndCatch_Logo.png" HeightRequest="200" WidthRequest="200"/>
+            </StackLayout>
+            <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="Center">
+                <Label Text="Choose a szenario" FontAttributes="Bold" FontSize="20" TextColor="#000080"/>
+            </StackLayout>
+        </StackLayout>
+        <Button x:Name="BControl" Text="Control" HeightRequest="50" Margin="-2,-4" TextColor="White" BackgroundColor="#008B8B" FontAttributes="Bold" FontSize="16" Command="{Binding BControl_OnCommand}"/>
+        <Button x:Name="BSynchron" Text="Synchron" HeightRequest="50" Margin="-2,-4" TextColor="White" BackgroundColor="#008080" FontAttributes="Bold" FontSize="16" Command="{Binding BSynchron_OnCommand}"/>
+        <Button x:Name="BFollow" Text="Follow" HeightRequest="50" Margin="-2,-4,-2,-2" TextColor="White" BackgroundColor="#008080" FontAttributes="Bold" FontSize="16" Command="{Binding BFollow_OnCommand}"/>
     </StackLayout>
-    <Button x:Name="BControl" Text="Control" HeightRequest="50" Margin="-2,-4" TextColor="White" BackgroundColor="#008B8B" FontAttributes="Bold" FontSize="16" Command="{Binding BControl_OnCommand}"/>
-    <Button x:Name="BSynchron" Text="Synchron" HeightRequest="50" Margin="-2,-4" TextColor="White" BackgroundColor="#008080" FontAttributes="Bold" FontSize="16" Command="{Binding BSynchron_OnCommand}"/>
-    <Button x:Name="BFollow" Text="Follow" HeightRequest="50" Margin="-2,-4,-2,-2" TextColor="White" BackgroundColor="#008080" FontAttributes="Bold" FontSize="16" Command="{Binding BFollow_OnCommand}"/>
-  </StackLayout>
 </ContentPage>

@@ -2,31 +2,30 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FleeAndCatch_App.Pages.SzenarioInformationPage"
-             Title="FleeAndCatch">
+             Title="FöeeAndCatch">
 
-  <StackLayout Orientation="Vertical">
-    
-      <StackLayout Orientation="Vertical" Spacing="10" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
-        <StackLayout Orientation="Horizontal" Padding="5" VerticalOptions="Start" HorizontalOptions="CenterAndExpand">
-          <Label Text="{Binding Szenario.Type}" FontSize="20" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center"/>
+    <StackLayout Orientation="Vertical">
+        <StackLayout Orientation="Vertical" Spacing="10" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+            <StackLayout Orientation="Horizontal" Padding="5" VerticalOptions="Start" HorizontalOptions="CenterAndExpand">
+                <Label Text="{Binding Szenario.Type}" FontSize="20" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center"/>
+            </StackLayout>
+            <ScrollView>
+                <StackLayout Orientation="Vertical" Padding="20, 0, 0, 20" Spacing="30" HorizontalOptions="CenterAndExpand">
+                    <ListView ItemsSource="{Binding GroupedRobots}" HasUnevenRows="True" GroupDisplayBinding="{Binding Name}" IsGroupingEnabled="True">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                        <Label Text="{Binding Name}" FontSize="16" VerticalTextAlignment="Center" HorizontalTextAlignment="Start"/>
+                                        <Label Text="{Binding Text}" FontSize="16" VerticalTextAlignment="Center" HorizontalTextAlignment="End"/>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackLayout>
+            </ScrollView>
         </StackLayout>
-        <ScrollView>
-          <StackLayout Orientation="Vertical" Padding="20, 0, 0, 20" Spacing="30" HorizontalOptions="CenterAndExpand">
-            <ListView ItemsSource="{Binding GroupedRobots}" HasUnevenRows="True" GroupDisplayBinding="{Binding Name}" IsGroupingEnabled="True">
-              <ListView.ItemTemplate>
-                <DataTemplate>
-                  <ViewCell>
-                    <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                      <Label Text="{Binding Name}" FontSize="16" VerticalTextAlignment="Center" HorizontalTextAlignment="Start"/>
-                      <Label Text="{Binding Text}" FontSize="16" VerticalTextAlignment="Center" HorizontalTextAlignment="End"/>
-                    </StackLayout>
-                  </ViewCell>
-                </DataTemplate>
-              </ListView.ItemTemplate>
-            </ListView>
-          </StackLayout>
-        </ScrollView>
-      </StackLayout>   
-    <Button Text="Start" HeightRequest="50" TextColor="White" BackgroundColor="#006400" Margin="-2,-4,-2,-2" FontAttributes="Bold" FontSize="16" Command="{Binding BStart_OnCommand}" VerticalOptions="End"/>
-  </StackLayout>
+        <Button Text="Start" HeightRequest="50" TextColor="White" BackgroundColor="#006400" Margin="-2,-4,-2,-2" FontAttributes="Bold" FontSize="16" Command="{Binding BStart_OnCommand}" VerticalOptions="End"/>
+    </StackLayout>
 </ContentPage>

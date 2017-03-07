@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FleeAndCatch.Commands.Models.Devices.Robots;
 using Newtonsoft.Json.Linq;
 
 namespace FleeAndCatch.Commands.Models
@@ -40,7 +41,7 @@ namespace FleeAndCatch.Commands.Models
         public ClientIdentification(int pId, string pType, string pAddress, int pPort)
         {
             id = pId;
-            type = Enum.GetName(typeof(ComponentType.IdentificationType), ((ComponentType.IdentificationType)Enum.Parse(typeof(ComponentType.IdentificationType), pType)));   //Parse string to enum and check that the parameter is a part of the enum
+            type = Enum.GetName(typeof(IdentificationType), ((IdentificationType)Enum.Parse(typeof(IdentificationType), pType)));   //Parse string to enum and check that the parameter is a part of the enum
             port = pPort;
             address = pAddress;
         }
@@ -66,9 +67,9 @@ namespace FleeAndCatch.Commands.Models
         public RobotIdentification(int pId, string pType, string pSubType, string pRoleType)
         {
             id = pId;
-            type = Enum.GetName(typeof(ComponentType.IdentificationType), ((ComponentType.IdentificationType)Enum.Parse(typeof(ComponentType.IdentificationType), pType)));
-            subtype = Enum.GetName(typeof(ComponentType.RobotType), ((ComponentType.RobotType)Enum.Parse(typeof(ComponentType.RobotType), pSubType)));
-            roletype = Enum.GetName(typeof(ComponentType.RoleType), ((ComponentType.RoleType)Enum.Parse(typeof(ComponentType.RoleType), pRoleType)));
+            type = Enum.GetName(typeof(IdentificationType), ((IdentificationType)Enum.Parse(typeof(IdentificationType), pType)));
+            subtype = Enum.GetName(typeof(RobotType), ((RobotType)Enum.Parse(typeof(RobotType), pSubType)));
+            roletype = Enum.GetName(typeof(RoleType), ((RoleType)Enum.Parse(typeof(RoleType), pRoleType)));
         }
 
         [JsonIgnore]
@@ -90,12 +91,20 @@ namespace FleeAndCatch.Commands.Models
         public AppIdentification(int pId, string pType, string pRoleType)
         {
             id = pId;
-            type = Enum.GetName(typeof(ComponentType.IdentificationType), ((ComponentType.IdentificationType)Enum.Parse(typeof(ComponentType.IdentificationType), pType)));
-            roletype = Enum.GetName(typeof(ComponentType.RoleType), ((ComponentType.RoleType)Enum.Parse(typeof(ComponentType.RoleType), pRoleType)));
+            type = Enum.GetName(typeof(IdentificationType), ((IdentificationType)Enum.Parse(typeof(IdentificationType), pType)));
+            roletype = Enum.GetName(typeof(RoleType), ((RoleType)Enum.Parse(typeof(RoleType), pRoleType)));
         }
 
         [JsonIgnore]
         public string Roletype => roletype;
+    }
+
+    /// <summary>
+    /// Enumeration for the different identification types of the components
+    /// </summary>
+    public enum IdentificationType
+    {
+        Undefined, App, Robot
     }
 
     public class IdentificationJsonConverter : JsonConverter

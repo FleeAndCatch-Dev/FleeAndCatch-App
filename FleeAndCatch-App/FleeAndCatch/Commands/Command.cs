@@ -78,6 +78,6 @@ namespace FleeAndCatch.Commands
 
     public enum CommandType
     {
-        Connection, Synchronization, Szenario, Exception
+        Undefined, Connection, Synchronization, Szenario, Exception
     }
 }

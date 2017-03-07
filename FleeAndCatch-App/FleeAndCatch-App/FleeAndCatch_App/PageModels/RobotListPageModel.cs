@@ -80,7 +80,7 @@ namespace FleeAndCatch_App.PageModels
         {
             get
             {
-                return new Command( () =>
+                return new Command(async () =>
                 {
                     if (RobotGroupList.Count <= 0) return;
                     Szenario szenario = null;
@@ -91,16 +91,18 @@ namespace FleeAndCatch_App.PageModels
                     foreach (var t1 in RobotGroupList)
                     {
                         var value = t1.Choosen;
-                        var type = (ComponentType.RobotType)Enum.Parse(typeof(ComponentType.RobotType), t1.Name);
+                        var type = (RobotType)Enum.Parse(typeof(RobotType), t1.Name);
                         while (value > 0)
                         {
                             foreach (var t in RobotController.Robots)
                             {
-                                if (t.Identification.Subtype != type.ToString()) continue;
+                                if (t.Identification.Subtype != type.ToString() || t.Active) continue;
                                 t.Active = true;
                                 robotList.Add(t);
                                 value--;
                                 break;
+                                /*if (t.Identification.Subtype != type.ToString()) continue;
+                                if(t.Active) continue;*/
                             }
                         }
                     }
@@ -120,7 +122,8 @@ namespace FleeAndCatch_App.PageModels
                                     t.Active = true;
                                 }
                                 Client.Device.Active = true;
-                                szenario = new Control(-1, _szenarioType.ToString(), ControlType.Undefined.ToString(), SzenarioMode.Single.ToString(), appList, robotList, new Steering(0, 0));
+                                Client.Device.RobotId = robotList[0].Identification.Id;
+                                szenario = new Control(-1, _szenarioType.ToString(), ControlType.Undefinied.ToString(), SzenarioMode.Single.ToString(), appList, robotList, new Steering(0, 0));
                             }
                             break;
                         case SzenarioCommandType.Synchron:
@@ -134,15 +137,30 @@ namespace FleeAndCatch_App.PageModels
                     {
                         //Set the szenario in the client
                         Client.Szenario = szenario;
+                        SzenarioController.Exist = false;
 
                         var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), SzenarioCommandType.Init.ToString(), Client.Identification, szenario);
                         Client.SendCmd(cmd.ToJsonString());
 
+                        var updateCounter = 0;
+                        while (!SzenarioController.Exist && updateCounter <= 300)
+                        {
+                            await Task.Delay(TimeSpan.FromMilliseconds(10));
+                            updateCounter++;
+                        }
+
                         Device.BeginInvokeOnMainThread(() =>
                         {
                             UserDialogs.Instance.HideLoading();
-                            CoreMethods.PushPageModel<SzenarioInformationPageModel>(szenario);
-                            RaisePropertyChanged();
+                            if (Client.Szenario.Id != -1)
+                            {
+                                CoreMethods.PushPageModel<SzenarioInformationPageModel>(szenario);
+                                RaisePropertyChanged();
+                            }
+                            else
+                            {
+                                CoreMethods.DisplayAlert("Error: 3new", "The szenario could not generate", "OK");
+                            }                          
                         });
                         return;
                     }
@@ -187,15 +205,15 @@ namespace FleeAndCatch_App.PageModels
                 {
                     RobotGroupList.Clear();
                     var tempList = new List<RobotGroupModel>();
-                    for (var i = 0; i < Enum.GetNames(typeof(ComponentType.RobotType)).Length; i++)
+                    for (var i = 0; i < Enum.GetNames(typeof(RobotType)).Length; i++)
                     {
                         var counter = 0;
                         foreach (var t in RobotController.Robots)
                         {
-                            if (t.Identification.Subtype == Enum.GetNames(typeof(ComponentType.RobotType))[i] && !t.Active)
+                            if (t.Identification.Subtype == Enum.GetNames(typeof(RobotType))[i] && !t.Active)
                                 counter++;
                         }
-                        tempList.Add(new RobotGroupModel(Enum.GetNames(typeof(ComponentType.RobotType))[i], counter));
+                        tempList.Add(new RobotGroupModel(Enum.GetNames(typeof(RobotType))[i], counter));
                     }
                     RobotGroupList = tempList;
                     Device.BeginInvokeOnMainThread(() =>

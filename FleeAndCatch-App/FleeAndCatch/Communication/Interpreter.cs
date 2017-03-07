@@ -131,6 +131,11 @@ namespace FleeAndCatch.Communication
                 case SzenarioCommandType.Init:
                     //Set the id of the szenario
                     Client.Szenario = command.Szenario;
+                    SzenarioController.Exist = true;
+                    return;
+                case SzenarioCommandType.End:
+                    //Set the szenario to false and return to home page
+                    SzenarioController.Refresh = false;
                     return;
                 case SzenarioCommandType.Control:
                     throw new Exception(314, "Wrong szenario type of json command");
@@ -168,6 +173,10 @@ namespace FleeAndCatch.Communication
                         //App navigates automatic to home page
                     }
                     return;
+                case ExceptionCommandType.CreateSzenario:
+                    SzenarioController.Exist = true;
+                    //throw exception in user interface -> RobotListPageModel
+                    break;
                 default:
                     throw new Exception(315, "Wrong exception type of json command");
             }

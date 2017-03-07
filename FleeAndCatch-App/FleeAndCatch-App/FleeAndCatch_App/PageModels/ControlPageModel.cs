@@ -50,6 +50,8 @@ namespace FleeAndCatch_App.PageModels
             _robot = _szenario.Robots[0];
             Robot = new RobotModel(_robot);
             _szenario.Command = ControlType.Control.ToString();
+            _speed = 0;
+            _direction = 0;
         }
 
         /// <summary>
@@ -136,7 +138,6 @@ namespace FleeAndCatch_App.PageModels
             if (!SzenarioController.Refresh)
             {
                 //stop sensors
-                //navigate to startpage
                 CrossDeviceMotion.Current.Stop(MotionSensorType.Accelerometer);
                 //set object active -> false
                 _szenario.Robots[0].Active = false;
@@ -145,10 +146,10 @@ namespace FleeAndCatch_App.PageModels
                 SzenarioController.Szenarios.Remove(_szenario);
 
                 //Send the control end command
-                _szenario.Command = ControlType.Undefined.ToString();
+                _szenario.Command = ControlType.Undefinied.ToString();
                 var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), SzenarioCommandType.End.ToString(), Client.Identification, _szenario);
                 Client.SendCmd(JsonConvert.SerializeObject(cmd));
-
+                //navigate to startpage
                 var page = FreshMvvm.FreshPageModelResolver.ResolvePageModel<HomePageModel>();
                 var navigation = new FreshMvvm.FreshNavigationContainer(page)
                 {
@@ -163,6 +164,7 @@ namespace FleeAndCatch_App.PageModels
             control.Command = ControlType.Control.ToString();
             control.Steering.Direction = _direction.ToString();
             control.Steering.Speed = _speed.ToString();
+
             //Send the control command
             var cmdCtrl = new SzenarioCommand(CommandType.Szenario.ToString(), ControlType.Control.ToString(), Client.Identification, control);
             Client.SendCmd(cmdCtrl.ToJsonString());

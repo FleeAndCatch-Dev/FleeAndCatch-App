@@ -5,9 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
 namespace FleeAndCatch_App.Pages
 {
+    [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SpectatorPage : ContentPage
     {
         public SpectatorPage()

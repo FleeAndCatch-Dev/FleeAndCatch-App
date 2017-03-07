@@ -12,13 +12,23 @@ namespace FleeAndCatch.Commands.Models.Devices.Apps
     {
         [JsonProperty("identification")]
         private AppIdentification identification;
+        [JsonProperty("robotid")]
+        private int robotid;
 
-        public App(AppIdentification pAppIdentification) : base(false)
+        public App(AppIdentification pAppIdentification, int pRobotId) : base(false)
         {
             identification = pAppIdentification;
+            robotid = pRobotId;
         }
 
         [JsonIgnore]
         public AppIdentification Identification => identification;
+
+        [JsonIgnore]
+        public int RobotId
+        {
+            get { return robotid; }
+            set { robotid = value; }
+        }
     }
 }
