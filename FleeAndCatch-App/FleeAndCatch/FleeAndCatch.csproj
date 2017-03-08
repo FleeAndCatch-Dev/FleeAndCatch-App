@@ -39,6 +39,7 @@
     <Compile Include="Commands\ExceptionCommand.cs" />
     <Compile Include="Commands\Models\Devices\Device.cs" />
     <Compile Include="Commands\Models\Exception.cs" />
+    <Compile Include="Commands\Models\Szenarios\Synchron.cs" />
     <Compile Include="Commands\Models\Szenarios\Control.cs" />
     <Compile Include="Commands\Models\Devices\Apps\App.cs" />
     <Compile Include="Commands\Models\Devices\Robots\Robot.cs" />

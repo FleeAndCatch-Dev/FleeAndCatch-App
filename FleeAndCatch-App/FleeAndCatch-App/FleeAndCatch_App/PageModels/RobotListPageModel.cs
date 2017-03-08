@@ -127,6 +127,16 @@ namespace FleeAndCatch_App.PageModels
                             }
                             break;
                         case SzenarioCommandType.Synchron:
+                            if (robotList.Count > 0)
+                            {
+                                foreach (var t in robotList)
+                                {
+                                    t.Active = true;
+                                }
+                                Client.Device.Active = true;
+                                Client.Device.RobotId = robotList[0].Identification.Id;
+                                szenario = new Synchron(-1, _szenarioType.ToString(), ControlType.Undefinied.ToString(), SzenarioMode.Single.ToString(), appList, robotList, new Steering(0, 0));
+                            }
                             break;
                         case SzenarioCommandType.Follow:
                             break;

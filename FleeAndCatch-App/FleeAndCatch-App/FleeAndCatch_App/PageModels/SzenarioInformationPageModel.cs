@@ -74,7 +74,12 @@ namespace FleeAndCatch_App.PageModels
                             await CoreMethods.PushPageModel<ControlPageModel>(Szenario);
                             break;
                         case SzenarioCommandType.Synchron:
-                            await CoreMethods.DisplayAlert("Error: 399", "Sorry, this isn't implemented", "OK");
+                            //Send control begin command to start the szenario
+                            Szenario.Command = ControlType.Begin.ToString();
+                            var cmdS = new SzenarioCommand(CommandType.Szenario.ToString(), Szenario.Type, Client.Identification, Szenario);
+                            Client.SendCmd(cmdS.ToJsonString());
+
+                            await CoreMethods.PushPageModel<SynchronPageModel>(Szenario);
                             break;
                         case SzenarioCommandType.Follow:
                             await CoreMethods.DisplayAlert("Error: 399", "Sorry, this isn't implemented", "OK");

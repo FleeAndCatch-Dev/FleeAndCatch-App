@@ -17,9 +17,9 @@ namespace FleeAndCatch_App.PageModels
         {
             get
             {
-                return new Command( () =>
+                return new Command(async () =>
                 {
-                    CoreMethods.PushPageModel<RobotListPageModel>(SzenarioCommandType.Control);
+                    await CoreMethods.PushPageModel<RobotListPageModel>(SzenarioCommandType.Control);
                     RaisePropertyChanged();
                 });
             }
@@ -30,7 +30,8 @@ namespace FleeAndCatch_App.PageModels
             {
                 return new Command(async () =>
                 {
-                    await CoreMethods.DisplayAlert("Error: 399", "Sorry, this isn't implemented", "OK");
+                    await CoreMethods.PushPageModel<RobotListPageModel>(SzenarioCommandType.Synchron);
+                    RaisePropertyChanged();
                 });
             }
         }
