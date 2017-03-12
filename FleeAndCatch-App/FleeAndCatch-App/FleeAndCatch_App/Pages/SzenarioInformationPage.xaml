@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:forms="clr-namespace:Xamarin.Forms;assembly=Xamarin.Forms.CarouselView"
              x:Class="FleeAndCatch_App.Pages.SzenarioInformationPage"
-             Title="FöeeAndCatch">
+             Title="FleeAndCatch">
 
     <StackLayout Orientation="Vertical">
         <StackLayout Orientation="Vertical" Spacing="10" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
@@ -11,13 +12,34 @@
             </StackLayout>
             <ScrollView>
                 <StackLayout Orientation="Vertical" Padding="20, 0, 0, 20" Spacing="30" HorizontalOptions="CenterAndExpand">
-                    <ListView ItemsSource="{Binding GroupedRobots}" HasUnevenRows="True" GroupDisplayBinding="{Binding Name}" IsGroupingEnabled="True">
+                    <ListView ItemsSource="{Binding Robots}" HasUnevenRows="True">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
-                                    <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                                        <Label Text="{Binding Name}" FontSize="16" VerticalTextAlignment="Center" HorizontalTextAlignment="Start"/>
-                                        <Label Text="{Binding Text}" FontSize="16" VerticalTextAlignment="Center" HorizontalTextAlignment="End"/>
+                                    <StackLayout Orientation="Horizontal">
+                                        <StackLayout HorizontalOptions="Start" VerticalOptions="Center">
+                                            <Image Source="{Binding ImageUrl}" HeightRequest="80" WidthRequest="80"/>
+                                        </StackLayout>
+                                        <StackLayout Orientation="Vertical" HorizontalOptions="CenterAndExpand" VerticalOptions="Center">
+                                            <StackLayout Orientation="Horizontal" Spacing="10" HorizontalOptions="StartAndExpand">
+                                                <Label Text="{Binding Identification.Id}" FontSize="16" VerticalTextAlignment="Center" HorizontalOptions="Start"/>
+                                                <Label Text="{Binding Identification.Subtype}" FontSize="16" VerticalTextAlignment="Center" HorizontalOptions="End"/>
+                                            </StackLayout>
+                                            <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand">
+                                                <Label Text="Roletype:" FontSize="16" VerticalTextAlignment="Start"/>
+                                                <Label Text="{Binding Identification.RoleType}" FontSize="16" VerticalTextAlignment="Start"/>
+                                            </StackLayout>
+                                            <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand">
+                                                <Label Text="Position:" FontSize="16" VerticalTextAlignment="Start"/>
+                                                <Label Text="{Binding Position.X}" FontSize="16" VerticalTextAlignment="Center"/>
+                                                <Label Text="{Binding Position.Y}" FontSize="16" VerticalTextAlignment="Center"/>
+                                                <Label Text="{Binding Position.Orientation}" FontSize="16" VerticalTextAlignment="Center"/>
+                                            </StackLayout>
+                                            <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand">
+                                                <Label Text="Speed:" FontSize="16" VerticalTextAlignment="Start"/>
+                                                <Label Text="{Binding Speed}" FontSize="16" VerticalTextAlignment="Center"/>
+                                            </StackLayout>
+                                        </StackLayout>
                                     </StackLayout>
                                 </ViewCell>
                             </DataTemplate>

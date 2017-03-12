@@ -35,7 +35,7 @@ namespace FleeAndCatch.Communication
 
             tcpSocketClient = new TcpSocketClient();
             identification = new ClientIdentification(0, IdentificationType.App.ToString(), pAddress, Default.Port);
-            Device = new FleeAndCatch.Commands.Models.Devices.Apps.App(new AppIdentification(-1, IdentificationType.App.ToString(), RoleType.Undefined.ToString()), -1);
+            Device = new FleeAndCatch.Commands.Models.Devices.Apps.App(new AppIdentification(-1, IdentificationType.App.ToString(), RoleType.Undefined.ToString()));
             connected = false;
 
             if (connected) throw new Exception(309, "Connection to the server is already exist");

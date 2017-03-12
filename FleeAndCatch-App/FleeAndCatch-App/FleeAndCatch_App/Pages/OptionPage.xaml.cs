@@ -10,9 +10,9 @@ using Xamarin.Forms.Xaml;
 namespace FleeAndCatch_App.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SynchronPage : ContentPage
+    public partial class OptionPage : ContentPage
     {
-        public SynchronPage()
+        public OptionPage()
         {
             InitializeComponent();
         }

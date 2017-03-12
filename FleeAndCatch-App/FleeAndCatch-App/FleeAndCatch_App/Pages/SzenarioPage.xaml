@@ -7,22 +7,35 @@
     <StackLayout Orientation="Vertical">
         <StackLayout x:Name="ViewOrientation" Orientation="Vertical" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
             <StackLayout Padding="20" HorizontalOptions="Center" VerticalOptions="Center">
-                <Image Source="FleeAndCatch_Logo.png" HeightRequest="200" WidthRequest="200"/>
+                <Image Source="{Binding Robot.ImageUrl}" HeightRequest="80" WidthRequest="80"/>
             </StackLayout>
-            <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="Center">
-                <Label Text="Szenario options" FontAttributes="Bold" FontSize="20" TextColor="#000080"/>
+            <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="Center" Padding="10, 0">
+                    <Label Text="Identification:"/>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Padding="5,0" Spacing="10">
+                        <Label Text="{Binding Robot.Identification.Id}"/>
+                        <Label Text="{Binding Robot.Identification.Subtype}"/>
+                        <Label Text="{Binding Robot.Identification.Roletype}"/>
+                    </StackLayout>
+                    <Label Text="Position:"/>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Padding="5,0" Spacing="10">
+                        <Label Text="{Binding Robot.Position.X}"/>
+                        <Label Text="{Binding Robot.Position.Y}"/>
+                        <Label Text="{Binding Robot.Position.Orientation}"/>
+                    </StackLayout>
+                    <Label Text="Speed:"/>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Padding="5,0" Spacing="10">
+                        <Label Text="{Binding Robot.Speed}"/>
+                    </StackLayout>
+                    <Label Text="Sensors:"/>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Padding="5,0" Spacing="10">
+                        <Label Text="{Binding Robot.Ultrasonic}"/>
+                        <Label Text="{Binding Robot.Gyro}"/>
+                    </StackLayout>
+                </StackLayout>
+                <StackLayout Padding="20" VerticalOptions="CenterAndExpand">
+                <Image Source="{Binding DirectionImage}" HeightRequest="50" WidthRequest="50" VerticalOptions="Center" HorizontalOptions="Center"/>
             </StackLayout>
         </StackLayout>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-            </Grid.ColumnDefinitions>
-
-            <Button Grid.Column="0" Text="Single" HeightRequest="50" Margin="-2,-4,-4,-4" TextColor="White" BackgroundColor="#008B8B" FontAttributes="Bold" FontSize="16" Command="{Binding BSingle_OnCommand}"/>
-            <Button Grid.Column="1" Text="Multi" HeightRequest="50" Margin="-4,-4,-2,-4" TextColor="White" BackgroundColor="#008B8B" FontAttributes="Bold" FontSize="16" Command="{Binding BMulti_OnCommand}"/>
-        </Grid>
-        <Button Text="Spectator" HeightRequest="50" Margin="-2,-4" TextColor="White" BackgroundColor="#008080" FontAttributes="Bold" FontSize="16" Command="{Binding BSpectator_OnCommand}"/>
-        <Button Text="Help" HeightRequest="50" TextColor="White" BackgroundColor="#008080" Margin="-2,-4,-2,-2" FontAttributes="Bold" FontSize="16" Command="{Binding BHelp_OnCommand}"/>
+        <Button x:Name="BChange" Text="{Binding Change}" TextColor="White" HeightRequest="50" BackgroundColor="{Binding ChangeColor}" Margin="-2,-2" FontAttributes="Bold" FontSize="16" Command="{Binding BChange_OnCommand}"/>
     </StackLayout>
 </ContentPage>

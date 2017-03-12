@@ -20,7 +20,7 @@ namespace FleeAndCatch_App.PageModels
             {
                 return new Command( () =>
                 {
-                    CoreMethods.PushPageModel<SzenarioPageModel>();
+                    CoreMethods.PushPageModel<OptionPageModel>();
                     RaisePropertyChanged();
                 });
             }
