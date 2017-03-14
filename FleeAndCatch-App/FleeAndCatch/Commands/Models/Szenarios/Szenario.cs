@@ -101,6 +101,9 @@ public class SzenarioJsonConverter : JsonConverter
                     case "Control":
                         szenarios.Add(t.ToObject<Control>());
                         break;
+                    case "Synchron":
+                        szenarios.Add(t.ToObject<Synchron>());
+                        break;
                 }
             }
 
@@ -116,6 +119,9 @@ public class SzenarioJsonConverter : JsonConverter
             {
                 case "Control":
                     szenario = jsonObject.ToObject<Control>();
+                    break;
+                case "Synchron":
+                    szenario = jsonObject.ToObject<Synchron>();
                     break;
             }
             return szenario;

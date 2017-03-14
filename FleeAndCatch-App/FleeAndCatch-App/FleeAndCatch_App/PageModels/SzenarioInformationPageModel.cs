@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Acr.UserDialogs;
 using FleeAndCatch.Commands;
 using FleeAndCatch.Commands.Models.Devices.Robots;
 using FleeAndCatch.Commands.Models.Szenarios;
 using FleeAndCatch.Communication;
-using FleeAndCatch.Controller;
+using FleeAndCatch_App.Models;
 using Newtonsoft.Json;
 using PropertyChanged;
+using Xamarin.Forms;
 using Command = Xamarin.Forms.Command;
 
 namespace FleeAndCatch_App.PageModels
@@ -19,8 +18,8 @@ namespace FleeAndCatch_App.PageModels
     [ImplementPropertyChanged]
     public class SzenarioInformationPageModel : FreshMvvm.FreshBasePageModel
     {
+        public List<RobotModel> Robots { get; set; }
         public Szenario Szenario { get; set; }
-        public List<Group> GroupedRobots { get; set; }
         private bool accept;
 
         public override void Init(object initData)
@@ -29,13 +28,26 @@ namespace FleeAndCatch_App.PageModels
 
             Szenario = initData as Szenario;
             accept = false;
-            GenerateLists();
+
+            if (Szenario == null)
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    await CoreMethods.DisplayAlert("Error: new", "The szenario doesn't exist", "OK");
+                });
+                return;
+            }
+            //Generate robot models for user interface
+            Robots = new List<RobotModel>();
+            foreach (var t in Szenario.Robots)
+                Robots.Add(new RobotModel(t));
         }
 
         protected override void ViewIsAppearing(object sender, EventArgs e)
         {
             base.ViewIsAppearing(sender, e);
 
+            //Set the szenario with id
             Szenario = Client.Szenario;
         }
 
@@ -46,10 +58,10 @@ namespace FleeAndCatch_App.PageModels
                 foreach (var t in Szenario.Robots)
                     t.Active = false;
 
-                //Send control end command 
-                Szenario.Command = ControlType.Undefinied.ToString();
-                var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), SzenarioCommandType.End.ToString(), Client.Identification, Szenario);
-                Client.SendCmd(JsonConvert.SerializeObject(cmd));
+                //Send szenario end command
+                Szenario.Command = SzenarioCommandType.Undefined.ToString();
+                var command = new SzenarioCommand(CommandType.Szenario.ToString(), SzenarioCommandType.End.ToString(), Client.Identification, Szenario);
+                Client.SendCmd(command.ToJsonString());
             }
 
             base.ViewIsDisappearing(sender, e);
@@ -62,65 +74,15 @@ namespace FleeAndCatch_App.PageModels
                 return new Command(async () =>
                 {
                     accept = true;
-                    var type = (SzenarioCommandType)Enum.Parse(typeof(SzenarioCommandType), Szenario.Type);
-                    switch (type)
-                    {
-                        case SzenarioCommandType.Control:
-                            //Send control begin command to start the szenario
-                            Szenario.Command = ControlType.Begin.ToString();
-                            var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), Szenario.Type, Client.Identification, Szenario);
-                            Client.SendCmd(cmd.ToJsonString());
+                    //Send szenario begin command to start the szenario
+                    Szenario.Command = ControlType.Begin.ToString();
+                    var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), Szenario.Type, Client.Identification, Szenario);
+                    Client.SendCmd(cmd.ToJsonString());
 
-                            await CoreMethods.PushPageModel<ControlPageModel>(Szenario);
-                            break;
-                        case SzenarioCommandType.Synchron:
-                            await CoreMethods.DisplayAlert("Error: 399", "Sorry, this isn't implemented", "OK");
-                            break;
-                        case SzenarioCommandType.Follow:
-                            await CoreMethods.DisplayAlert("Error: 399", "Sorry, this isn't implemented", "OK");
-                            break;
-                        default:
-                            await CoreMethods.DisplayAlert("Error: 319", "Wrong szenario type", "OK");
-                            return;
-                    }
+                    await CoreMethods.PushPageModel<SzenarioPageModel>(Szenario);
                     RaisePropertyChanged();
                 });
             }
         }
-
-        /// <summary>
-        /// Generates the elements for the informations
-        /// </summary>
-        private void GenerateLists()
-        {
-            GroupedRobots = new List<Group>();
-            foreach (var t in Szenario.Robots)
-            {
-                var robot = new Group
-                {
-                    new Item { Name = "Id:", Text = Convert.ToString(t.Identification.Id)},
-                    new Item { Name = "SubType:", Text = Convert.ToString(t.Identification.Subtype)},
-                    new Item { Name = "RoleType:", Text = Convert.ToString(t.Identification.Roletype)},
-                    new Item { Name = "Active:", Text = Convert.ToString(t.Active)},
-                    new Item { Name = "Position: X:", Text = Convert.ToString(t.Position.X) + " mm  Y:" + Convert.ToString(t.Position.Y) + " mm O:" + Convert.ToString(t.Position.Orientation) + " °"},
-                    new Item { Name = "Speed:", Text = Convert.ToString(t.Speed) + " cm/s"}
-                };
-                robot.Name = "Robot";
-                GroupedRobots.Add(robot);
-            }
-        }
-    }
-
-    [ImplementPropertyChanged]
-    public class Group : ObservableCollection<Item>
-    {
-        public string Name { get; set; }
-    }
-
-    [ImplementPropertyChanged]
-    public class Item
-    {
-        public string Name { get; set; }
-        public string Text { get; set; }
     }
 }

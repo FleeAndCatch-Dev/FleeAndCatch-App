@@ -21,6 +21,7 @@ namespace FleeAndCatch_App.Models
         protected string speed;
         protected string ultrasonic;
         protected string gyro;
+        protected string imageUrl;
 
         /// <summary>
         /// Create an object of an robot for a json command.
@@ -34,6 +35,16 @@ namespace FleeAndCatch_App.Models
             speed = Convert.ToString(pSpeed) + " cm/s";
             ultrasonic = "U: " + Convert.ToString(pUltrasonic) + " m";
             gyro = "G: " + Convert.ToString(pGyro) + " °";
+
+            switch ((RobotType)Enum.Parse(typeof(RobotType), pIdentification.Subtype))
+            {
+                case RobotType.ThreeWheelDrive:
+                    imageUrl = "ThreeWheelDrive.png";
+                    break;
+                default:
+                    imageUrl = "FleeAndCatch_Logo.png";
+                    break;
+            }
         }
 
         public RobotModel(Robot pRobot)
@@ -44,6 +55,16 @@ namespace FleeAndCatch_App.Models
             speed = pRobot.Speed + " cm/s";
             ultrasonic = pRobot.Ultrasonic+ " m";
             gyro = pRobot.Gyro + " °";
+
+            switch ((RobotType)Enum.Parse(typeof(RobotType), pRobot.Identification.Subtype))
+            {
+                case RobotType.ThreeWheelDrive:
+                    imageUrl = "ThreeWheelDrive.png";
+                    break;
+                default:
+                    imageUrl = "FleeAndCatch_Logo.png";
+                    break;
+            }
         }
 
         public RobotIdentificationModel Identification => identification;
@@ -52,6 +73,12 @@ namespace FleeAndCatch_App.Models
         public string Speed => speed;
         public string Ultrasonic => ultrasonic;
         public string Gyro => gyro;
+
+        public string ImageUrl
+        {
+            get { return imageUrl; }
+            set { imageUrl = value; }
+        }
     }
 
     [ImplementPropertyChanged]

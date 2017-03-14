@@ -21,6 +21,6 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Button x:Name="BContinue" Text="Continue" HeightRequest="50" Margin="-2,-4,-2,-2" TextColor="White" BackgroundColor="#008B8B" FontAttributes="Bold" FontSize="16" VerticalOptions="End" Command="{Binding BContinue_OnCommand}"/>
+        <Button Text="Continue" HeightRequest="50" Margin="-2,-4,-2,-2" TextColor="White" BackgroundColor="#008B8B" FontAttributes="Bold" FontSize="16" VerticalOptions="End" Command="{Binding BContinue_OnCommand}"/>
     </StackLayout>
 </ContentPage>
