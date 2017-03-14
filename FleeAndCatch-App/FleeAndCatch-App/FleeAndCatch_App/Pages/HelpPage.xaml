@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FleeAndCatch_App.Pages.HelpPage"
+             Title="FleeAndCatch">
+
+    <StackLayout Orientation="Vertical">
+        <ScrollView>
+            <StackLayout Orientation="Vertical">
+                <Label Text="General:" FontSize="16"/>
+                <Label Text="FleeAndCatch is a project about swarm behaviour to control a lot of small robots in a close system. This project is a part of the education of the cooperatice state university Karlsruhe germany."/>
+                <Label Text="You can choose about different szenarios and modes to interact with your robot. You can control your robot with the sensoric of your mobile device"/>
+                <Label Text="Mode:"/>
+                <Label Text="Single: Szenario with one involved mobile application"/>
+                <Label Text="Multi: Szenario with more involved mobile application"/>
+                <Label Text="Szenarios:"/>
+                <Label Text="Control: Control a robot with your mobile device"/>
+                <Label Text="Synchron: Control a swarm of robots with the same controling"/>
+                <Label Text="Follow: Control a robot and the others are follow in a line"/>
+                <Label Text="Catch: Control a robot and flee from others"/>
+            </StackLayout>
+        </ScrollView>
+    </StackLayout>
+</ContentPage>

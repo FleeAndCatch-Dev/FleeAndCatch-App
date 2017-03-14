@@ -149,37 +149,12 @@ namespace FleeAndCatch_App.PageModels
                 return false;
             }
 
-            switch ((SzenarioCommandType)Enum.Parse(typeof(SzenarioCommandType), _szenario.Type))
-            {
-                case SzenarioCommandType.Control:
-                    var control = (Control)_szenario;
-                    control.Command = ControlType.Control.ToString();
-                    control.Steering.Direction = _direction.ToString();
-                    control.Steering.Speed = _speed.ToString();
+            _szenario.Command = ControlType.Control.ToString();
+            _szenario.Steering.Direction = _direction.ToString();
+            _szenario.Steering.Speed = _speed.ToString();
 
-                    //Send the control command
-                    var cmdCtrl = new SzenarioCommand(CommandType.Szenario.ToString(), ControlType.Control.ToString(), Client.Identification, control);
-                    Client.SendCmd(cmdCtrl.ToJsonString());
-                    break;
-                case SzenarioCommandType.Synchron:
-                    var synchron = (Synchron)_szenario;
-                    synchron.Command = SynchronType.Control.ToString();
-                    synchron.Steering.Direction = _direction.ToString();
-                    synchron.Steering.Speed = _speed.ToString();
-
-                    //Send the control command
-                    var cmdSyn = new SzenarioCommand(CommandType.Szenario.ToString(), SzenarioCommandType.Synchron.ToString(), Client.Identification, synchron);
-                    Client.SendCmd(cmdSyn.ToJsonString());
-                    break;
-                case SzenarioCommandType.Follow:
-                    break;
-                default:
-                    Device.BeginInvokeOnMainThread(async () =>
-                    {
-                        await CoreMethods.DisplayAlert("Error: new", "Wrong szenario type", "OK");
-                    });
-                    break;
-            }
+            var command = new SzenarioCommand(CommandType.Szenario.ToString(), _szenario.Type, Client.Identification, _szenario);
+            Client.SendCmd(command.ToJsonString());
 
             return true;
         }

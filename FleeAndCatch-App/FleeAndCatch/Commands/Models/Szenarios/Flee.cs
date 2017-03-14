@@ -6,15 +6,15 @@ using Newtonsoft.Json.Linq;
 
 namespace FleeAndCatch.Commands.Models.Szenarios
 {
-    public class Synchron : Szenario
+    public class Flee : Szenario
     {
 
-        public Synchron(int pId, string pType, string pCommand, string pMode, List<App> pApps, List<Robot> pRobots, Steering pSteering) : base(pId, pType, pCommand, pMode, pApps, pRobots, pSteering)
+        public Flee(int pId, string pType, string pCommand, string pMode, List<App> pApps, List<Robot> pRobots, Steering pSteering) : base(pId, pType, pCommand, pMode, pApps, pRobots, pSteering)
         {
         }
     }
 
-    public enum SynchronType
+    public enum FleeType
     {
         Undefinied, Begin, Start, Stop, Control
     }

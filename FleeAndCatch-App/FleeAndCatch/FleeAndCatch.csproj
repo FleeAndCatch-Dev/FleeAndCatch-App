@@ -39,6 +39,9 @@
     <Compile Include="Commands\ExceptionCommand.cs" />
     <Compile Include="Commands\Models\Devices\Device.cs" />
     <Compile Include="Commands\Models\Exception.cs" />
+    <Compile Include="Commands\Models\Szenarios\Catch.cs" />
+    <Compile Include="Commands\Models\Szenarios\Flee.cs" />
+    <Compile Include="Commands\Models\Szenarios\Follow.cs" />
     <Compile Include="Commands\Models\Szenarios\Synchron.cs" />
     <Compile Include="Commands\Models\Szenarios\Control.cs" />
     <Compile Include="Commands\Models\Devices\Apps\App.cs" />

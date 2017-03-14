@@ -126,7 +126,7 @@ namespace FleeAndCatch_App.PageModels
                             }
                             break;
                         case SzenarioCommandType.Synchron:
-                            if (robotList.Count > 0)
+                            if (robotList.Count > 1)
                             {
                                 foreach (var t in robotList)
                                 {
@@ -137,6 +137,15 @@ namespace FleeAndCatch_App.PageModels
                             }
                             break;
                         case SzenarioCommandType.Follow:
+                            if (robotList.Count > 1)
+                            {
+                                foreach (var t in robotList)
+                                {
+                                    t.Active = true;
+                                }
+                                Client.Device.Active = true;
+                                szenario = new Follow(-1, _szenarioType.ToString(), ControlType.Undefinied.ToString(), SzenarioMode.Single.ToString(), appList, robotList, new Steering(0, 0));
+                            }
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();

@@ -23,8 +23,10 @@ namespace FleeAndCatch.Commands.Models.Szenarios
         protected List<App> apps;
         [JsonProperty("robots")]
         protected List<Robot> robots;
+        [JsonProperty("steering")]
+        private Steering steering;
 
-        protected Szenario(int pId, string pType, string pCommand, string pMode, List<App> pApps, List<Robot> pRobots)
+        protected Szenario(int pId, string pType, string pCommand, string pMode, List<App> pApps, List<Robot> pRobots, Steering pSteering)
         {
             this.id = pId;
             this.type = pType;
@@ -32,6 +34,7 @@ namespace FleeAndCatch.Commands.Models.Szenarios
             this.mode = pMode;
             this.apps = pApps;
             this.robots = pRobots;
+            this.steering = pSteering;
         }
 
         [JsonIgnore]
@@ -59,6 +62,8 @@ namespace FleeAndCatch.Commands.Models.Szenarios
         public List<App> Apps => apps;
         [JsonIgnore]
         public List<Robot> Robots => robots;
+        [JsonIgnore]
+        public Steering Steering => steering;
     }
 
     public enum SzenarioMode
@@ -104,6 +109,15 @@ public class SzenarioJsonConverter : JsonConverter
                     case "Synchron":
                         szenarios.Add(t.ToObject<Synchron>());
                         break;
+                    case "Follow":
+                        szenarios.Add(t.ToObject<Follow>());
+                        break;
+                    case "Flee":
+                        szenarios.Add(t.ToObject<Flee>());
+                        break;
+                    case "Catch":
+                        szenarios.Add(t.ToObject<Catch>());
+                        break;
                 }
             }
 
@@ -122,6 +136,15 @@ public class SzenarioJsonConverter : JsonConverter
                     break;
                 case "Synchron":
                     szenario = jsonObject.ToObject<Synchron>();
+                    break;
+                case "Follow":
+                    szenario = jsonObject.ToObject<Follow>();
+                    break;
+                case "Flee":
+                    szenario = jsonObject.ToObject<Flee>();
+                    break;
+                case "Catch":
+                    szenario = jsonObject.ToObject<Catch>();
                     break;
             }
             return szenario;

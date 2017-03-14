@@ -46,6 +46,7 @@
     <Compile Include="Models\RobotModel.cs" />
     <Compile Include="Models\RobotViewModel.cs" />
     <Compile Include="Models\SzenarioGroupModel.cs" />
+    <Compile Include="PageModels\HelpPageModel.cs" />
     <Compile Include="PageModels\HomePageModel.cs" />
     <Compile Include="PageModels\RobotListPageModel.cs" />
     <Compile Include="PageModels\SignInPageModel.cs" />
@@ -55,6 +56,9 @@
     <Compile Include="PageModels\SzenarioOptionsPageModel.cs" />
     <Compile Include="PageModels\OptionPageModel.cs" />
     <Compile Include="PageModels\SzenarioPageModel.cs" />
+    <Compile Include="Pages\HelpPage.xaml.cs">
+      <DependentUpon>HelpPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\OptionPage.xaml.cs">
       <DependentUpon>OptionPage.xaml</DependentUpon>
     </Compile>
@@ -298,6 +302,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Pages\SzenarioPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Pages\HelpPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
