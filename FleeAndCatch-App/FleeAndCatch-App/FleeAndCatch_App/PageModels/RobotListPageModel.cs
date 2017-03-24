@@ -171,7 +171,7 @@ namespace FleeAndCatch_App.PageModels
                             UserDialogs.Instance.HideLoading();
                             if (Client.Szenario.Id != -1)
                             {
-                                CoreMethods.PushPageModel<SzenarioInformationPageModel>(szenario);
+                                CoreMethods.PushPageModel<SzenarioInformationPageModel>();
                                 RaisePropertyChanged();
                             }
                             else

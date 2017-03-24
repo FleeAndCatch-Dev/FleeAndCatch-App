@@ -10,7 +10,7 @@ using Xamarin.Forms.Xaml;
 namespace FleeAndCatch_App.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SzenarioOptionsPage : ContentPage
+    public partial class SzenarioOptionsPage : CarouselPage
     {
         public SzenarioOptionsPage()
         {

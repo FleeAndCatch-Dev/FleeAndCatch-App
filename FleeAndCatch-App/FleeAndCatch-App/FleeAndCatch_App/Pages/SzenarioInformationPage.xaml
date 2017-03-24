@@ -11,12 +11,12 @@
                 <Label Text="{Binding Szenario.Type}" FontSize="20" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center"/>
             </StackLayout>
             <ScrollView>
-                <StackLayout Orientation="Vertical" Padding="20, 0, 0, 20" Spacing="30" HorizontalOptions="CenterAndExpand">
+                <StackLayout Orientation="Vertical" Padding="20, 0, 0, 20" HorizontalOptions="CenterAndExpand">
                     <ListView ItemsSource="{Binding Robots}" HasUnevenRows="True">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
-                                    <StackLayout Orientation="Horizontal">
+                                    <StackLayout Orientation="Horizontal" Padding="0,5">
                                         <StackLayout HorizontalOptions="Start" VerticalOptions="Center">
                                             <Image Source="{Binding ImageUrl}" HeightRequest="80" WidthRequest="80"/>
                                         </StackLayout>

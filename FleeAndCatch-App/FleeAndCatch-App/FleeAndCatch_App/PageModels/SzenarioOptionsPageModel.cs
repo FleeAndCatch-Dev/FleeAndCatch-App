@@ -46,5 +46,25 @@ namespace FleeAndCatch_App.PageModels
                 });
             }
         }
+        public Command BFlee_OnCommand
+        {
+            get
+            {
+                return new Command(async () =>
+                {
+                    await CoreMethods.DisplayAlert("Error: 399", "Sorry, this isn't implemented", "OK");
+                });
+            }
+        }
+        public Command BCatch_OnCommand
+        {
+            get
+            {
+                return new Command(async () =>
+                {
+                    await CoreMethods.DisplayAlert("Error: 399", "Sorry, this isn't implemented", "OK");
+                });
+            }
+        }
     }
 }
