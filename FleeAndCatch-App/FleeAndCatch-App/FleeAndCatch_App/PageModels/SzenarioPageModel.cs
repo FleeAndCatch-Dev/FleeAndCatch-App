@@ -125,7 +125,8 @@ namespace FleeAndCatch_App.PageModels
                 //stop sensors
                 CrossDeviceMotion.Current.Stop(MotionSensorType.Accelerometer);
                 //set object active -> false
-                Client.Szenario.Robots[0].Active = false;
+                foreach (var t in Client.Szenario.Robots)
+                    t.Active = false;
                 Client.Device.Active = false;
                 //remove the szenario
                 SzenarioController.Szenarios.Remove(Client.Szenario);
@@ -134,6 +135,8 @@ namespace FleeAndCatch_App.PageModels
                 Client.Szenario.Command = ControlType.Undefinied.ToString();
                 var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), SzenarioCommandType.End.ToString(), Client.Identification, Client.Szenario);
                 Client.SendCmd(JsonConvert.SerializeObject(cmd));
+
+                Client.Szenario = null;
 
                 //navigate to startpage
                 var page = FreshMvvm.FreshPageModelResolver.ResolvePageModel<HomePageModel>();
