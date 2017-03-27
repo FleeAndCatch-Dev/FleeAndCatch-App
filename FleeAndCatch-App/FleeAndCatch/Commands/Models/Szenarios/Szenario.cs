@@ -62,8 +62,13 @@ namespace FleeAndCatch.Commands.Models.Szenarios
         public List<App> Apps => apps;
         [JsonIgnore]
         public List<Robot> Robots => robots;
+
         [JsonIgnore]
-        public Steering Steering => steering;
+        public Steering Steering
+        {
+            get { return steering; }
+            set { steering = value; }
+        }
     }
 
     public enum SzenarioMode
@@ -88,7 +93,7 @@ public class SzenarioJsonConverter : JsonConverter
 
     public override bool CanConvert(Type objectType)
     {
-        return (objectType == typeof(Device));
+        return (objectType == typeof(Szenario));
     }
 
     public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
@@ -100,7 +105,7 @@ public class SzenarioJsonConverter : JsonConverter
 
             foreach (var t in jsonArray)
             {
-                if (t["type"] == null) throw new System.Exception("Devie is not implemented");
+                if (t["type"] == null) throw new System.Exception("Szenario is not implemented");
                 switch (t["type"].ToString())
                 {
                     case "Control":
@@ -128,7 +133,7 @@ public class SzenarioJsonConverter : JsonConverter
             Szenario szenario = null;
             var jsonObject = JObject.Load(reader);
 
-            if (jsonObject["type"] == null) throw new System.Exception("Devie is not implemented");
+            if (jsonObject["type"] == null) throw new System.Exception("Szenario is not implemented");
             switch (jsonObject["type"].ToString())
             {
                 case "Control":

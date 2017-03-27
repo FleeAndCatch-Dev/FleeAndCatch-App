@@ -94,12 +94,6 @@ namespace FleeAndCatch.Communication
                             if (RobotController.Robots[i].Identification.Id != t.Identification.Id) continue;
                             //Update robot object instances
                             RobotController.Robots[i] = t;
-                            for (var j = 0; j < Client.Szenario.Robots.Count; j++)
-                            {
-                                if (RobotController.Robots[i].Identification.Id != Client.Szenario.Robots[j].Identification.Id) continue;
-                                Client.Szenario.Robots[j] = RobotController.Robots[i];
-                                break;
-                            }
                             SzenarioController.Changed = true;
                             break;
                         }

@@ -151,8 +151,7 @@ namespace FleeAndCatch_App.PageModels
             }
 
             Client.Szenario.Command = ControlType.Control.ToString();
-            Client.Szenario.Steering.Direction = _direction.ToString();
-            Client.Szenario.Steering.Speed = _speed.ToString();
+            Client.Szenario.Steering = new Steering((int)_direction, (int)_speed);
 
             var command = new SzenarioCommand(CommandType.Szenario.ToString(), Client.Szenario.Type, Client.Identification, Client.Szenario);
             Client.SendCmd(command.ToJsonString());

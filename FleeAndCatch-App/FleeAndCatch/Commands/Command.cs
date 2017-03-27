@@ -48,12 +48,11 @@ namespace FleeAndCatch.Commands
             {
                 var settings = new JsonSerializerSettings
                 {
-                    Formatting = Formatting.Indented,
                     ContractResolver = new DefaultContractResolver(),
                     ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
                     NullValueHandling = NullValueHandling.Ignore
                 };
-                var json = JsonConvert.SerializeObject(this, Formatting.Indented, settings);
+                var json = JsonConvert.SerializeObject(this, Formatting.None, settings);
                 var jObject = JObject.Parse(json);
 
                 return jObject;
