@@ -74,8 +74,13 @@ namespace FleeAndCatch.Commands.Models
 
         [JsonIgnore]
         public string Subtype => subtype;
+
         [JsonIgnore]
-        public string Roletype => roletype;
+        public string Roletype
+        {
+            get { return roletype; }
+            set { roletype = value; }
+        }
     }
 
     public class AppIdentification : Identification
@@ -96,7 +101,11 @@ namespace FleeAndCatch.Commands.Models
         }
 
         [JsonIgnore]
-        public string Roletype => roletype;
+        public string Roletype
+        {
+            get { return roletype; }
+            set { roletype = value; }
+        }
     }
 
     /// <summary>

@@ -44,7 +44,7 @@ namespace FleeAndCatch_App.PageModels
             }
             Robot = new RobotModel(Client.Szenario.Robots[0]);
 
-            Client.Szenario.Command = ControlType.Control.ToString();
+            Client.Szenario.Command = Client.Szenario.Type;
             _speed = 0;
             _direction = 0;
             Change = "Stop";
@@ -80,13 +80,13 @@ namespace FleeAndCatch_App.PageModels
             {
                 return new Command(() =>
                 {
-                    /*if (Math.Abs(Convert.ToDouble(_robot.Speed)) < 0.1)
+                    if (Change == "Start")
                     {
                         //Start
                         Change = "Stop";
                         ChangeColor = Color.FromHex("#8B0000");
 
-                        _szenario.Command = ControlType.Start.ToString();
+                        Client.Szenario.Command = ControlType.Start.ToString();
                     }
                     else
                     {
@@ -94,10 +94,10 @@ namespace FleeAndCatch_App.PageModels
                         Change = "Start";
                         ChangeColor = Color.FromHex("#006400");
 
-                        _szenario.Command = ControlType.Stop.ToString();
+                        Client.Szenario.Command = ControlType.Stop.ToString();
                     }
-                    var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), ControlType.Control.ToString(), Client.Identification, _szenario);
-                    Client.SendCmd(cmd.ToJsonString());*/
+                    var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), Client.Szenario.Type, Client.Identification, Client.Szenario);
+                    Client.SendCmd(cmd.ToJsonString());
                 });
             }
         }

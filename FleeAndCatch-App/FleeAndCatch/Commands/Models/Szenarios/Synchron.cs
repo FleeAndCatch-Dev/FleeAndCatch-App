@@ -15,6 +15,6 @@ namespace FleeAndCatch.Commands.Models.Szenarios
 
     public enum SynchronType
     {
-        Undefinied, Begin, Start, Stop, Control
+        Undefinied, Begin, Start, Stop, Synchron
     }
 }

@@ -16,6 +16,6 @@ namespace FleeAndCatch.Commands.Models.Szenarios
 
     public enum CatchType
     {
-        Undefinied, Begin, Start, Stop, Control
+        Undefinied, Begin, Start, Stop, Catch
     }
 }
