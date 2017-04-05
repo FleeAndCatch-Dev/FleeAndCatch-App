@@ -98,6 +98,7 @@ namespace FleeAndCatch_App.PageModels
                             {
                                 if (t.Identification.Subtype != type.ToString() || t.Active) continue;
                                 robotList.Add(t);
+                                t.Active = true;
                                 value--;
                                 break;
                             }

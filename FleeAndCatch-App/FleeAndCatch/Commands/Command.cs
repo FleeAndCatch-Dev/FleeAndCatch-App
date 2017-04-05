@@ -44,22 +44,21 @@ namespace FleeAndCatch.Commands
 
         public virtual JObject ToJsonJObject()
         {
+            var settings = new JsonSerializerSettings
+            {
+                ContractResolver = new DefaultContractResolver(),
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                NullValueHandling = NullValueHandling.Ignore
+            };
             try
             {
-                var settings = new JsonSerializerSettings
-                {
-                    ContractResolver = new DefaultContractResolver(),
-                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                    NullValueHandling = NullValueHandling.Ignore
-                };
                 var json = JsonConvert.SerializeObject(this, Formatting.None, settings);
                 var jObject = JObject.Parse(json);
-
                 return jObject;
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                throw new Exception(300, "The object could not parse into a json object");
+                return null;
             }
         }
 

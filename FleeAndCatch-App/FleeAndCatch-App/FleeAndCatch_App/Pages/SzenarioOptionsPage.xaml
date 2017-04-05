@@ -11,7 +11,7 @@
                     <Image Source="FleeAndCatch_Logo.png" HeightRequest="150" WidthRequest="150"/>
                 </StackLayout>
                 <StackLayout Orientation="Vertical" Spacing="10" HorizontalOptions="Center" VerticalOptions="Center">
-                    <Label Text="Switch to chage the szenario" FontAttributes="Bold" FontSize="20" TextColor="#000080"/>
+                    <Label Text="Switch to change the szenario" FontAttributes="Bold" FontSize="20" TextColor="#000080"/>
                     <Label Text="Control your robot with your mobile device." FontAttributes="Italic" FontSize="16" TextColor="#000080"/>
                 </StackLayout>
             </StackLayout>
@@ -25,7 +25,7 @@
                     <Image Source="FleeAndCatch_Logo.png" HeightRequest="150" WidthRequest="150"/>
                 </StackLayout>
                 <StackLayout Orientation="Vertical" Spacing="10" HorizontalOptions="Center" VerticalOptions="Center">
-                    <Label Text="Switch to chage the szenario" FontAttributes="Bold" FontSize="20" TextColor="#000080"/>
+                    <Label Text="Switch to change the szenario" FontAttributes="Bold" FontSize="20" TextColor="#000080"/>
                     <Label Text="Control a number of robots synchron." FontAttributes="Italic" FontSize="16" TextColor="#000080"/>
                 </StackLayout>
             </StackLayout>
@@ -39,7 +39,7 @@
                     <Image Source="FleeAndCatch_Logo.png" HeightRequest="150" WidthRequest="150"/>
                 </StackLayout>
                 <StackLayout Orientation="Vertical" Spacing="10" HorizontalOptions="Center" VerticalOptions="Center">
-                    <Label Text="Switch to chage the szenario" FontAttributes="Bold" FontSize="20" TextColor="#000080"/>
+                    <Label Text="Switch to change the szenario" FontAttributes="Bold" FontSize="20" TextColor="#000080"/>
                     <Label Text="Control a snake of robots." FontAttributes="Italic" FontSize="16" TextColor="#000080"/>
                 </StackLayout>
             </StackLayout>
@@ -53,7 +53,7 @@
                     <Image Source="FleeAndCatch_Logo.png" HeightRequest="150" WidthRequest="150"/>
                 </StackLayout>
                 <StackLayout Orientation="Vertical" Spacing="10" HorizontalOptions="Center" VerticalOptions="Center">
-                    <Label Text="Switch to chage the szenario" FontAttributes="Bold" FontSize="20" TextColor="#000080"/>
+                    <Label Text="Switch to change the szenario" FontAttributes="Bold" FontSize="20" TextColor="#000080"/>
                     <Label Text="Control a robot and flee from the others." FontAttributes="Italic" FontSize="16" TextColor="#000080"/>
                 </StackLayout>
             </StackLayout>
@@ -67,7 +67,7 @@
                     <Image Source="FleeAndCatch_Logo.png" HeightRequest="150" WidthRequest="150"/>
                 </StackLayout>
                 <StackLayout Orientation="Vertical" Spacing="10" HorizontalOptions="Center" VerticalOptions="Center">
-                    <Label Text="Switch to chage the szenario" FontAttributes="Bold" FontSize="20" TextColor="#000080"/>
+                    <Label Text="Switch to change the szenario" FontAttributes="Bold" FontSize="20" TextColor="#000080"/>
                     <Label Text="Control a robot and catch the others." FontAttributes="Italic" FontSize="16" TextColor="#000080"/>
                 </StackLayout>
             </StackLayout>

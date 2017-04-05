@@ -44,7 +44,7 @@ namespace FleeAndCatch_App.PageModels
             }
             Robot = new RobotModel(Client.Szenario.Robots[0]);
 
-            Client.Szenario.Command = Client.Szenario.Type;
+            Client.Szenario.Command = ControlType.Control.ToString();
             _speed = 0;
             _direction = 0;
             Change = "Stop";

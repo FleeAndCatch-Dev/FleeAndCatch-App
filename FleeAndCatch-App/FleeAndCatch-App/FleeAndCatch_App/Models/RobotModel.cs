@@ -16,12 +16,12 @@ namespace FleeAndCatch_App.Models
     public class RobotModel
     {
         private RobotIdentificationModel identification;
-        protected string active;
-        protected PositionModel position;
-        protected string speed;
-        protected string ultrasonic;
-        protected string gyro;
-        protected string imageUrl;
+        private string active;
+        private PositionModel position;
+        private string speed;
+        private string ultrasonic;
+        private string gyro;
+        private string imageUrl;
 
         /// <summary>
         /// Create an object of an robot for a json command.
@@ -84,8 +84,8 @@ namespace FleeAndCatch_App.Models
     [ImplementPropertyChanged]
     public class RobotIdentificationModel
     {
-        protected string id;
-        protected string type;
+        private string id;
+        private string type;
         private string subtype;
         private string roletype;
 

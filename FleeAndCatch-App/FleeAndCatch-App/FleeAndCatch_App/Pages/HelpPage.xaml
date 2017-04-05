@@ -4,42 +4,59 @@
              x:Class="FleeAndCatch_App.Pages.HelpPage"
              Title="FleeAndCatch">
 
-    <StackLayout Orientation="Vertical" BackgroundColor="#59B4B4">
+    <StackLayout Orientation="Vertical">
         <ScrollView>
             <StackLayout Orientation="Vertical" Spacing="0">
                 <StackLayout Padding="20" HorizontalOptions="Center" VerticalOptions="Center">
-                    <Image Source="FleeAndCatch_Logo.png" HeightRequest="100" WidthRequest="100"/>
+                    <Image Source="FleeAndCatch_Logo.png" HeightRequest="200" WidthRequest="200"/>
                 </StackLayout>
-                <StackLayout Padding="20" BackgroundColor="#59B4B4">
-                    <Label Text="Control your own swarm behaviour of LEGO EV3 robots" FontSize="18" TextColor="White" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                <StackLayout Padding="20">
+                    <Label Text="Control your own swarm behaviour of LEGO EV3 robots" FontSize="18" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
                 </StackLayout>
                 <StackLayout Padding="10" BackgroundColor="#008B8B">
                     <Label Text="Control" FontSize="16" FontAttributes="Bold" TextColor="White"/>
                 </StackLayout>
-                <StackLayout Padding="10" BackgroundColor="#59B4B4">
-                    <Label Text="Use your motion sensors for change the speed and direction" TextColor="White" HorizontalTextAlignment="Start"/>
+                <StackLayout Padding="10">
+                    <Label Text="Use your motion sensors for change the speed and direction" HorizontalTextAlignment="Start"/>
+                    <Image Source="Controling.png" HeightRequest="312" WidthRequest="390" VerticalOptions="Center" HorizontalOptions="Center"/>
                 </StackLayout>
                 <StackLayout Padding="10" BackgroundColor="#008B8B">
                     <Label Text="Modes" FontSize="16" FontAttributes="Bold" TextColor="White"/>
                 </StackLayout>
-                <StackLayout Padding="10" BackgroundColor="#59B4B4">
-                    <Label Text="Single: Szenario with one involved mobile application" TextColor="White" HorizontalTextAlignment="Start"/>
-                    <Label Text="Multi: Szenario with more involved mobile application" TextColor="White" HorizontalTextAlignment="Start"/>
+                <StackLayout Padding="10">
+                    <Label Text="Single: Szenario with one involved mobile application" HorizontalTextAlignment="Start"/>
+                    <Label Text="Multi: Szenario with more involved mobile application" HorizontalTextAlignment="Start"/>
                 </StackLayout>
                 <StackLayout Padding="10" BackgroundColor="#008B8B">
                     <Label Text="Szenarios" FontSize="16" FontAttributes="Bold" TextColor="White"/>
                 </StackLayout>
-                <StackLayout Padding="10" BackgroundColor="#59B4B4">
-                    <Label Text="Control: Control a robot with your mobile device" TextColor="White" HorizontalTextAlignment="Start"/>
-                    <Label Text="Synchron: Control a swarm of robots with the same controling" TextColor="White" HorizontalTextAlignment="Start"/>
-                    <Label Text="Follow: Control a robot and the others are follow in a line" TextColor="White" HorizontalTextAlignment="Start"/>
-                    <Label Text="Catch: Control a robot and flee from others" TextColor="White" HorizontalTextAlignment="Start"/>
+                <StackLayout Padding="10">
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Control:" FontAttributes="Bold" HorizontalTextAlignment="Start"/>
+                        <Label Text="Control a robot with your mobile device" HorizontalTextAlignment="End"/>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Synchron:" FontAttributes="Bold" HorizontalTextAlignment="Start"/>
+                        <Label Text="Control a swarm of robots with the same controling" HorizontalTextAlignment="End"/>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Follow:" FontAttributes="Bold" HorizontalTextAlignment="Start"/>
+                        <Label Text="Control a robot and the others are follow in a line" HorizontalTextAlignment="End"/>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Flee:" FontAttributes="Bold" HorizontalTextAlignment="Start"/>
+                        <Label Text="Control a robot and flee from others" HorizontalTextAlignment="End"/>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Catch:" FontAttributes="Bold" HorizontalTextAlignment="Start"/>
+                        <Label Text="Control a robot and catch the others" HorizontalTextAlignment="End"/>
+                    </StackLayout>
                 </StackLayout>
                 <StackLayout Padding="10" BackgroundColor="#008B8B">
                     <Label Text="About" FontSize="16" FontAttributes="Bold" TextColor="White"/>
                 </StackLayout>
-                <StackLayout Padding="10" BackgroundColor="#59B4B4">
-                    <Label Text="FleeAndCatch is a project about swarm behaviour to control a lot of small robots in a close system. This project is a part of the education of the cooperatice state university Karlsruhe germany." TextColor="White"/>
+                <StackLayout Padding="10">
+                    <Label Text="FleeAndCatch is a project about swarm behaviour to control a lot of small robots in a close system. This project is a part of the education of the cooperatice state university Karlsruhe germany."/>
                 </StackLayout>
             </StackLayout>
         </ScrollView>

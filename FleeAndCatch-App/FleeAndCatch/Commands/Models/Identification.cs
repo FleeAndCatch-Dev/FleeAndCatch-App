@@ -152,22 +152,12 @@ namespace FleeAndCatch.Commands.Models
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            //refactor
             var t = JToken.FromObject(value);
             if (t.Type != JTokenType.Object)
                 t.WriteTo(writer);
             else
             {
-                //var device = value as Device;
                 var o = (JObject)t;
-                /*if (device == null) return;
-                if (device is App)
-                {
-                }
-                else if(device is Robot)
-                {
-                        
-                }*/
                 o.WriteTo(writer);
             }
         }

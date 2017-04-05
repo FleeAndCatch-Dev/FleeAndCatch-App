@@ -12,12 +12,12 @@ namespace FleeAndCatch_App.Models
     [ImplementPropertyChanged]
     public class RobotViewModel
     {
-        protected RobotIdentification identification;
-        protected Position position;
-        protected double speed;
-        protected string ultrasonic;
-        protected string gyro;
-        public string ImageUrl { get; set; }
+        private RobotIdentification identification;
+        private Position position;
+        private double speed;
+        private string ultrasonic;
+        private string gyro;
+        private string imageUrl;
 
         public RobotViewModel(Robot pRobot)
         {
@@ -30,10 +30,10 @@ namespace FleeAndCatch_App.Models
             switch ((RobotType) Enum.Parse(typeof(RobotType), pRobot.Identification.Subtype))
             {
                 case RobotType.ThreeWheelDrive:
-                    ImageUrl = "FleeAndCatch_Logo.png";
+                    imageUrl = "FleeAndCatch_Logo.png";
                     break;
                 default:
-                    ImageUrl = "FleeAndCatch_Logo.png";
+                    imageUrl = "FleeAndCatch_Logo.png";
                     break;
             }
         }

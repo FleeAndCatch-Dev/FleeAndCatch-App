@@ -15,6 +15,6 @@ namespace FleeAndCatch.Commands.Models.Szenarios
 
     public enum FollowType
     {
-        Undefinied, Begin, Start, Stop, Follow
+        Undefinied, Begin, Start, Stop, Control
     }
 }

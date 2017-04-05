@@ -159,18 +159,12 @@ public class SzenarioJsonConverter : JsonConverter
 
     public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
-        //refactor
         var t = JToken.FromObject(value);
         if (t.Type != JTokenType.Object)
             t.WriteTo(writer);
         else
         {
-            //var szenario = value as Szenario;
             var o = (JObject)t;
-            /*if (szenario == null) return;
-            if (szenario is Control)
-            {
-            }*/
             o.WriteTo(writer);
         }
     }

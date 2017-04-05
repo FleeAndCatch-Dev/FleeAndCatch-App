@@ -16,6 +16,6 @@ namespace FleeAndCatch.Commands.Models.Szenarios
 
     public enum FleeType
     {
-        Undefinied, Begin, Start, Stop, Flee
+        Undefinied, Begin, Start, Stop, Control
     }
 }
