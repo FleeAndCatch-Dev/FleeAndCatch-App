@@ -8,16 +8,9 @@ namespace FleeAndCatch.Commands.Models.Szenarios
 {
     public class Synchron : Szenario
     {
-        [JsonProperty("steering")]
-        private Steering steering;
-
-        public Synchron(int pId, string pType, string pCommand, string pMode, List<App> pApps, List<Robot> pRobots, Steering pSteering) : base(pId, pType, pCommand, pMode, pApps, pRobots)
+        public Synchron(int pId, string pType, string pCommand, string pMode, List<App> pApps, List<Robot> pRobots, Steering pSteering) : base(pId, pType, pCommand, pMode, pApps, pRobots, pSteering)
         {
-            this.steering = pSteering;
         }
-
-        [JsonIgnore]
-        public Steering Steering => steering;
     }
 
     public enum SynchronType

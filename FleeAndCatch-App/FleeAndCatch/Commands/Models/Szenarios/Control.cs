@@ -8,16 +8,11 @@ namespace FleeAndCatch.Commands.Models.Szenarios
 {
     public class Control : Szenario
     {
-        [JsonProperty("steering")]
-        private Steering steering;
+        private Szenario szenario;
 
-        public Control(int pId, string pType, string pCommand, string pMode, List<App> pApps, List<Robot> pRobots, Steering pSteering) : base(pId, pType, pCommand, pMode, pApps, pRobots)
+        public Control(int pId, string pType, string pCommand, string pMode, List<App> pApps, List<Robot> pRobots, Steering pSteering) : base(pId, pType, pCommand, pMode, pApps, pRobots, pSteering)
         {
-            this.steering = pSteering;
         }
-
-        [JsonIgnore]
-        public Steering Steering => steering;
     }
 
     public enum ControlType

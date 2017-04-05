@@ -27,7 +27,6 @@ namespace FleeAndCatch_App.PageModels
         public Color ChangeColor { get; set; }
         public string DirectionImage { get; set; }
 
-        private Szenario _szenario { get; set; }
         private Steering.SpeedType _speed;
         private Steering.DirectionType _direction;
 
@@ -35,8 +34,7 @@ namespace FleeAndCatch_App.PageModels
         {
             base.Init(initData);
 
-            _szenario = initData as Szenario;
-            if (_szenario == null)
+            if (Client.Szenario == null)
             {
                 Device.BeginInvokeOnMainThread(async () =>
                 {
@@ -44,9 +42,9 @@ namespace FleeAndCatch_App.PageModels
                 });
                 return;
             }
-            Robot = new RobotModel(_szenario.Robots[0]);
+            Robot = new RobotModel(Client.Szenario.Robots[0]);
 
-            _szenario.Command = ControlType.Control.ToString();
+            Client.Szenario.Command = ControlType.Control.ToString();
             _speed = 0;
             _direction = 0;
             Change = "Stop";
@@ -82,13 +80,13 @@ namespace FleeAndCatch_App.PageModels
             {
                 return new Command(() =>
                 {
-                    /*if (Math.Abs(Convert.ToDouble(_robot.Speed)) < 0.1)
+                    if (Change == "Start")
                     {
                         //Start
                         Change = "Stop";
                         ChangeColor = Color.FromHex("#8B0000");
 
-                        _szenario.Command = ControlType.Start.ToString();
+                        Client.Szenario.Command = ControlType.Start.ToString();
                     }
                     else
                     {
@@ -96,10 +94,10 @@ namespace FleeAndCatch_App.PageModels
                         Change = "Start";
                         ChangeColor = Color.FromHex("#006400");
 
-                        _szenario.Command = ControlType.Stop.ToString();
+                        Client.Szenario.Command = ControlType.Stop.ToString();
                     }
-                    var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), ControlType.Control.ToString(), Client.Identification, _szenario);
-                    Client.SendCmd(cmd.ToJsonString());*/
+                    var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), Client.Szenario.Type, Client.Identification, Client.Szenario);
+                    Client.SendCmd(cmd.ToJsonString());
                 });
             }
         }
@@ -127,15 +125,18 @@ namespace FleeAndCatch_App.PageModels
                 //stop sensors
                 CrossDeviceMotion.Current.Stop(MotionSensorType.Accelerometer);
                 //set object active -> false
-                _szenario.Robots[0].Active = false;
+                foreach (var t in Client.Szenario.Robots)
+                    t.Active = false;
                 Client.Device.Active = false;
                 //remove the szenario
-                SzenarioController.Szenarios.Remove(_szenario);
+                SzenarioController.Szenarios.Remove(Client.Szenario);
 
                 //Send the control end command
-                _szenario.Command = ControlType.Undefinied.ToString();
-                var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), SzenarioCommandType.End.ToString(), Client.Identification, _szenario);
+                Client.Szenario.Command = ControlType.Undefinied.ToString();
+                var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), SzenarioCommandType.End.ToString(), Client.Identification, Client.Szenario);
                 Client.SendCmd(JsonConvert.SerializeObject(cmd));
+
+                Client.Szenario = null;
 
                 //navigate to startpage
                 var page = FreshMvvm.FreshPageModelResolver.ResolvePageModel<HomePageModel>();
@@ -149,37 +150,11 @@ namespace FleeAndCatch_App.PageModels
                 return false;
             }
 
-            switch ((SzenarioCommandType)Enum.Parse(typeof(SzenarioCommandType), _szenario.Type))
-            {
-                case SzenarioCommandType.Control:
-                    var control = (Control)_szenario;
-                    control.Command = ControlType.Control.ToString();
-                    control.Steering.Direction = _direction.ToString();
-                    control.Steering.Speed = _speed.ToString();
+            Client.Szenario.Command = ControlType.Control.ToString();
+            Client.Szenario.Steering = new Steering((int)_direction, (int)_speed);
 
-                    //Send the control command
-                    var cmdCtrl = new SzenarioCommand(CommandType.Szenario.ToString(), ControlType.Control.ToString(), Client.Identification, control);
-                    Client.SendCmd(cmdCtrl.ToJsonString());
-                    break;
-                case SzenarioCommandType.Synchron:
-                    var synchron = (Synchron)_szenario;
-                    synchron.Command = SynchronType.Control.ToString();
-                    synchron.Steering.Direction = _direction.ToString();
-                    synchron.Steering.Speed = _speed.ToString();
-
-                    //Send the control command
-                    var cmdSyn = new SzenarioCommand(CommandType.Szenario.ToString(), SzenarioCommandType.Synchron.ToString(), Client.Identification, synchron);
-                    Client.SendCmd(cmdSyn.ToJsonString());
-                    break;
-                case SzenarioCommandType.Follow:
-                    break;
-                default:
-                    Device.BeginInvokeOnMainThread(async () =>
-                    {
-                        await CoreMethods.DisplayAlert("Error: new", "Wrong szenario type", "OK");
-                    });
-                    break;
-            }
+            var command = new SzenarioCommand(CommandType.Szenario.ToString(), Client.Szenario.Type, Client.Identification, Client.Szenario);
+            Client.SendCmd(command.ToJsonString());
 
             return true;
         }

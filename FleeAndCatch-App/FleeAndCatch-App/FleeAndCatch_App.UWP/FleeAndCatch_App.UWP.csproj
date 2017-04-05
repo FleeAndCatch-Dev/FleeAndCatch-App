@@ -129,6 +129,7 @@
     <Content Include="Assets\StoreLogo.scale-150.png" />
     <Content Include="Assets\StoreLogo.scale-200.png" />
     <Content Include="Assets\StoreLogo.scale-400.png" />
+    <Content Include="Controling.png" />
     <Content Include="FleeAndCatch_Logo.png" />
     <Content Include="FodyWeavers.xml" />
     <Content Include="ic_chevron_left_black_48dp.png" />

@@ -50,7 +50,8 @@ namespace FleeAndCatch_App.PageModels
             {
                 return new Command(async () =>
                 {
-                    await CoreMethods.DisplayAlert("Error: 399", "Sorry, this isn't implemented", "OK");
+                    await CoreMethods.PushPageModel<HelpPageModel>();
+                    RaisePropertyChanged();
                 });
             }
         }

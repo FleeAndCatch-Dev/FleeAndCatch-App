@@ -23,8 +23,10 @@ namespace FleeAndCatch.Commands.Models.Szenarios
         protected List<App> apps;
         [JsonProperty("robots")]
         protected List<Robot> robots;
+        [JsonProperty("steering")]
+        private Steering steering;
 
-        protected Szenario(int pId, string pType, string pCommand, string pMode, List<App> pApps, List<Robot> pRobots)
+        protected Szenario(int pId, string pType, string pCommand, string pMode, List<App> pApps, List<Robot> pRobots, Steering pSteering)
         {
             this.id = pId;
             this.type = pType;
@@ -32,6 +34,7 @@ namespace FleeAndCatch.Commands.Models.Szenarios
             this.mode = pMode;
             this.apps = pApps;
             this.robots = pRobots;
+            this.steering = pSteering;
         }
 
         [JsonIgnore]
@@ -59,6 +62,13 @@ namespace FleeAndCatch.Commands.Models.Szenarios
         public List<App> Apps => apps;
         [JsonIgnore]
         public List<Robot> Robots => robots;
+
+        [JsonIgnore]
+        public Steering Steering
+        {
+            get { return steering; }
+            set { steering = value; }
+        }
     }
 
     public enum SzenarioMode
@@ -83,7 +93,7 @@ public class SzenarioJsonConverter : JsonConverter
 
     public override bool CanConvert(Type objectType)
     {
-        return (objectType == typeof(Device));
+        return (objectType == typeof(Szenario));
     }
 
     public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
@@ -95,7 +105,7 @@ public class SzenarioJsonConverter : JsonConverter
 
             foreach (var t in jsonArray)
             {
-                if (t["type"] == null) throw new System.Exception("Devie is not implemented");
+                if (t["type"] == null) throw new System.Exception("Szenario is not implemented");
                 switch (t["type"].ToString())
                 {
                     case "Control":
@@ -103,6 +113,15 @@ public class SzenarioJsonConverter : JsonConverter
                         break;
                     case "Synchron":
                         szenarios.Add(t.ToObject<Synchron>());
+                        break;
+                    case "Follow":
+                        szenarios.Add(t.ToObject<Follow>());
+                        break;
+                    case "Flee":
+                        szenarios.Add(t.ToObject<Flee>());
+                        break;
+                    case "Catch":
+                        szenarios.Add(t.ToObject<Catch>());
                         break;
                 }
             }
@@ -114,7 +133,7 @@ public class SzenarioJsonConverter : JsonConverter
             Szenario szenario = null;
             var jsonObject = JObject.Load(reader);
 
-            if (jsonObject["type"] == null) throw new System.Exception("Devie is not implemented");
+            if (jsonObject["type"] == null) throw new System.Exception("Szenario is not implemented");
             switch (jsonObject["type"].ToString())
             {
                 case "Control":
@@ -122,6 +141,15 @@ public class SzenarioJsonConverter : JsonConverter
                     break;
                 case "Synchron":
                     szenario = jsonObject.ToObject<Synchron>();
+                    break;
+                case "Follow":
+                    szenario = jsonObject.ToObject<Follow>();
+                    break;
+                case "Flee":
+                    szenario = jsonObject.ToObject<Flee>();
+                    break;
+                case "Catch":
+                    szenario = jsonObject.ToObject<Catch>();
                     break;
             }
             return szenario;
@@ -131,18 +159,12 @@ public class SzenarioJsonConverter : JsonConverter
 
     public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
-        //refactor
         var t = JToken.FromObject(value);
         if (t.Type != JTokenType.Object)
             t.WriteTo(writer);
         else
         {
-            //var szenario = value as Szenario;
             var o = (JObject)t;
-            /*if (szenario == null) return;
-            if (szenario is Control)
-            {
-            }*/
             o.WriteTo(writer);
         }
     }

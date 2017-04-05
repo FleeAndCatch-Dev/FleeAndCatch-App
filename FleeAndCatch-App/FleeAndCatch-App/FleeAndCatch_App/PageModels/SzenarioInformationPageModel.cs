@@ -26,7 +26,7 @@ namespace FleeAndCatch_App.PageModels
         {
             base.Init(initData);
 
-            Szenario = initData as Szenario;
+            Szenario = Client.Szenario;
             accept = false;
 
             if (Szenario == null)
@@ -41,14 +41,6 @@ namespace FleeAndCatch_App.PageModels
             Robots = new List<RobotModel>();
             foreach (var t in Szenario.Robots)
                 Robots.Add(new RobotModel(t));
-        }
-
-        protected override void ViewIsAppearing(object sender, EventArgs e)
-        {
-            base.ViewIsAppearing(sender, e);
-
-            //Set the szenario with id
-            Szenario = Client.Szenario;
         }
 
         protected override void ViewIsDisappearing(object sender, EventArgs e)
@@ -79,7 +71,8 @@ namespace FleeAndCatch_App.PageModels
                     var cmd = new SzenarioCommand(CommandType.Szenario.ToString(), Szenario.Type, Client.Identification, Szenario);
                     Client.SendCmd(cmd.ToJsonString());
 
-                    await CoreMethods.PushPageModel<SzenarioPageModel>(Szenario);
+                    Client.Szenario = Szenario;
+                    await CoreMethods.PushPageModel<SzenarioPageModel>();
                     RaisePropertyChanged();
                 });
             }

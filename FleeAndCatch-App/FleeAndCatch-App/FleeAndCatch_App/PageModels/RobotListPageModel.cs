@@ -97,12 +97,10 @@ namespace FleeAndCatch_App.PageModels
                             foreach (var t in RobotController.Robots)
                             {
                                 if (t.Identification.Subtype != type.ToString() || t.Active) continue;
-                                t.Active = true;
                                 robotList.Add(t);
+                                t.Active = true;
                                 value--;
                                 break;
-                                /*if (t.Identification.Subtype != type.ToString()) continue;
-                                if(t.Active) continue;*/
                             }
                         }
                     }
@@ -120,23 +118,61 @@ namespace FleeAndCatch_App.PageModels
                                 foreach (var t in robotList)
                                 {
                                     t.Active = true;
+                                    t.Identification.Roletype = RoleType.Undefined.ToString();
                                 }
                                 Client.Device.Active = true;
                                 szenario = new Control(-1, _szenarioType.ToString(), ControlType.Undefinied.ToString(), SzenarioMode.Single.ToString(), appList, robotList, new Steering(0, 0));
                             }
                             break;
                         case SzenarioCommandType.Synchron:
-                            if (robotList.Count > 0)
+                            if (robotList.Count > 1)
                             {
                                 foreach (var t in robotList)
                                 {
                                     t.Active = true;
+                                    t.Identification.Roletype = RoleType.Undefined.ToString();
                                 }
                                 Client.Device.Active = true;
                                 szenario = new Synchron(-1, _szenarioType.ToString(), ControlType.Undefinied.ToString(), SzenarioMode.Single.ToString(), appList, robotList, new Steering(0, 0));
                             }
                             break;
                         case SzenarioCommandType.Follow:
+                            if (robotList.Count > 1)
+                            {
+                                foreach (var t in robotList)
+                                {
+                                    t.Active = true;
+                                    t.Identification.Roletype = RoleType.Undefined.ToString();
+                                }
+                                Client.Device.Active = true;
+                                szenario = new Follow(-1, _szenarioType.ToString(), ControlType.Undefinied.ToString(), SzenarioMode.Single.ToString(), appList, robotList, new Steering(0, 0));
+                            }
+                            break;
+                        case SzenarioCommandType.Flee:
+                            if (robotList.Count > 1)
+                            {
+                                foreach (var t in robotList)
+                                {
+                                    t.Active = true;
+                                    t.Identification.Roletype = RoleType.Catcher.ToString();
+                                }
+                                robotList[0].Identification.Roletype = RoleType.Fugitive.ToString();
+                                Client.Device.Active = true;
+                                szenario = new Flee(-1, _szenarioType.ToString(), ControlType.Undefinied.ToString(), SzenarioMode.Single.ToString(), appList, robotList, new Steering(0, 0));
+                            }
+                            break;
+                        case SzenarioCommandType.Catch:
+                            if (robotList.Count > 1)
+                            {
+                                foreach (var t in robotList)
+                                {
+                                    t.Active = true;
+                                    t.Identification.Roletype = RoleType.Fugitive.ToString();
+                                }
+                                robotList[0].Identification.Roletype = RoleType.Catcher.ToString();
+                                Client.Device.Active = true;
+                                szenario = new Catch(-1, _szenarioType.ToString(), ControlType.Undefinied.ToString(), SzenarioMode.Single.ToString(), appList, robotList, new Steering(0, 0));
+                            }
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
@@ -162,7 +198,7 @@ namespace FleeAndCatch_App.PageModels
                             UserDialogs.Instance.HideLoading();
                             if (Client.Szenario.Id != -1)
                             {
-                                CoreMethods.PushPageModel<SzenarioInformationPageModel>(szenario);
+                                CoreMethods.PushPageModel<SzenarioInformationPageModel>();
                                 RaisePropertyChanged();
                             }
                             else
