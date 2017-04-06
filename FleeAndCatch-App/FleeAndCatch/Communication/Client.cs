@@ -66,7 +66,11 @@ namespace FleeAndCatch.Communication
 
                 //Receive the packages and put them to the parser
                 while (connected)
-                    Interpreter.Parse(ReceiveCmd());
+                {
+                    var data = ReceiveCmd();
+                    if(data != null)
+                        Interpreter.Parse(data);
+                }     
                 return;
             }
             throw new Exception(302, "The created socket doesn't exist");
@@ -95,7 +99,12 @@ namespace FleeAndCatch.Communication
                 throw new Exception(303, "The json command could not receive");
             }          
 
-            return Encoding.UTF8.GetString(data, 0, data.Length);
+            var dataString = Encoding.UTF8.GetString(data, 0, data.Length);
+
+            if (!checkCmd(dataString))
+                return null;
+
+            return dataString;
         }
 
         /// <summary>
@@ -182,15 +191,16 @@ namespace FleeAndCatch.Communication
         /// Check the current command of a json command.
         /// </summary>
         /// <param name="pCommand">Json command</param>
-        private static void checkCmd(string pCommand)
+        private static bool checkCmd(string pCommand)
         {
             try
             {
-                JObject.Parse(pCommand);
+                var data = JObject.Parse(pCommand);
+                return true;
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
-                throw new Exception(308, "The command could not parse into json");
+                return false;
             }
         }
 

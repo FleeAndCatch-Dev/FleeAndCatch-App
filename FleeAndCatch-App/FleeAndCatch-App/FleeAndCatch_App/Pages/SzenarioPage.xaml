@@ -26,11 +26,11 @@
                     <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Padding="5,0" Spacing="10">
                         <Label Text="{Binding Robot.Speed}"/>
                     </StackLayout>
-                    <Label Text="Sensors:"/>
+                    <!--<Label Text="Sensors:"/>
                     <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Padding="5,0" Spacing="10">
                         <Label Text="{Binding Robot.Ultrasonic}"/>
                         <Label Text="{Binding Robot.Gyro}"/>
-                    </StackLayout>
+                    </StackLayout>-->
                 </StackLayout>
                 <StackLayout Padding="20" VerticalOptions="CenterAndExpand">
                 <Image Source="{Binding DirectionImage}" HeightRequest="50" WidthRequest="50" VerticalOptions="Center" HorizontalOptions="Center"/>

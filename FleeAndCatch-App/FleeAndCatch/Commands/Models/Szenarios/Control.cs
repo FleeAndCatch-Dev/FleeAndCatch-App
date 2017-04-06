@@ -8,8 +8,6 @@ namespace FleeAndCatch.Commands.Models.Szenarios
 {
     public class Control : Szenario
     {
-        private Szenario szenario;
-
         public Control(int pId, string pType, string pCommand, string pMode, List<App> pApps, List<Robot> pRobots, Steering pSteering) : base(pId, pType, pCommand, pMode, pApps, pRobots, pSteering)
         {
         }

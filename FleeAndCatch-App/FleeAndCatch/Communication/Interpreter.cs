@@ -77,7 +77,7 @@ namespace FleeAndCatch.Communication
         private static void Synchronization(JObject pCommand)
         {
             if (pCommand == null) throw new Exception(311, "There doesn't exist a json command");
-            var command = JsonConvert.DeserializeObject<Synchronization>(JsonConvert.SerializeObject(pCommand));
+            var command = JsonConvert.DeserializeObject<SynchronizationCommand>(JsonConvert.SerializeObject(pCommand));
             var type = (SynchronizationCommandType)Enum.Parse(typeof(SynchronizationCommandType), command.Type);
 
             switch (type)
@@ -89,14 +89,11 @@ namespace FleeAndCatch.Communication
                 case SynchronizationCommandType.CurrentRobot:
                     for (var i = 0; i < RobotController.Robots.Count; i++)
                     {
-                        foreach (var t in command.Robots)
-                        {
-                            if (RobotController.Robots[i].Identification.Id != t.Identification.Id) continue;
-                            //Update robot object instances
-                            RobotController.Robots[i] = t;
-                            SzenarioController.Changed = true;
-                            break;
-                        }
+                        if (RobotController.Robots[i].Identification.Id != command.Robots[0].Identification.Id) continue;
+                        //Update robot object instances
+                        RobotController.Robots[i] = command.Robots[0];
+                        SzenarioController.Changed = true;
+                        break;
                     }
                     return;
                 case SynchronizationCommandType.AllSzenarios:

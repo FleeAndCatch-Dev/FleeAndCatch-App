@@ -32,7 +32,7 @@ namespace FleeAndCatch_App.PageModels
 
             //Get all current szenarios
             RobotController.Updated = false;
-            var command = new Synchronization(CommandType.Synchronization.ToString(), SynchronizationCommandType.AllSzenarios.ToString(), Client.Identification, SzenarioController.Szenarios, RobotController.Robots);
+            var command = new SynchronizationCommand(CommandType.Synchronization.ToString(), SynchronizationCommandType.AllSzenarios.ToString(), Client.Identification, SzenarioController.Szenarios, RobotController.Robots);
             Client.SendCmd(command.ToJsonString());
         }
 

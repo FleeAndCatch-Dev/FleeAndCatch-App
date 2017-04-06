@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,11 +40,6 @@ namespace FleeAndCatch.Commands
 
         public virtual string ToJsonString()
         {
-            return ToJsonJObject().ToString(Formatting.None);
-        }
-
-        public virtual JObject ToJsonJObject()
-        {
             var settings = new JsonSerializerSettings
             {
                 ContractResolver = new DefaultContractResolver(),
@@ -53,12 +49,11 @@ namespace FleeAndCatch.Commands
             try
             {
                 var json = JsonConvert.SerializeObject(this, Formatting.None, settings);
-                var jObject = JObject.Parse(json);
-                return jObject;
+                return json;
             }
             catch (Exception ex)
             {
-                return null;
+                throw new Exception(300, "Json string could not parse");
             }
         }
 

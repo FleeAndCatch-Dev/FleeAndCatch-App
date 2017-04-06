@@ -11,7 +11,7 @@ using Newtonsoft.Json.Linq;
 
 namespace FleeAndCatch.Commands
 {
-    public class Synchronization : Command
+    public class SynchronizationCommand : Command
     {
         [JsonProperty("szenarios")]
         [JsonConverter(typeof(SzenarioJsonConverter))]
@@ -25,7 +25,7 @@ namespace FleeAndCatch.Commands
         /// <param name="pId">Id as command type.</param>
         /// <param name="pType">Type as synchronisation type.</param>
         /// <param name="pClient">Client of represeenting the device.</param>
-        public Synchronization(string pId, string pType, ClientIdentification pIdentification, List<Szenario> pSzenarios , List<Robot> pRobots) : base(pId, pType, pIdentification)
+        public SynchronizationCommand(string pId, string pType, ClientIdentification pIdentification, List<Szenario> pSzenarios , List<Robot> pRobots) : base(pId, pType, pIdentification)
         {
             szenarios = pSzenarios;
             robots = pRobots;

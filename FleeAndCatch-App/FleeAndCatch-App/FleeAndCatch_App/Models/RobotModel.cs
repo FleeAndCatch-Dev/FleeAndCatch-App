@@ -53,7 +53,7 @@ namespace FleeAndCatch_App.Models
             active = Convert.ToString(pRobot.Active);
             position = new PositionModel(pRobot.Position);
             speed = pRobot.Speed + " cm/s";
-            ultrasonic = pRobot.Ultrasonic+ " m";
+            ultrasonic = pRobot.Ultrasonic + " m";
             gyro = pRobot.Gyro + " °";
 
             switch ((RobotType)Enum.Parse(typeof(RobotType), pRobot.Identification.Subtype))

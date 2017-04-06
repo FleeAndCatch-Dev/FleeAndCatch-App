@@ -72,7 +72,7 @@ namespace FleeAndCatch_App.PageModels
 
             //Send synchronization command to get current szenario
             var szenarios = new List<Szenario> {_szenario};
-            var cmdSync = new Synchronization(CommandType.Synchronization.ToString(), SynchronizationCommandType.CurrentSzenario.ToString(), Client.Identification, szenarios, new List<Robot>());
+            var cmdSync = new SynchronizationCommand(CommandType.Synchronization.ToString(), SynchronizationCommandType.CurrentSzenario.ToString(), Client.Identification, szenarios, new List<Robot>());
             Client.SendCmd(cmdSync.ToJsonString());
             return true;
         }
