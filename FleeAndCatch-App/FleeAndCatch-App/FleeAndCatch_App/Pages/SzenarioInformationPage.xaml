@@ -29,11 +29,11 @@
                                                 <Label Text="Roletype:" FontSize="16" VerticalTextAlignment="Start"/>
                                                 <Label Text="{Binding Identification.RoleType}" FontSize="16" VerticalTextAlignment="Start"/>
                                             </StackLayout>
+                                            <Label Text="Position:" FontSize="16" VerticalTextAlignment="Start"/>
                                             <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand">
-                                                <Label Text="Position:" FontSize="16" VerticalTextAlignment="Start"/>
-                                                <Label Text="{Binding Position.X}" FontSize="16" VerticalTextAlignment="Center"/>
-                                                <Label Text="{Binding Position.Y}" FontSize="16" VerticalTextAlignment="Center"/>
-                                                <Label Text="{Binding Position.Orientation}" FontSize="16" VerticalTextAlignment="Center"/>
+                                                <Label Text="{Binding Position.X}" FontSize="16" VerticalTextAlignment="Start"/>
+                                                <Label Text="{Binding Position.Y}" FontSize="16" VerticalTextAlignment="Start"/>
+                                                <Label Text="{Binding Position.Orientation}" FontSize="16" VerticalTextAlignment="Start"/>
                                             </StackLayout>
                                             <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand">
                                                 <Label Text="Speed:" FontSize="16" VerticalTextAlignment="Start"/>
