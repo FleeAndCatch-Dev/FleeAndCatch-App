@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="b82f3205-becc-4f29-b81b-ecac292a5237" Publisher="CN=SL-Th" Version="1.0.0.0" />
+  <Identity Name="b82f3205-becc-4f29-b81b-ecac292a5237" Publisher="CN=Simon Lang" Version="1.2.0.0" />
   <mp:PhoneIdentity PhoneProductId="b82f3205-becc-4f29-b81b-ecac292a5237" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>FleeAndCatch_App.UWP</DisplayName>
-    <PublisherDisplayName>SL-Th</PublisherDisplayName>
+    <PublisherDisplayName>Simon Lang</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Dependencies>
